@@ -4,10 +4,7 @@ replicas:
   min: 2
   max: 4
   cpuThresholdPercentage: 50
-port: 8080
-prometheus:
-  enabled: true
-  path: /soknad-kontantstotte-proxy/actuator/prometheus
+port: 8081
 healthcheck:
   liveness:
     initialDelay: 60
@@ -27,3 +24,7 @@ fasitResources:
       url: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_DISCOVERYURL
   - alias: appres.cms
     resourceType: baseUrl
+  exposed:
+    - alias: soknad-kontantstotte-proxy-api
+      resourceType: restservice
+      path: /rest

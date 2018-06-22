@@ -1,7 +1,4 @@
 spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-server:
-  servlet:
-    context-path: /soknad-kontantstotte-proxy
 no.nav.security.oidc:
   issuers: selvbetjening
   issuer.selvbetjening:
