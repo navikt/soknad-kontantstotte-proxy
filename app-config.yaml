@@ -8,10 +8,10 @@ port: 8081
 healthcheck:
   liveness:
     initialDelay: 60
-    path: /soknad-kontantstotte-proxy/rest/status/isAlive
+    path: /api/status/isAlive
   readiness:
     initialDelay: 60
-    path: /soknad-kontantstotte-proxy/rest/status/isAlive
+    path: /api/status/isAlive
 fasitResources:
   used:
   - alias: aad_b2c_clientid
@@ -27,4 +27,4 @@ fasitResources:
   exposed:
     - alias: soknad-kontantstotte-proxy-api
       resourceType: restservice
-      path: /rest
+      path: /api
