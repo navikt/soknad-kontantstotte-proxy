@@ -39,7 +39,7 @@ public class ApplicationConfig implements EnvironmentAware {
 
         JettyServletWebServerFactory serverFactory = new JettyServletWebServerFactory();
 
-        serverFactory.setPort(8080);
+        serverFactory.setPort(8081);
 
         return serverFactory;
     }
