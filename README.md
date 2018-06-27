@@ -19,7 +19,7 @@ docker login repo.adeo.no:5443
 docker run -p 8080:8080 repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy:unversioned
 ```
 
-Kommandoen tilgjengeliggjør serveren på localhost:8080
+Kommandoen tilgjengeliggjør serveren på localhost:8081
 
 
 ## Bygging og publisering
