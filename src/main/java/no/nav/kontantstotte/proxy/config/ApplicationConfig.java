@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.EnumSet;
 
 @SpringBootConfiguration
-@ComponentScan({"no.nav.kontantstotte.proxy.api"})
+@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.service"})
 @EnableConfigurationProperties(MultiIssuerProperties.class)
 public class ApplicationConfig implements EnvironmentAware {
 

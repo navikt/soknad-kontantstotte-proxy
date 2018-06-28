@@ -1,6 +1,7 @@
 package no.nav.kontantstotte.proxy.api;
 
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
+import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.servlet.ServletContainer;

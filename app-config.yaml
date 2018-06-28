@@ -22,8 +22,13 @@ fasitResources:
     resourceType: baseurl
     propertyMap:
       url: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_DISCOVERYURL
-  - alias: appres.cms
-    resourceType: baseUrl
+  - alias : securityTokenService
+    resourceType: baseurl
+  - alias : srvsoknadkontantstotte
+    resourceType: credential
+    propertyMap:
+      username: soknadkontantstotte_username
+      password: soknadkontantstotte_password
   exposed:
     - alias: soknad-kontantstotte-proxy-api
       resourceType: restservice
