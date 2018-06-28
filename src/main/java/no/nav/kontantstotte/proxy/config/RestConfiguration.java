@@ -11,6 +11,9 @@ public class RestConfiguration extends ResourceConfig {
     public RestConfiguration() {
 
         register(JacksonFeature.class);
+        //Filter
+        register(OidcContainerRequestFilter.class);
+        // Resources
         register(StatusResource.class);
         register(OidcContainerRequestFilter.class);
 
