@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource;
 import no.nav.kontantstotte.proxy.api.rest.StatusResource;
 import no.nav.security.oidc.jaxrs.OidcContainerRequestFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -15,6 +16,7 @@ public class RestConfiguration extends ResourceConfig {
         register(OidcContainerRequestFilter.class);
         // Resources
         register(StatusResource.class);
+        register(SoknadMottakResource.class);
         register(OidcContainerRequestFilter.class);
 
     }

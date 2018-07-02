@@ -5,3 +5,16 @@ no.nav.security.oidc:
      discoveryurl: http://metadata
      accepted_audience: aud-localhost
      cookie_name: localhost-idtoken
+
+dokmot :
+  queuename : ueue
+  hostname : hostname
+  port : 2412
+  name : name
+  usrname : user
+  channelname : channel
+
+logging:
+  level:
+    org.glassfish.jersey: DEBUG
+

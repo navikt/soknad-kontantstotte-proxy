@@ -24,6 +24,30 @@ fasitResources:
       url: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_DISCOVERYURL
   - alias: appres.cms
     resourceType: baseUrl
+# DOKMOT STASJ
+  - alias: mqGateway01
+      resourceType: queuemanager
+      propertyMap:
+          hostname: DOKMOT_HOSTNAME
+          port: DOKMOT_PORT
+          name: DOKMOT_NAME
+    - alias: dokmot_channel
+      resourceType: channel
+      propertyMap:
+          name: DOKMOT_CHANNELNAME
+
+    - alias: brisdokmot
+      resourceType: credential
+      propertyMap:
+          username: DOKMOT_USERNAME
+          password: DOKMOT_PASSWORD
+
+    - alias : dokmot_motta_forsendelse_ditt_nav
+      resourceType: queue
+      propertyMap:
+          queueName: DOKMOT_QUEUENAME
+          queueManager: DOKMOT_QUEUEMANAGER
+# SLUTT PÅ DOKMOT STASJ
   exposed:
     - alias: soknad-kontantstotte-proxy-api
       resourceType: restservice
