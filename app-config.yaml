@@ -24,7 +24,7 @@ fasitResources:
       url: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_DISCOVERYURL
   - alias : securityTokenService
     resourceType: baseurl
-  - alias : srvfpsoknad-oppslag
+  - alias : srvsoknad-kontantstotte-proxy
     resourceType: credential
     propertyMap:
       username: soknadkontantstotte_username
