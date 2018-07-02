@@ -1,8 +1,18 @@
 package no.nav.kontantstotte.proxy.service.ws;
 
+import org.apache.cxf.binding.soap.Soap12;
+import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.ws.policy.EndpointPolicy;
+import org.apache.cxf.ws.policy.PolicyBuilder;
+import org.apache.cxf.ws.policy.PolicyEngine;
+import org.apache.cxf.ws.policy.attachment.reference.ReferenceResolver;
+import org.apache.cxf.ws.policy.attachment.reference.RemoteReferenceResolver;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.apache.neethi.Policy;
 import org.springframework.stereotype.Component;
 
 @Component

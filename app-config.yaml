@@ -29,6 +29,8 @@ fasitResources:
     propertyMap:
       username: soknadkontantstotte_username
       password: soknadkontantstotte_password
+  - alias: virksomhet:Person_v3
+    resourceType: webserviceendpoint
   exposed:
     - alias: soknad-kontantstotte-proxy-api
       resourceType: restservice

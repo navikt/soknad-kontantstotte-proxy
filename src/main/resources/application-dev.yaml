@@ -5,3 +5,8 @@ no.nav.security.oidc:
      discoveryurl: http://metadata
      accepted_audience: aud-localhost
      cookie_name: localhost-idtoken
+
+SECURITYTOKENSERVICE_URL: http://localhost
+SOKNADKONTANTSTOTTE_USERNAME: something
+SOKNADKONTANTSTOTTE_PASSWORD: bogus
+VIRKSOMHET_PERSON_V3_ENDPOINTURL: http://localhost
