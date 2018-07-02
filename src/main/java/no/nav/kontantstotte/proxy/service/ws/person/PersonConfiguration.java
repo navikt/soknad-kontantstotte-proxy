@@ -11,10 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PersonConfiguration extends WsClient<PersonV3> {
 
-    @Bean
-    public PersonV3 personV3(@Value("${VIRKSOMHET_PERSON_V3_ENDPOINTURL}") String serviceUrl) {
-        return createPort(serviceUrl, PersonV3.class);
-    }
 
     @Bean
     public PersonV3 healthIndicatorPerson(@Value("${VIRKSOMHET_PERSON_V3_ENDPOINTURL}") String serviceUrl) {
@@ -23,9 +19,8 @@ public class PersonConfiguration extends WsClient<PersonV3> {
 
     @Bean
     public PersonService personServiceTpsWs(
-            @Qualifier("personV3") PersonV3 personV3,
             @Qualifier("healthIndicatorPerson") PersonV3 healthIndicator
     ) {
-        return new PersonServiceTpsWs(personV3, healthIndicator);
+        return new PersonServiceTpsWs(healthIndicator);
     }
 }

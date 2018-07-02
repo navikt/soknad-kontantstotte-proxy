@@ -9,14 +9,14 @@ import no.nav.tjeneste.virksomhet.person.v3.binding.PersonV3;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Informasjonsbehov;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonResponse;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class PersonServiceTpsWs implements PersonService {
 
-    private final PersonV3 personV3;
+
     private final PersonV3 healthIndicator;
 
-    public PersonServiceTpsWs(PersonV3 personV3, PersonV3 healthIndicator) {
-        this.personV3 = personV3;
+    public PersonServiceTpsWs( PersonV3 healthIndicator) {
         this.healthIndicator = healthIndicator;
     }
 
@@ -27,14 +27,6 @@ public class PersonServiceTpsWs implements PersonService {
 
     @Override
     public Person hentPersonInfo(String fnr) throws ServiceException {
-        HentPersonRequest request = RequestUtils.request(fnr, Informasjonsbehov.FAMILIERELASJONER);
-        try {
-            HentPersonResponse hentPersonResponse = this.personV3.hentPerson(request);
-            Person person = new Person();
-            person.setFornavn(hentPersonResponse.getPerson().getPersonnavn().getFornavn());
-            return person;
-        } catch (HentPersonSikkerhetsbegrensning | HentPersonPersonIkkeFunnet e) {
-            throw new ServiceException(e);
-        }
+        throw new NotImplementedException("Ikke implementert");
     }
 }
