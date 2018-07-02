@@ -11,4 +11,9 @@ public class PersonServiceStub implements PersonService {
         person.setFornavn("Ørjan");
         return person;
     }
+
+    @Override
+    public void ping() {
+
+    }
 }

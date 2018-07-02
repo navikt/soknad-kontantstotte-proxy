@@ -2,7 +2,9 @@ package no.nav.kontantstotte.proxy.api.rest;
 
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.kontantstotte.proxy.domain.PersonService;
+import no.nav.kontantstotte.proxy.service.ServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
+import no.nav.security.oidc.api.Unprotected;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -26,7 +28,15 @@ public class PersonResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Person hentPerson() {
+    public Person hentPerson() throws ServiceException {
         return personService.hentPersonInfo("fnr");
+    }
+
+    @GET
+    @Unprotected
+    @Path("ping")
+    public String ping() {
+        personService.ping();
+        return "Personservice OK";
     }
 }
