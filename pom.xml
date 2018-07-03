@@ -19,6 +19,7 @@
         <oidc-support.version>0.2.6</oidc-support.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <cxf.version>3.2.0</cxf.version>
+        <unleash.version>3.1.0</unleash.version>
     </properties>
 
     <build>
@@ -154,7 +155,6 @@
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-features-logging</artifactId>
@@ -167,6 +167,12 @@
         </dependency>
 
         <!-- Utils -->
+
+        <dependency>
+            <groupId>no.finn.unleash</groupId>
+            <artifactId>unleash-client-java</artifactId>
+            <version>${unleash.version}</version>
+        </dependency>
 
         <!-- Test -->
 
