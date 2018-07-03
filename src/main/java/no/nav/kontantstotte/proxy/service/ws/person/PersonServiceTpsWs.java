@@ -30,8 +30,8 @@ public class PersonServiceTpsWs implements PersonService {
         HentPersonRequest request = RequestUtils.request(fnr, Informasjonsbehov.FAMILIERELASJONER);
         try {
             HentPersonResponse hentPersonResponse = this.personV3.hentPerson(request);
-            Person person = new Person();
-            person.setFornavn(hentPersonResponse.getPerson().getPersonnavn().getFornavn());
+            Person person = new Person.PersonBuilder()
+                    .fornavn(hentPersonResponse.getPerson().getPersonnavn().getFornavn()).build();
             return person;
         } catch (HentPersonSikkerhetsbegrensning | HentPersonPersonIkkeFunnet e) {
             throw new ServiceException(e);
