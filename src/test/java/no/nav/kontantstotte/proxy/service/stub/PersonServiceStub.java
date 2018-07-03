@@ -7,7 +7,7 @@ public class PersonServiceStub implements PersonService {
 
     @Override
     public Person hentPersonInfo(String fnr) {
-        Person person = new Person.PersonBuilder().fornavn("Mock").build();
+        Person person = new Person.Builder().fornavn("Mock").build();
         return person;
     }
 

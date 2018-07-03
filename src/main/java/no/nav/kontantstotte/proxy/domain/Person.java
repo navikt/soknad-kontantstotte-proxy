@@ -11,10 +11,10 @@ public class Person {
         return fornavn;
     }
 
-    public static class PersonBuilder {
+    public static class Builder {
         private String fornavn;
 
-        public PersonBuilder fornavn(String fornavn) {
+        public Builder fornavn(String fornavn) {
             this.fornavn = fornavn;
             return this;
         }

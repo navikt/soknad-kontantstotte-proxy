@@ -5,6 +5,8 @@ import no.nav.kontantstotte.proxy.domain.PersonService;
 import no.nav.kontantstotte.proxy.service.ServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 import no.nav.security.oidc.api.Unprotected;
+import no.nav.security.oidc.context.OIDCValidationContext;
+import no.nav.security.oidc.jaxrs.OidcRequestContext;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -29,7 +31,7 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Person hentPerson() throws ServiceException {
-        return personService.hentPersonInfo("fnr");
+        return personService.hentPersonInfo(extractFnr());
     }
 
     @GET
@@ -39,4 +41,10 @@ public class PersonResource {
         personService.ping();
         return "Personservice OK";
     }
+
+    private static String extractFnr() {
+        OIDCValidationContext context = OidcRequestContext.getHolder().getOIDCValidationContext();
+        return context.getClaims("selvbetjening").getClaimSet().getSubject();
+    }
+
 }
