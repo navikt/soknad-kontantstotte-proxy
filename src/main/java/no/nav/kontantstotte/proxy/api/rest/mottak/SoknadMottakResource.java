@@ -27,7 +27,7 @@ public class SoknadMottakResource {
     }
 
     @GET // Change to POST - it is easier to call a GET endpoint from browser
-    @Consumes(APPLICATION_JSON)
+//    @Consumes(APPLICATION_JSON)
     @Unprotected // TODO Add protection at some point!
     public Response mottaSoknad() {
         SoknadDto dto = new SoknadDto("fnr", "bytes".getBytes());

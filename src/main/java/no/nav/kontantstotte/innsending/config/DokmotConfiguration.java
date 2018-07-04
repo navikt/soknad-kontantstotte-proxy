@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.destination.DynamicDestinationResolver;
@@ -17,6 +18,7 @@ import static com.ibm.msg.client.jms.JmsConstants.JMS_IBM_CHARACTER_SET;
 import static com.ibm.msg.client.jms.JmsConstants.JMS_IBM_ENCODING;
 import static com.ibm.msg.client.wmq.common.CommonConstants.WMQ_CM_CLIENT;
 
+@Profile("!dev")
 @Configuration
 @EnableConfigurationProperties(QueueConfigration.class)
 public class DokmotConfiguration {
@@ -48,8 +50,9 @@ public class DokmotConfiguration {
 
     @Bean
     @Primary
-    ConnectionFactory userCredentialsConnectionFactoryAdapter(QueueConfigration cfg,
-                                                              MQQueueConnectionFactory delegate) {
+    ConnectionFactory userCredentialsConnectionFactoryAdapter(
+            QueueConfigration cfg,
+            MQQueueConnectionFactory delegate) {
         UserCredentialsConnectionFactoryAdapter cf = new UserCredentialsConnectionFactoryAdapter();
         cf.setUsername(cfg.getUsername());
         cf.setTargetConnectionFactory(delegate);
