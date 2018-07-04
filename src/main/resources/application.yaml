@@ -9,6 +9,8 @@ spring:
     servlet:
       load-on-startup: 1
     application-path: "/api"
+  main:
+    banner-mode: "off"
 
 http.proxy: http://webproxy-nais.nav.no:8088
 no.nav.security.oidc:

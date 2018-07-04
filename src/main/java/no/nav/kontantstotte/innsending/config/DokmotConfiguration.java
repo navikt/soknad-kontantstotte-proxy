@@ -1,6 +1,10 @@
 package no.nav.kontantstotte.innsending.config;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
+import no.nav.kontantstotte.innsending.dokmot.DokmotConnection;
+import no.nav.kontantstotte.innsending.dokmot.DokmotEngangsstonadXMLKonvoluttGenerator;
+import no.nav.kontantstotte.innsending.dokmot.DokmotJMSSender;
+import no.nav.kontantstotte.innsending.domene.SoknadSender;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,5 +61,20 @@ public class DokmotConfiguration {
         cf.setUsername(cfg.getUsername());
         cf.setTargetConnectionFactory(delegate);
         return cf;
+    }
+
+    @Bean
+    public SoknadSender soknadSender(DokmotConnection dokmotConnection, DokmotEngangsstonadXMLKonvoluttGenerator generator) {
+        return new DokmotJMSSender(dokmotConnection, generator);
+    }
+
+    @Bean
+    DokmotConnection dokmotConnection(JmsTemplate jmsTemplate, QueueConfigration queueConfigration) {
+        return new DokmotConnection(jmsTemplate, queueConfigration);
+    }
+
+    @Bean
+    public DokmotEngangsstonadXMLKonvoluttGenerator generator() {
+        return new DokmotEngangsstonadXMLKonvoluttGenerator();
     }
 }
