@@ -49,15 +49,6 @@ public class ApplicationConfig implements EnvironmentAware {
         return new RequestContextListener();
     }
 
-    @Bean
-    ServletRegistrationBean<?> jerseyServletRegistration() {
-
-        ServletRegistrationBean<?> jerseyServletRegistration = new ServletRegistrationBean<>(new ServletContainer());
-
-        jerseyServletRegistration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, RestConfiguration.class.getName());
-
-        return jerseyServletRegistration;
-    }
 
     @Bean
     public MultiIssuerConfiguraton multiIssuerConfiguration(MultiIssuerProperties issuerProperties, OIDCResourceRetriever resourceRetriever) {
