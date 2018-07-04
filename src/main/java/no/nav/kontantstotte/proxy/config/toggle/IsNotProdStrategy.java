@@ -19,11 +19,11 @@ public class IsNotProdStrategy implements Strategy {
 
     @Override
     public boolean isEnabled(Map<String, String> map) {
-        return isProd(this.env);
+        return !isProd(this.env);
     }
 
     private boolean isProd(String environment) {
-        return "p".equals(environment) || "q0".equals(environment);
+        return "p".equals(environment);
     }
 
 }
