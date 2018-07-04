@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.api.rest.PersonResource;
 import no.nav.kontantstotte.proxy.api.rest.StatusResource;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.OIDCUnauthorizedExceptionMapper;
@@ -8,10 +9,12 @@ import no.nav.security.oidc.jaxrs.OidcContainerRequestFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import javax.inject.Inject;
+
 public class RestConfiguration extends ResourceConfig {
 
-
-    public RestConfiguration() {
+    @Inject
+    public RestConfiguration(Unleash unleash) {
 
         register(JacksonFeature.class);
         //Filter
@@ -21,8 +24,9 @@ public class RestConfiguration extends ResourceConfig {
         register(ServiceExceptionMapper.class);
         // Resources
         register(StatusResource.class);
-        register(PersonResource.class);
-
+        if( unleash.isEnabled("PersonV3") ) {
+            register(PersonResource.class);
+        }
     }
 
 }
