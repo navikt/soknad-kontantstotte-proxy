@@ -17,7 +17,6 @@ public class RestConfiguration extends ResourceConfig {
         // Resources
         register(StatusResource.class);
         register(SoknadMottakResource.class);
-        register(OidcContainerRequestFilter.class);
 
     }
 
