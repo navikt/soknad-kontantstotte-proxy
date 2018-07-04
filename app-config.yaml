@@ -31,6 +31,8 @@ fasitResources:
       password: soknadkontantstotte_password
   - alias: virksomhet:Person_v3
     resourceType: webserviceendpoint
+  - alias: unleash-api
+    resourceType: restservice
   exposed:
     - alias: soknad-kontantstotte-proxy-api
       resourceType: restservice

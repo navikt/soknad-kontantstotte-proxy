@@ -9,14 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.util.Map;
-
 @Configuration
 @Profile({"!dev"})
 public class FeatureToggleConfig {
 
     private static final String APP_NAME_PROPERTY_NAME = "${APP_NAME}";
     private static final String UNLEASH_API_URL_PROPERTY_NAME = "${UNLEASH_API_URL}";
+    public static final String FASIT_ENVIRONMENT_NAME = "${FASIT_ENVIRONMENT_NAME}";
 
     @Bean
     public Unleash unleash(
@@ -33,7 +32,7 @@ public class FeatureToggleConfig {
     }
 
     @Bean
-    public Strategy isNotProd(@Value("${FASIT_ENVIRONMENT_NAME}") String env){
+    public Strategy isNotProd(@Value(FASIT_ENVIRONMENT_NAME) String env){
         return new IsNotProdStrategy(env);
     }
 
