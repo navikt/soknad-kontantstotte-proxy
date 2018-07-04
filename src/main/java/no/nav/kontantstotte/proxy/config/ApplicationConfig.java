@@ -1,6 +1,5 @@
 package no.nav.kontantstotte.proxy.config;
 
-import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
@@ -52,8 +51,8 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
-    public ResourceConfig proxyConfig(Unleash unleash) {
-        return new RestConfiguration(unleash);
+    public ResourceConfig proxyConfig() {
+        return new RestConfiguration();
     }
 
     @Bean

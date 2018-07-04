@@ -2,7 +2,6 @@ package no.nav.kontantstotte.proxy.service.ws.person;
 
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.kontantstotte.proxy.domain.PersonService;
-import no.nav.kontantstotte.proxy.domain.PersonV3ToPersonMapper;
 import no.nav.kontantstotte.proxy.service.ServiceException;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonSikkerhetsbegrensning;

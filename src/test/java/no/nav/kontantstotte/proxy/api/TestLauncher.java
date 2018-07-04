@@ -4,17 +4,13 @@ import no.finn.unleash.FakeUnleash;
 import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
 import no.nav.kontantstotte.proxy.config.RestConfiguration;
-import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
@@ -35,20 +31,19 @@ public class TestLauncher {
      */
     @Bean
     @Primary
-    OIDCResourceRetriever overrideOidcResourceRetriever(){
+    OIDCResourceRetriever overrideOidcResourceRetriever() {
         return new FileResourceRetriever("/metadata.json", "/jwkset.json");
     }
 
     @Bean
-    @Primary
-    Unleash fakeUnleash(){
+    Unleash fakeUnleash() {
         return new FakeUnleash();
     }
 
     @Bean
     @Primary
-    public ResourceConfig proxyConfig(Unleash unleash) {
-        return new RestConfiguration(unleash);
+    public ResourceConfig proxyConfig() {
+        return new RestConfiguration();
     }
 
 

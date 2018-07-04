@@ -1,4 +1,6 @@
-package no.nav.kontantstotte.proxy.domain;
+package no.nav.kontantstotte.proxy.service.ws.person;
+
+import no.nav.kontantstotte.proxy.domain.Person;
 
 public class PersonV3ToPersonMapper {
 
