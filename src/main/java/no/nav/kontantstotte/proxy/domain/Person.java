@@ -1,7 +1,10 @@
 package no.nav.kontantstotte.proxy.domain;
 
+import java.util.ArrayList;
+
 public class Person {
     private String fornavn;
+    private ArrayList<Person> barn;
 
     public Person(String fornavn) {
         this.fornavn = fornavn;
