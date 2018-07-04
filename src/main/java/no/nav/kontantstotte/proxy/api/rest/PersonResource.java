@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.api.rest;
 
+import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.kontantstotte.proxy.domain.PersonService;
 import no.nav.kontantstotte.proxy.service.ServiceException;
@@ -13,7 +14,9 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Component
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,25 +25,37 @@ import javax.ws.rs.core.MediaType;
 public class PersonResource {
 
     private final PersonService personService;
+    private final Unleash unleash;
+    private final String TOGGLE_NAME = "kontantstotte.integrasjon.tps";
 
     @Inject
-    public PersonResource(PersonService personService) {
+    public PersonResource(PersonService personService, Unleash unleash) {
         this.personService = personService;
+        this.unleash = unleash;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Person hentPerson() throws ServiceException {
-        return personService.hentPersonInfo(extractFnr());
+        if( unleash.isEnabled(TOGGLE_NAME) ) {
+            return personService.hentPersonInfo(extractFnr());
+        } else {
+            throw new WebApplicationException(Response.Status.NO_CONTENT);
+        }
     }
 
     @GET
     @Unprotected
     @Path("ping")
     public String ping() {
-        personService.ping();
-        return "Personservice OK";
+        if( unleash.isEnabled(TOGGLE_NAME) ) {
+            personService.ping();
+            return "Personservice OK";
+        } else {
+            throw new WebApplicationException(Response.Status.NO_CONTENT);
+        }
     }
+
 
     private static String extractFnr() {
         OIDCValidationContext context = OidcRequestContext.getHolder().getOIDCValidationContext();

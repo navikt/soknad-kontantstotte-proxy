@@ -9,11 +9,9 @@ import no.nav.security.oidc.jaxrs.OidcContainerRequestFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import javax.inject.Inject;
 
 public class RestConfiguration extends ResourceConfig {
 
-    @Inject
     public RestConfiguration(Unleash unleash) {
 
         register(JacksonFeature.class);
@@ -24,9 +22,7 @@ public class RestConfiguration extends ResourceConfig {
         register(ServiceExceptionMapper.class);
         // Resources
         register(StatusResource.class);
-        if( unleash.isEnabled("PersonV3") ) {
-            register(PersonResource.class);
-        }
+        register(PersonResource.class);
     }
 
 }
