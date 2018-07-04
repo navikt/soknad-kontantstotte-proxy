@@ -5,8 +5,11 @@ import no.nav.security.oidc.api.Unprotected;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -23,12 +26,13 @@ public class SoknadMottakResource {
         this.soknadSender = soknadSender;
     }
 
-    @POST
+    @GET // Change to POST - it is easier to call a GET endpoint from browser
     @Consumes(APPLICATION_JSON)
     @Unprotected // TODO Add protection at some point!
-    public void mottaSoknad(SoknadDto dto) {
-
+    public Response mottaSoknad() {
+        SoknadDto dto = new SoknadDto("fnr", "bytes".getBytes());
         soknadSender.send(converter.toSoknad(dto));
+        return Response.ok().entity(dto).build();
     }
 
 }
