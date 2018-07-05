@@ -24,6 +24,7 @@ public class PersonMapper {
                 .map(rel -> rel.getTilPerson())
                 .map(person -> new Barn.Builder()
                         .fornavn(person.getPersonnavn().getFornavn())
+                        .etternavn(person.getPersonnavn().getEtternavn())
                         .build()
                 )
                 .collect(Collectors.toList());
