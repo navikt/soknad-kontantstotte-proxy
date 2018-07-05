@@ -24,8 +24,8 @@ import javax.ws.rs.core.Response;
 @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
 public class PersonResource {
 
-    private static final String TOGGLE_NAME = "kontantstotte.integrasjon.tps";
     private static final String SELVBETJENING = "selvbetjening";
+    private final String BRUK_TPS_INTEGRASJON = "kontantstotte.integrasjon.tps";
 
     private final PersonService personService;
     private final Unleash unleash;
@@ -39,7 +39,7 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Person hentPerson() throws ServiceException {
-        if( unleash.isEnabled(TOGGLE_NAME) ) {
+        if( unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
             return personService.hentPersonInfo(extractFnr());
         } else {
             throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
@@ -50,7 +50,7 @@ public class PersonResource {
     @Unprotected
     @Path("ping")
     public String ping() {
-        if( unleash.isEnabled(TOGGLE_NAME) ) {
+        if( unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
             personService.ping();
             return "Personservice OK";
         } else {
