@@ -8,9 +8,9 @@ import no.nav.tjeneste.virksomhet.person.v3.informasjon.Person;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Personnavn;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -42,15 +42,21 @@ public class PersonMapperTest {
     @Test
     public void mappingAvBarn() {
         String fornavn = "Barne-fornavn";
-        Familierelasjon familierelasjon = nyttBarn(fornavn);
+        Familierelasjon barn = nyttBarn(fornavn);
 
-        List<Barn> barnList = PersonMapper.barn(Arrays.asList(familierelasjon));
-        assertThat(barnList).extracting("fornavn").contains(fornavn);
+        String ektefellenavn = "Eketefelle-fornavn";
+        Familierelasjon ektefelle = nyEktefelle( ektefellenavn );
+
+
+        List<Barn> barnList = PersonMapper.barn(asList(barn, ektefelle));
+        assertThat(barnList).extracting("fornavn")
+                .contains(fornavn)
+                .doesNotContain(ektefellenavn);
 
     }
 
     private Familierelasjon nyttBarn(String fornavn) {
-        return nyFamilierelasjon(fornavn, "BARN");
+        return nyFamilierelasjon(fornavn, PersonMapper.BARN);
     }
 
     private Familierelasjon nyEktefelle(String fornavn) {
@@ -58,14 +64,13 @@ public class PersonMapperTest {
     }
 
     private Familierelasjon nyFamilierelasjon(String fornavn, String relasjonstype) {
-        Familierelasjon familierelasjon = new Familierelasjon();
-        Familierelasjoner barneRelasjon = new Familierelasjoner();
+        Familierelasjoner relasjon = new Familierelasjoner();
+        relasjon.setKodeverksRef(relasjonstype);
 
-        Person barn = personV3(fornavn);
+        Familierelasjon personMedRelasjon = new Familierelasjon();
+        personMedRelasjon.setTilRolle(relasjon);
+        personMedRelasjon.setTilPerson(personV3(fornavn));
 
-        barneRelasjon.setKodeverksRef(relasjonstype);
-        familierelasjon.setTilRolle(barneRelasjon);
-        familierelasjon.setTilPerson(barn);
-        return familierelasjon;
+        return personMedRelasjon;
     }
 }
