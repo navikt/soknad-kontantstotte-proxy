@@ -30,11 +30,11 @@ public class PersonMapperTest {
     public void mappingAvBarn() {
         String fornavn = "Barne-fornavn";
         String etternavn = "Barne-etternavn";
-        Familierelasjon barn = nyttBarn(fornavn, etternavn);
+        Familierelasjon barn = nyttBarn(personV3(fornavn, etternavn));
 
         String ektefelleFornavn = "Ektefelle-fornavn";
         String ektefelleEtternavn = "Ektefelle-etternavn";
-        Familierelasjon ektefelle = nyEktefelle( ektefelleFornavn, ektefelleEtternavn );
+        Familierelasjon ektefelle = nyEktefelle( personV3(ektefelleFornavn, ektefelleEtternavn));
 
 
         List<Barn> barnList = PersonMapper.barn(asList(barn, ektefelle));
@@ -44,23 +44,27 @@ public class PersonMapperTest {
 
     }
 
-    private Familierelasjon nyttBarn(String fornavn, String etternavn) {
-        return nyFamilierelasjon(fornavn, etternavn, PersonMapper.BARN);
+    private Familierelasjon nyttBarn(Person person) {
+        return nyttFamiliemedlem(relasjonstype(PersonMapper.BARN), person);
     }
 
-    private Familierelasjon nyEktefelle(String fornavn, String ektefelleEtternavn) {
-        return nyFamilierelasjon(fornavn, ektefelleEtternavn, "EKTE");
+    private Familierelasjon nyEktefelle(Person person) {
+        return nyttFamiliemedlem(relasjonstype("EKTE"), person);
     }
 
-    private Familierelasjon nyFamilierelasjon(String fornavn, String etternavn, String relasjonstype) {
-        Familierelasjoner relasjon = new Familierelasjoner();
-        relasjon.setKodeverksRef(relasjonstype);
+    private Familierelasjon nyttFamiliemedlem(Familierelasjoner relasjonstype, Person person) {
 
         Familierelasjon personMedRelasjon = new Familierelasjon();
-        personMedRelasjon.setTilRolle(relasjon);
-        personMedRelasjon.setTilPerson(personV3(fornavn, etternavn));
+        personMedRelasjon.setTilRolle(relasjonstype);
+        personMedRelasjon.setTilPerson(person);
 
         return personMedRelasjon;
+    }
+
+    private Familierelasjoner relasjonstype(String relasjonskode) {
+        Familierelasjoner relasjon = new Familierelasjoner();
+        relasjon.setKodeverksRef(relasjonskode);
+        return relasjon;
     }
 
     public Person personV3(String fornavn, String etternavn) {
