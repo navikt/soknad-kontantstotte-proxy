@@ -1,18 +1,29 @@
 package no.nav.kontantstotte.innsending.dokmot;
 
 import no.nav.kontantstotte.innsending.domene.Soknad;
+import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
 import org.springframework.stereotype.Service;
+
+import javax.xml.bind.JAXBContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class DokmotEngangsstonadXMLKonvoluttGenerator {
 
-    private static final String TEMA = "FOR";
+    private static final String TEMA = "KON";
 
     private static final String BEHANDLINGSTEMA = "ab0050";
 
     private static final String KANAL = "NAV_NO";
 
-//    private static final JAXBContext CONTEXT = Jaxb.context(Dokumentforsendelse.class);
+    private static final JAXBContext CONTEXT = Jaxb.context(Dokumentforsendelse.class);
+
 //    private final DokmotEngangsstønadXMLGenerator søknadGenerator;
 //
 //    public DokmotEngangsstønadXMLKonvoluttGenerator(DokmotEngangsstønadXMLGenerator generator) {
@@ -22,10 +33,20 @@ public class DokmotEngangsstonadXMLKonvoluttGenerator {
 //    public String toXML(Søknad søknad, no.nav.foreldrepenger.mottak.domain.felles.Person søker, String ref) {
 //        return Jaxb.marshall(CONTEXT, dokmotModelFra(søknad, søker, ref));
 //    }
-    public String toXML(Soknad soknad) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>" +
-                "<soknad>" +
-                "</soknad>";
+    String toXML(Soknad søknad) {
+
+        return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
+                .withForsendelsesinformasjon(new Forsendelsesinformasjon()
+                        .withKanalreferanseId("anything")
+                        .withTema(new Tema().withValue(TEMA))
+                        .withMottakskanal(new Mottakskanaler().withValue(KANAL))
+                        .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
+                        .withForsendelseInnsendt(LocalDateTime.now())
+                        .withForsendelseMottatt(LocalDateTime.now())
+                        .withAvsender(new Person(søknad.getFnr()))
+                        .withBruker(new Person(søknad.getFnr())))
+                .withHoveddokument(hoveddokument(søknad)));
+//                .withVedleggListe(dokmotVedleggListe(søknad));
     }
 //
 //    public Dokumentforsendelse dokmotModelFra(Søknad søknad, no.nav.foreldrepenger.mottak.domain.felles.Person søker,
@@ -53,22 +74,20 @@ public class DokmotEngangsstonadXMLKonvoluttGenerator {
 //                .withVedleggListe(dokmotVedleggListe(søknad));
 //    }
 //
-//    private Hoveddokument hoveddokument(Søknad søknad, no.nav.foreldrepenger.mottak.domain.felles.Person søker) {
-//        Dokumentinnhold hovedskjemaInnhold = new Dokumentinnhold()
-//                .withDokument(søknadGenerator.toPdf(søknad, søker))
-//                .withArkivfiltype(new Arkivfiltyper().withValue(PDFA.name()))
-//                .withVariantformat(new Variantformater().withValue(ARKIV.name()));
+    private Hoveddokument hoveddokument(Soknad søknad) {
+        Dokumentinnhold hovedskjemaInnhold = new Dokumentinnhold()
+                .withDokument(søknad.getPdf())
+                .withArkivfiltype(new Arkivfiltyper().withValue("PDFA"))
+                .withVariantformat(new Variantformater().withValue("ARKIV"));
 //        Stream<Dokumentinnhold> alternativeRepresentasjonerInnhold = Collections.singletonList(new Dokumentinnhold()
 //                .withDokument(søknadGenerator.toXML(søknad, søker).getBytes())
 //                .withVariantformat(new Variantformater().withValue(ORIGINAL.name()))
 //                .withArkivfiltype(new Arkivfiltyper().withValue(XML.name()))).stream();
-//
-//        return new Hoveddokument()
+
+        return new Hoveddokument()
 //                .withDokumenttypeId(ENGANGSSTØNAD_FØDSEL.id)
-//                .withDokumentinnholdListe(
-//                        Stream.concat(Stream.of(hovedskjemaInnhold), alternativeRepresentasjonerInnhold)
-//                                .collect(toList()));
-//    }
+                .withDokumentinnholdListe(Collections.singletonList(hovedskjemaInnhold));
+    }
 //
 //    private static List<no.nav.melding.virksomhet.dokumentforsendelse.v1.Vedlegg> dokmotVedleggListe(Søknad søknad) {
 //        return Stream.concat(søknad.getPåkrevdeVedlegg().stream(), søknad.getFrivilligeVedlegg().stream())
