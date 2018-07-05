@@ -4,6 +4,7 @@ import no.finn.unleash.FakeUnleash;
 import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
 import no.nav.kontantstotte.proxy.config.RestConfiguration;
+import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -37,13 +38,15 @@ public class TestLauncher {
 
     @Bean
     Unleash fakeUnleash() {
-        return new FakeUnleash();
+        FakeUnleash unleash = new FakeUnleash();
+        unleash.enableAll();
+        return unleash;
     }
 
     @Bean
     @Primary
     public ResourceConfig proxyConfig() {
-        return new RestConfiguration();
+        return new TestRestConfiguration();
     }
 
 

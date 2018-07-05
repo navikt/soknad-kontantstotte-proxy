@@ -24,9 +24,11 @@ import javax.ws.rs.core.Response;
 @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
 public class PersonResource {
 
+    private static final String TOGGLE_NAME = "kontantstotte.integrasjon.tps";
+    private static final String SELVBETJENING = "selvbetjening";
+
     private final PersonService personService;
     private final Unleash unleash;
-    private final String TOGGLE_NAME = "kontantstotte.integrasjon.tps";
 
     @Inject
     public PersonResource(PersonService personService, Unleash unleash) {
@@ -40,7 +42,7 @@ public class PersonResource {
         if( unleash.isEnabled(TOGGLE_NAME) ) {
             return personService.hentPersonInfo(extractFnr());
         } else {
-            throw new WebApplicationException(Response.Status.NO_CONTENT);
+            throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
         }
     }
 
@@ -52,14 +54,14 @@ public class PersonResource {
             personService.ping();
             return "Personservice OK";
         } else {
-            throw new WebApplicationException(Response.Status.NO_CONTENT);
+            throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
         }
     }
 
 
     private static String extractFnr() {
         OIDCValidationContext context = OidcRequestContext.getHolder().getOIDCValidationContext();
-        return context.getClaims("selvbetjening").getClaimSet().getSubject();
+        return context.getClaims(SELVBETJENING).getClaimSet().getSubject();
     }
 
 }
