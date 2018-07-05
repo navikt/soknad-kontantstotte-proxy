@@ -3,11 +3,12 @@ package no.nav.kontantstotte.proxy.domain;
 import java.util.List;
 
 public class Person {
-    private String fornavn;
-    private List<Barn> barn;
+    private final String fornavn;
+    private final List<Barn> barn;
 
-    public Person(String fornavn) {
+    public Person(String fornavn, List<Barn> barn) {
         this.fornavn = fornavn;
+        this.barn = barn;
     }
 
     public String getFornavn() {
@@ -29,7 +30,7 @@ public class Person {
         }
 
         public Person build() {
-            return new Person(this.fornavn);
+            return new Person(this.fornavn, this.barn);
         }
     }
 }
