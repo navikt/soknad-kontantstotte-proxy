@@ -18,4 +18,5 @@ logging:
   level:
     org.springframework: DEBUG
     org.glassfish.jersey: DEBUG
-
+dokmot:
+  enabled: false
