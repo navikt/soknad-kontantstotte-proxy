@@ -4,6 +4,7 @@ import no.nav.kontantstotte.innsending.config.DokmotConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.glassfish.jersey.servlet.ServletProperties;
 import org.slf4j.Logger;
@@ -52,7 +53,10 @@ public class ApplicationConfig implements EnvironmentAware {
         return new RequestContextListener();
     }
 
-
+    @Bean
+    public ResourceConfig proxyConfig() {
+        return new RestConfiguration();
+    }
 
     @Bean
     public MultiIssuerConfiguraton multiIssuerConfiguration(MultiIssuerProperties issuerProperties, OIDCResourceRetriever resourceRetriever) {
