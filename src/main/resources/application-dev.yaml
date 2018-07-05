@@ -16,5 +16,6 @@ dokmot :
 
 logging:
   level:
+    org.springframework: DEBUG
     org.glassfish.jersey: DEBUG
 

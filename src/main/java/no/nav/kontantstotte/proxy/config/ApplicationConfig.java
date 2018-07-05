@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.nav.kontantstotte.innsending.config.DokmotConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
@@ -16,6 +17,7 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextListener;
@@ -28,6 +30,7 @@ import java.util.EnumSet;
 @SpringBootConfiguration
 @ComponentScan({"no.nav.kontantstotte.proxy.api"})
 @EnableConfigurationProperties(MultiIssuerProperties.class)
+@Import(DokmotConfiguration.class)
 public class ApplicationConfig implements EnvironmentAware {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);

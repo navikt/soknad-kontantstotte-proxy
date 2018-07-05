@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.api;
 
+import no.nav.kontantstotte.innsending.domene.SoknadSender;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
@@ -39,6 +40,11 @@ public class TestLauncher {
     @Primary
     public ResourceConfig TestRestConfiguration() {
         return new TestRestConfiguration();
+    }
+
+    @Bean
+    public SoknadSender soknadSender() {
+        return input -> {};
     }
 
 }

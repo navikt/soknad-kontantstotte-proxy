@@ -3,7 +3,7 @@ package no.nav.kontantstotte.proxy.api.rest.mottak;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class SoknadDto {
+public class SoknadDto {
 
     private final byte[] pdf;
 
@@ -17,11 +17,11 @@ class SoknadDto {
         this.fnr = fnr;
     }
 
-    byte[] getPdf() {
+    public byte[] getPdf() {
         return pdf;
     }
 
-    String getFnr() {
+    public String getFnr() {
         return fnr;
     }
 
