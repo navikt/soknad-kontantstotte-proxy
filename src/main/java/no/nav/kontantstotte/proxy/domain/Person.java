@@ -6,9 +6,9 @@ public class Person {
     private final String fornavn;
     private final List<Barn> barn;
 
-    public Person(String fornavn, List<Barn> barn) {
-        this.fornavn = fornavn;
-        this.barn = barn;
+    public Person(Builder builder) {
+        this.fornavn = builder.fornavn;
+        this.barn = builder.barn;
     }
 
     public String getFornavn() {
@@ -34,7 +34,7 @@ public class Person {
         }
 
         public Person build() {
-            return new Person(this.fornavn, this.barn);
+            return new Person(this);
         }
     }
 }

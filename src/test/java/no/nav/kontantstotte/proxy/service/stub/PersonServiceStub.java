@@ -17,11 +17,13 @@ public class PersonServiceStub implements PersonService {
                         new Barn.Builder()
                                 .fornavn("Mockbarn")
                                 .etternavn("Mockesen")
+                                .fødselsnummer("250118xxxxx")
                                 .fødselsdato(LocalDate.of(2018, 1, 25))
                                 .build(),
                         new Barn.Builder()
                                 .fornavn("Mickbarn")
                                 .etternavn("Mockesen")
+                                .fødselsnummer("120517xxxxx")
                                 .fødselsdato(LocalDate.of(2017, 5, 12))
                                 .build())
                 )

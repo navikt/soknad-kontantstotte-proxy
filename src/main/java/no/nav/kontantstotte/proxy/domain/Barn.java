@@ -8,11 +8,11 @@ public class Barn {
     private final String fødselsnummer;
     private final LocalDate fødselsdato;
 
-    public Barn(String fornavn, String etternavn, String fødselsnummer, LocalDate fødselsdato) {
-        this.fornavn = fornavn;
-        this.etternavn = etternavn;
-        this.fødselsnummer = fødselsnummer;
-        this.fødselsdato = fødselsdato;
+    private Barn(Builder builder) {
+        this.fornavn = builder.fornavn;
+        this.etternavn = builder.etternavn;
+        this.fødselsnummer = builder.fødselsnummer;
+        this.fødselsdato = builder.fødselsdato;
     }
 
     public String getFornavn() {
@@ -58,12 +58,7 @@ public class Barn {
         }
 
         public Barn build() {
-            return new Barn(
-                    this.fornavn,
-                    this.etternavn,
-                    this.fødselsnummer,
-                    this.fødselsdato
-            );
+            return new Barn(this);
         }
     }
 
