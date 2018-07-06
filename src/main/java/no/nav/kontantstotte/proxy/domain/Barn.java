@@ -13,6 +13,18 @@ public class Barn {
         this.fødselsdato = fødselsdato;
     }
 
+    public String getFornavn() {
+        return fornavn;
+    }
+
+    public String getEtternavn() {
+        return etternavn;
+    }
+
+    public LocalDate getFødselsdato() {
+        return fødselsdato;
+    }
+
     public static class Builder {
         private String fornavn;
         private String etternavn;
