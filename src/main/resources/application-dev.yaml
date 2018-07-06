@@ -6,6 +6,13 @@ no.nav.security.oidc:
      accepted_audience: aud-localhost
      cookie_name: localhost-idtoken
 
+SECURITYTOKENSERVICE_URL: http://localhost
+SOKNADKONTANTSTOTTE_USERNAME: something
+SOKNADKONTANTSTOTTE_PASSWORD: bogus
+VIRKSOMHET_PERSON_V3_ENDPOINTURL: http://localhost
+UNLEASH_API_URL: http://localhost
+APP_NAME: soknad-kontantstotte-proxy
+
 dokmot :
   queuename : ueue
   hostname : hostname
