@@ -1,21 +1,21 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.servlet.ServletProperties;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextListener;
@@ -26,8 +26,9 @@ import java.net.URL;
 import java.util.EnumSet;
 
 @SpringBootConfiguration
-@ComponentScan({"no.nav.kontantstotte.proxy.api"})
-@EnableConfigurationProperties(MultiIssuerProperties.class)
+@EnableConfigurationProperties({MultiIssuerProperties.class})
+@Import({FeatureToggleConfig.class})
+@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.service"})
 public class ApplicationConfig implements EnvironmentAware {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
@@ -50,13 +51,8 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
-    ServletRegistrationBean<?> jerseyServletRegistration() {
-
-        ServletRegistrationBean<?> jerseyServletRegistration = new ServletRegistrationBean<>(new ServletContainer());
-
-        jerseyServletRegistration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, RestConfiguration.class.getName());
-
-        return jerseyServletRegistration;
+    public ResourceConfig proxyConfig() {
+        return new RestConfiguration();
     }
 
     @Bean
