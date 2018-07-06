@@ -7,7 +7,9 @@ import no.nav.tjeneste.virksomhet.person.v3.informasjon.PersonIdent;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PersonMapper {
@@ -25,6 +27,7 @@ public class PersonMapper {
         return familierelasjoner.stream()
                 .filter(rel -> BARN.equals(rel.getTilRolle().getKodeverksRef()))
                 .map(rel -> rel.getTilPerson())
+                .filter(erIkkeDød())
                 .map(person -> new Barn.Builder()
                         .fornavn(person.getPersonnavn().getFornavn())
                         .etternavn(person.getPersonnavn().getEtternavn())
@@ -33,6 +36,14 @@ public class PersonMapper {
                         .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> erIkkeDød() {
+        return erDød().negate();
+    }
+
+    private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> erDød() {
+        return p -> p.getPersonstatus() != null && Arrays.asList("DØD", "DØDD").contains(p.getPersonstatus().getPersonstatus().getKodeverksRef());
     }
 
     private static LocalDate mapFødselsdato(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person person) {

@@ -48,6 +48,31 @@ public class PersonMapperTest {
 
     }
 
+    @Test
+    public void filtrerPersonstatuserForDød() {
+        Person dødPerson = personV3("Mock");
+        dødPerson.setPersonstatus(personstatus("DØD"));
+
+        Person døddPerson = personV3("Mack");
+        døddPerson.setPersonstatus(personstatus("DØDD"));
+
+        Person aktivPerson = personV3("Mick");
+        aktivPerson.setPersonstatus(personstatus("AKTV"));
+
+        List<Barn> barnList = PersonMapper.barn(asList(nyttBarn(aktivPerson), nyttBarn(dødPerson), nyttBarn(døddPerson)));
+
+        assertThat(barnList).hasSize(1).extracting("fornavn").contains("Mick").doesNotContain("Mock", "Mack");
+    }
+
+    private Personstatus personstatus(String status) {
+        Personstatuser statusDød = new Personstatuser();
+        statusDød.setKodeverksRef(status);
+
+        Personstatus personstatus = new Personstatus();
+        personstatus.setPersonstatus(statusDød);
+        return personstatus;
+    }
+
     private Familierelasjon nyttBarn(Person person) {
         return nyttFamiliemedlem(relasjonstype(PersonMapper.BARN), person);
     }
@@ -111,6 +136,6 @@ public class PersonMapperTest {
     }
 
     public Person personV3(String fornavn) {
-        return personV3(fornavn, "", null, null);
+        return personV3(fornavn, "", null, dato(LocalDate.now()));
     }
 }
