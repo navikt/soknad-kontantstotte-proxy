@@ -43,6 +43,14 @@ public class PersonMapper {
     }
 
     private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> erDød() {
+        return harPersonstatusDød().or(harDødsdato());
+    }
+
+    private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> harDødsdato() {
+        return person -> person.getDoedsdato() != null;
+    }
+
+    private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> harPersonstatusDød() {
         return p -> p.getPersonstatus() != null && Arrays.asList("DØD", "DØDD").contains(p.getPersonstatus().getPersonstatus().getKodeverksRef());
     }
 

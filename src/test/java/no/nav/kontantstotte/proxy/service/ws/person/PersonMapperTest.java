@@ -64,6 +64,20 @@ public class PersonMapperTest {
         assertThat(barnList).hasSize(1).extracting("fornavn").contains("Mick").doesNotContain("Mock", "Mack");
     }
 
+    @Test
+    public void filtrerPersonerMedDødsdato() {
+        Person personMedDødsdato = personV3("Mock");
+        Doedsdato dødsdato = new Doedsdato();
+        dødsdato.setDoedsdato(dato(LocalDate.of(2018, 4,1)));
+        personMedDødsdato.setDoedsdato(dødsdato);
+
+        Person aktivPerson = personV3("Mick");
+
+        List<Barn> barnList = PersonMapper.barn(asList(nyttBarn(aktivPerson), nyttBarn(personMedDødsdato)));
+
+        assertThat(barnList).hasSize(1).extracting("fornavn").contains("Mick").doesNotContain("Mock");
+    }
+
     private Personstatus personstatus(String status) {
         Personstatuser statusDød = new Personstatuser();
         statusDød.setKodeverksRef(status);
