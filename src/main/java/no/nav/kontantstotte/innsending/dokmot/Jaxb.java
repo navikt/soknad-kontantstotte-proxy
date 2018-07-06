@@ -11,6 +11,8 @@ import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
 public final class Jaxb {
 
+    // TODO maybe move go some util package of project...
+
     private Jaxb() {
 
     }
