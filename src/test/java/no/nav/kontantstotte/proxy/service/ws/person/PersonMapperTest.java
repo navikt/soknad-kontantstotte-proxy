@@ -32,8 +32,9 @@ public class PersonMapperTest {
     public void mappingAvBarn() {
         String fornavn = "Barne-fornavn";
         String etternavn = "Barne-etternavn";
+        String fødselsnummer = "250118xxxxx";
         LocalDate fødselsdato = LocalDate.of(2018, 1, 25);
-        Familierelasjon barn = nyttBarn(personV3(fornavn, etternavn, dato(fødselsdato)));
+        Familierelasjon barn = nyttBarn(personV3(fornavn, etternavn, fødselsnummer, dato(fødselsdato)));
 
         String ektefelleFornavn = "Ektefelle-fornavn";
         String ektefelleEtternavn = "Ektefelle-etternavn";
@@ -41,8 +42,8 @@ public class PersonMapperTest {
 
 
         List<Barn> barnList = PersonMapper.barn(asList(barn, ektefelle));
-        assertThat(barnList).extracting("fornavn", "etternavn", "fødselsdato")
-                .contains(tuple(fornavn, etternavn, fødselsdato))
+        assertThat(barnList).extracting("fornavn", "etternavn", "fødselsnummer", "fødselsdato")
+                .contains(tuple(fornavn, etternavn, fødselsnummer, fødselsdato))
                 .doesNotContain(tuple(ektefelleFornavn, ektefelleEtternavn));
 
     }
@@ -71,20 +72,27 @@ public class PersonMapperTest {
     }
 
     private Person personV3(String ektefelleFornavn, String ektefelleEtternavn) {
-        return personV3(ektefelleFornavn, ektefelleEtternavn, null);
+        return personV3(ektefelleFornavn, ektefelleEtternavn, null, null);
     }
 
-    public Person personV3(String fornavn, String etternavn, XMLGregorianCalendar fødselsdato) {
-        Person personV3 = new Person();
+    public Person personV3(String fornavn, String etternavn, String fødselsnummer, XMLGregorianCalendar fødselsdato) {
         Personnavn personnavn = new Personnavn();
-
         personnavn.setFornavn(fornavn);
         personnavn.setEtternavn(etternavn);
-        personV3.setPersonnavn(personnavn);
 
         Foedselsdato fodselsdatoV3 = new Foedselsdato();
         fodselsdatoV3.setFoedselsdato(fødselsdato);
+
+        NorskIdent norskIdent = new NorskIdent();
+        norskIdent.setIdent(fødselsnummer);
+
+        PersonIdent personIdent = new PersonIdent();
+        personIdent.setIdent(norskIdent);
+
+        Person personV3 = new Person();
+        personV3.setPersonnavn(personnavn);
         personV3.setFoedselsdato(fodselsdatoV3);
+        personV3.setAktoer(personIdent);
 
         return personV3;
     }
@@ -103,6 +111,6 @@ public class PersonMapperTest {
     }
 
     public Person personV3(String fornavn) {
-        return personV3(fornavn, "", null);
+        return personV3(fornavn, "", null, null);
     }
 }

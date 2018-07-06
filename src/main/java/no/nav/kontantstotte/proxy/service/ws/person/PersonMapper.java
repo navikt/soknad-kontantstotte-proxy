@@ -3,6 +3,7 @@ package no.nav.kontantstotte.proxy.service.ws.person;
 import no.nav.kontantstotte.proxy.domain.Barn;
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Familierelasjon;
+import no.nav.tjeneste.virksomhet.person.v3.informasjon.PersonIdent;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
@@ -27,12 +28,20 @@ public class PersonMapper {
                 .map(person -> new Barn.Builder()
                         .fornavn(person.getPersonnavn().getFornavn())
                         .etternavn(person.getPersonnavn().getEtternavn())
-                        .fødselsdato( toLocalDate(person.getFoedselsdato().getFoedselsdato()) )
+                        .fødselsnummer(mapFødselsnummer(person))
+                        .fødselsdato(mapFødselsdato(person))
                         .build()
                 )
                 .collect(Collectors.toList());
     }
 
+    private static LocalDate mapFødselsdato(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person person) {
+        return toLocalDate(person.getFoedselsdato().getFoedselsdato());
+    }
+
+    private static String mapFødselsnummer(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person person) {
+        return PersonIdent.class.cast(person.getAktoer()).getIdent().getIdent();
+    }
 
     private static LocalDate toLocalDate(XMLGregorianCalendar cal) {
         return LocalDate.of(cal.getYear(), cal.getMonth(), cal.getDay());
