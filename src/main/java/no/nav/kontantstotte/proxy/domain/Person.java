@@ -15,6 +15,10 @@ public class Person {
         return fornavn;
     }
 
+    public List<Barn> getBarn() {
+        return barn;
+    }
+
     public static class Builder {
         private String fornavn;
         private List<Barn> barn;
