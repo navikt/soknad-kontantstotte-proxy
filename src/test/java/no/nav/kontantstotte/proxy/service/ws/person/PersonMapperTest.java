@@ -4,6 +4,7 @@ package no.nav.kontantstotte.proxy.service.ws.person;
 import no.nav.kontantstotte.proxy.domain.Barn;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.*;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -28,55 +29,6 @@ public class PersonMapperTest {
         assertThat(PersonMapper.person(person).getFornavn()).isEqualTo(testfornavn);
     }
 
-    @Test
-    public void mappingAvBarn() {
-        String fornavn = "Barne-fornavn";
-        String etternavn = "Barne-etternavn";
-        String fødselsnummer = "250118xxxxx";
-        LocalDate fødselsdato = LocalDate.of(2018, 1, 25);
-        Familierelasjon barn = nyttBarn(personV3(fornavn, etternavn, fødselsnummer, dato(fødselsdato)));
-
-        String ektefelleFornavn = "Ektefelle-fornavn";
-        String ektefelleEtternavn = "Ektefelle-etternavn";
-        Familierelasjon ektefelle = nyEktefelle( personV3(ektefelleFornavn, ektefelleEtternavn));
-
-
-        List<Barn> barnList = PersonMapper.barn(asList(barn, ektefelle));
-        assertThat(barnList).extracting("fornavn", "etternavn", "fødselsnummer", "fødselsdato")
-                .contains(tuple(fornavn, etternavn, fødselsnummer, fødselsdato))
-                .doesNotContain(tuple(ektefelleFornavn, ektefelleEtternavn));
-
-    }
-
-    @Test
-    public void filtrerPersonstatuserForDød() {
-        Person dødPerson = personV3("Mock");
-        dødPerson.setPersonstatus(personstatus("DØD"));
-
-        Person døddPerson = personV3("Mack");
-        døddPerson.setPersonstatus(personstatus("DØDD"));
-
-        Person aktivPerson = personV3("Mick");
-        aktivPerson.setPersonstatus(personstatus("AKTV"));
-
-        List<Barn> barnList = PersonMapper.barn(asList(nyttBarn(aktivPerson), nyttBarn(dødPerson), nyttBarn(døddPerson)));
-
-        assertThat(barnList).hasSize(1).extracting("fornavn").contains("Mick").doesNotContain("Mock", "Mack");
-    }
-
-    @Test
-    public void filtrerPersonerMedDødsdato() {
-        Person personMedDødsdato = personV3("Mock");
-        Doedsdato dødsdato = new Doedsdato();
-        dødsdato.setDoedsdato(dato(LocalDate.of(2018, 4,1)));
-        personMedDødsdato.setDoedsdato(dødsdato);
-
-        Person aktivPerson = personV3("Mick");
-
-        List<Barn> barnList = PersonMapper.barn(asList(nyttBarn(aktivPerson), nyttBarn(personMedDødsdato)));
-
-        assertThat(barnList).hasSize(1).extracting("fornavn").contains("Mick").doesNotContain("Mock");
-    }
 
     private Personstatus personstatus(String status) {
         Personstatuser statusDød = new Personstatuser();
