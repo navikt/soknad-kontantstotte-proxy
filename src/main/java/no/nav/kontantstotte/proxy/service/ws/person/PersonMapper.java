@@ -20,26 +20,24 @@ public class PersonMapper {
 
     public static final String BARN = "BARN";
 
-    public static Person person(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person personV3) {
+    public static Person person(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person personV3, List<Barn> barn) {
         return new Person.Builder()
                 .fornavn(personV3.getPersonnavn().getFornavn())
-                .barn(barn(personV3.getHarFraRolleI()))
+                .barn(barn)
                 .build();
     }
 
-    public static List<Barn> barn(List<Familierelasjon> familierelasjoner) {
-        LOG.info("Pålogget bruker har {} familierelasjoner",familierelasjoner.size());
-        List<Barn> list = familierelasjoner.stream()
-                .filter(rel -> BARN.equals(rel.getTilRolle().getValue()))
-                .map(rel -> rel.getTilPerson())
-                .peek(b -> LOG.info(b.toString()))
-                .map(person -> new Barn.Builder()
-                        .fødselsnummer(mapFødselsnummer(person))
-                        .build()
-                )
-                .collect(Collectors.toList());
-        LOG.info("Pålogget bruker har {} mappede barn",list.size());
-        return list;
+    public static Barn barn(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person personV3) {
+        if (erIkkeDød().test(personV3)) {
+            Barn barn = new Barn.Builder()
+                    .fornavn(personV3.getPersonnavn().getFornavn())
+                    .etternavn(personV3.getPersonnavn().getEtternavn())
+                    .fødselsdato(mapFødselsdato(personV3))
+                    .fødselsnummer(mapFødselsnummer(personV3))
+                    .build();
+            return barn;
+        }
+        return null;
     }
 
     private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> erIkkeDød() {

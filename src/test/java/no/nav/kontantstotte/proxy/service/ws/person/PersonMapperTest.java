@@ -1,21 +1,17 @@
 package no.nav.kontantstotte.proxy.service.ws.person;
 
 
-import no.nav.kontantstotte.proxy.domain.Barn;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.*;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collections;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 
 public class PersonMapperTest {
@@ -26,7 +22,7 @@ public class PersonMapperTest {
 
         Person person = personV3(testfornavn);
 
-        assertThat(PersonMapper.person(person).getFornavn()).isEqualTo(testfornavn);
+        assertThat(PersonMapper.person(person, Collections.emptyList()).getFornavn()).isEqualTo(testfornavn);
     }
 
 

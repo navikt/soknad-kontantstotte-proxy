@@ -9,6 +9,7 @@ import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
 public class RequestUtils {
 
     static final String FNR = "FNR";
+    static final String DNR = "DNR";
 
     static HentPersonRequest request(String fnr, Informasjonsbehov... behov) {
         HentPersonRequest req = new HentPersonRequest();
