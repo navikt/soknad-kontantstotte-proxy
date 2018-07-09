@@ -4,6 +4,8 @@ import no.nav.kontantstotte.proxy.domain.Barn;
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Familierelasjon;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.PersonIdent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
@@ -13,6 +15,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PersonMapper {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PersonMapper.class);
 
     public static final String BARN = "BARN";
 
@@ -24,10 +28,13 @@ public class PersonMapper {
     }
 
     public static List<Barn> barn(List<Familierelasjon> familierelasjoner) {
-        return familierelasjoner.stream()
+        LOG.info("Pålogget bruker har {} familierelasjoner",familierelasjoner.size());
+        List<Barn> list = familierelasjoner.stream()
                 .filter(rel -> BARN.equals(rel.getTilRolle().getKodeverksRef()))
                 .map(rel -> rel.getTilPerson())
+                .peek(e -> LOG.info("Funnet barn {}", e.getPersonnavn().getFornavn()))
                 .filter(erIkkeDød())
+                .peek(e -> LOG.info("Funnet barn etter filtering{}", e.getPersonnavn().getFornavn()))
                 .map(person -> new Barn.Builder()
                         .fornavn(person.getPersonnavn().getFornavn())
                         .etternavn(person.getPersonnavn().getEtternavn())
@@ -36,6 +43,8 @@ public class PersonMapper {
                         .build()
                 )
                 .collect(Collectors.toList());
+        LOG.info("Pålogget bruker har {} mappede barn",list.size());
+        return list;
     }
 
     private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> erIkkeDød() {
