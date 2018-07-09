@@ -106,7 +106,7 @@ public class PersonMapperTest {
 
     private Familierelasjoner relasjonstype(String relasjonskode) {
         Familierelasjoner relasjon = new Familierelasjoner();
-        relasjon.setKodeverksRef(relasjonskode);
+        relasjon.setValue(relasjonskode);
         return relasjon;
     }
 

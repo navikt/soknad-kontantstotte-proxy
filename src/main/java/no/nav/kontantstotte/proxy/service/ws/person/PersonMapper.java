@@ -30,7 +30,7 @@ public class PersonMapper {
     public static List<Barn> barn(List<Familierelasjon> familierelasjoner) {
         LOG.info("Pålogget bruker har {} familierelasjoner",familierelasjoner.size());
         List<Barn> list = familierelasjoner.stream()
-                .filter(rel -> BARN.equals(rel.getTilRolle().getKodeverksRef()))
+                .filter(rel -> BARN.equals(rel.getTilRolle().getValue()))
                 .map(rel -> rel.getTilPerson())
                 .peek(e -> LOG.info("Funnet barn {}", e.getPersonnavn().getFornavn()))
                 .filter(erIkkeDød())
