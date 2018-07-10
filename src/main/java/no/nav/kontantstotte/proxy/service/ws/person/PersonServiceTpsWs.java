@@ -6,7 +6,6 @@ import no.nav.kontantstotte.proxy.service.ServiceException;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.person.v3.binding.PersonV3;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Informasjonsbehov;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonResponse;
 
@@ -27,7 +26,7 @@ public class PersonServiceTpsWs implements PersonService {
 
     @Override
     public Person hentPersonInfo(String fnr) throws ServiceException {
-        HentPersonRequest request = RequestUtils.request(fnr, Informasjonsbehov.FAMILIERELASJONER);
+        HentPersonRequest request = RequestUtils.request(fnr);
         try {
             HentPersonResponse hentPersonResponse = this.personV3.hentPerson(request);
             return PersonMapper.person(hentPersonResponse.getPerson());
