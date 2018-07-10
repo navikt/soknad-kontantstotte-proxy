@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static no.nav.kontantstotte.proxy.service.ws.person.PersonMapper.BARN;
-import static no.nav.kontantstotte.proxy.service.ws.person.RequestUtils.DNR;
 import static no.nav.kontantstotte.proxy.service.ws.person.RequestUtils.FNR;
 import static no.nav.tjeneste.virksomhet.person.v3.informasjon.Informasjonsbehov.FAMILIERELASJONER;
 
@@ -42,35 +41,34 @@ public class PersonServiceTpsWs implements PersonService {
     public Person hentPersonInfo(String fnr) throws ServiceException {
         HentPersonRequest request = RequestUtils.request(fnr, Informasjonsbehov.FAMILIERELASJONER);
         HentPersonResponse hentPersonResponse = hentPerson(request);
-        return PersonMapper.person(hentPersonResponse.getPerson(), barnFor(hentPersonResponse.getPerson()));
+        List<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> barn = barnFor(hentPersonResponse.getPerson());
+        return PersonMapper.person(hentPersonResponse.getPerson(), barn);
     }
 
     private boolean isBarn(Familierelasjon rel) {
         return rel.getTilRolle().getValue().equals(BARN);
     }
 
-    private List<Barn> barnFor(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person forelder) {
+    private List<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> barnFor(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person forelder) {
         PersonIdent id = PersonIdent.class.cast(forelder.getAktoer());
         String idType = id.getIdent().getType().getValue();
         switch (idType) {
             case FNR:
-            case DNR:
                 return forelder.getHarFraRolleI().stream()
                         .filter(this::isBarn)
                         .map(s -> hentBarn(s))
-                        .filter(Objects::nonNull)
                         .collect(Collectors.toList());
             default:
                 throw new IllegalStateException("ID type " + idType + " ikke støttet");
         }
     }
 
-    private Barn hentBarn(Familierelasjon rel) throws ServiceException {
+    private no.nav.tjeneste.virksomhet.person.v3.informasjon.Person hentBarn(Familierelasjon rel) throws ServiceException {
         NorskIdent id = PersonIdent.class.cast(rel.getTilPerson().getAktoer()).getIdent();
         if (RequestUtils.isFnr(id)) {
             String fnrBarn = id.getIdent();
             HentPersonResponse hentPersonResponse = hentPerson(RequestUtils.request(fnrBarn));
-            return PersonMapper.barn(hentPersonResponse.getPerson());
+            return hentPersonResponse.getPerson();
         }
         return null;
     }

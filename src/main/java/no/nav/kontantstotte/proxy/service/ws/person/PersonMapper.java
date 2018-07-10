@@ -20,24 +20,26 @@ public class PersonMapper {
 
     public static final String BARN = "BARN";
 
-    public static Person person(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person personV3, List<Barn> barn) {
+    public static Person person(
+            no.nav.tjeneste.virksomhet.person.v3.informasjon.Person personV3,
+            List<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> barn
+    ) {
         return new Person.Builder()
                 .fornavn(personV3.getPersonnavn().getFornavn())
-                .barn(barn)
+                .barn(PersonMapper.barn(barn))
                 .build();
     }
 
-    public static Barn barn(no.nav.tjeneste.virksomhet.person.v3.informasjon.Person personV3) {
-        if (erIkkeDød().test(personV3)) {
-            Barn barn = new Barn.Builder()
-                    .fornavn(personV3.getPersonnavn().getFornavn())
-                    .etternavn(personV3.getPersonnavn().getEtternavn())
-                    .fødselsdato(mapFødselsdato(personV3))
-                    .fødselsnummer(mapFødselsnummer(personV3))
-                    .build();
-            return barn;
-        }
-        return null;
+    public static List<Barn> barn(List<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> barn) {
+        return barn.stream()
+                .map(person -> new Barn.Builder()
+                        .fornavn(person.getPersonnavn().getFornavn())
+                        .etternavn(person.getPersonnavn().getEtternavn())
+                        .fødselsdato(mapFødselsdato(person))
+                        .fødselsnummer(mapFødselsnummer(person))
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 
     private static Predicate<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> erIkkeDød() {
