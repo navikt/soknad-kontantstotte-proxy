@@ -67,7 +67,7 @@ public class PersonServiceTpsWs implements PersonService {
         NorskIdent id = PersonIdent.class.cast(rel.getTilPerson().getAktoer()).getIdent();
         if (RequestUtils.isFnr(id)) {
             String fnrBarn = id.getIdent();
-            HentPersonResponse hentPersonResponse = hentPerson(RequestUtils.request(fnrBarn));
+            HentPersonResponse hentPersonResponse = hentPerson(RequestUtils.request(fnrBarn, Informasjonsbehov.FAMILIERELASJONER));
             return hentPersonResponse.getPerson();
         }
         return null;
