@@ -1,6 +1,5 @@
 package no.nav.kontantstotte.proxy.service.ws.person;
 
-import no.nav.kontantstotte.proxy.domain.Barn;
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.kontantstotte.proxy.domain.PersonService;
 import no.nav.kontantstotte.proxy.service.ServiceException;
@@ -13,16 +12,18 @@ import no.nav.tjeneste.virksomhet.person.v3.informasjon.NorskIdent;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.PersonIdent;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static no.nav.kontantstotte.proxy.service.ws.person.PersonMapper.BARN;
 import static no.nav.kontantstotte.proxy.service.ws.person.RequestUtils.FNR;
-import static no.nav.tjeneste.virksomhet.person.v3.informasjon.Informasjonsbehov.FAMILIERELASJONER;
 
 public class PersonServiceTpsWs implements PersonService {
+
+    public static final Logger LOG = LoggerFactory.getLogger(PersonServiceTpsWs.class);
 
     private final PersonV3 personV3;
     private final PersonV3 healthIndicator;
@@ -40,7 +41,7 @@ public class PersonServiceTpsWs implements PersonService {
     @Override
     public Person hentPersonInfo(String fnr) throws ServiceException {
         HentPersonRequest request = RequestUtils.request(fnr, Informasjonsbehov.FAMILIERELASJONER);
-        HentPersonResponse hentPersonResponse = hentPerson(request);
+        HentPersonResponse hentPersonResponse = hentPerson(fnr, request);
         List<no.nav.tjeneste.virksomhet.person.v3.informasjon.Person> barn = barnFor(hentPersonResponse.getPerson());
         return PersonMapper.person(hentPersonResponse.getPerson(), barn);
     }
@@ -67,16 +68,17 @@ public class PersonServiceTpsWs implements PersonService {
         NorskIdent id = PersonIdent.class.cast(rel.getTilPerson().getAktoer()).getIdent();
         if (RequestUtils.isFnr(id)) {
             String fnrBarn = id.getIdent();
-            HentPersonResponse hentPersonResponse = hentPerson(RequestUtils.request(fnrBarn, Informasjonsbehov.FAMILIERELASJONER));
+            HentPersonResponse hentPersonResponse = hentPerson(fnrBarn, RequestUtils.request(fnrBarn, Informasjonsbehov.FAMILIERELASJONER));
             return hentPersonResponse.getPerson();
         }
         return null;
     }
 
-    private HentPersonResponse hentPerson(HentPersonRequest request) throws ServiceException {
+    private HentPersonResponse hentPerson(String fnr, HentPersonRequest request) throws ServiceException {
         try {
             return personV3.hentPerson(request);
         } catch (HentPersonSikkerhetsbegrensning | HentPersonPersonIkkeFunnet e) {
+            LOG.info("Uthenting av {} feilet", fnr);
             throw new ServiceException(e);
         }
     }
