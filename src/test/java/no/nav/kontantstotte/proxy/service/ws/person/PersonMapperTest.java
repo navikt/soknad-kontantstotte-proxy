@@ -23,7 +23,15 @@ public class PersonMapperTest {
         assertThat(PersonMapper.person(person).getFornavn()).isEqualTo(testfornavn);
     }
 
-    public Person personV3(String fornavn, String etternavn, String fødselsnummer, XMLGregorianCalendar fødselsdato) {
+    @Test
+    public void mappingAvDiskresjonskode() {
+        String testDiskresjonskode = "KODE 6";
+        Person person = personV3("", "", null, testDiskresjonskode, dato(LocalDate.now()));
+
+        assertThat(PersonMapper.person(person).getDiskresjonskode()).isEqualTo(testDiskresjonskode);
+    }
+
+    public Person personV3(String fornavn, String etternavn, String fødselsnummer, String diskresjonskode, XMLGregorianCalendar fødselsdato) {
         Personnavn personnavn = new Personnavn();
         personnavn.setFornavn(fornavn);
         personnavn.setEtternavn(etternavn);
@@ -37,10 +45,14 @@ public class PersonMapperTest {
         PersonIdent personIdent = new PersonIdent();
         personIdent.setIdent(norskIdent);
 
+        Diskresjonskoder diskresjonskoder = new Diskresjonskoder();
+        diskresjonskoder.setKodeverksRef(diskresjonskode);
+
         Person personV3 = new Person();
         personV3.setPersonnavn(personnavn);
         personV3.setFoedselsdato(fodselsdatoV3);
         personV3.setAktoer(personIdent);
+        personV3.setDiskresjonskode(diskresjonskoder);
 
         return personV3;
     }
@@ -59,6 +71,6 @@ public class PersonMapperTest {
     }
 
     public Person personV3(String fornavn) {
-        return personV3(fornavn, "", null, dato(LocalDate.now()));
+        return personV3(fornavn, "", null, null, dato(LocalDate.now()));
     }
 }
