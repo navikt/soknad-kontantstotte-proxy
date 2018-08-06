@@ -3,6 +3,7 @@ package no.nav.kontantstotte.proxy.service.ws.person;
 import no.nav.kontantstotte.proxy.domain.Person;
 import no.nav.kontantstotte.proxy.domain.PersonService;
 import no.nav.kontantstotte.proxy.service.ServiceException;
+import no.nav.kontantstotte.proxy.service.SikkerhetsbegrensningExeption;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.person.v3.binding.PersonV3;
@@ -33,7 +34,11 @@ public class PersonServiceTpsWs implements PersonService {
         try {
             HentPersonResponse hentPersonResponse = this.personV3.hentPerson(request);
             LOG.info("Personkall til TPS ok");
-            return PersonMapper.person(hentPersonResponse.getPerson());
+            Person person = PersonMapper.person(hentPersonResponse.getPerson());
+            if(person.getDiskresjonskode() != null) {
+                throw new SikkerhetsbegrensningExeption("Ikke tilgang til å hente personinformasjon");
+            }
+            return person;
         } catch (HentPersonSikkerhetsbegrensning | HentPersonPersonIkkeFunnet e) {
             LOG.error("Personkall til TPS gir feil:", e);
             throw new ServiceException(e);
