@@ -33,33 +33,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.jvnet.jax-ws-commons</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.3.1-b20150201.1248</version>
-                <configuration>
-                    <vmArgs>
-                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                    </vmArgs>
-                    <encoding>utf-8</encoding>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>WsdlPerson</id>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>Binding.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <wsdlDirectory>src/main/resources/wsdl/person/</wsdlDirectory>
-                            <sourceDestDir>target/generated-sources</sourceDestDir>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>1.5</version>
@@ -97,6 +70,33 @@
                         <version>2.1.8</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.3.1-b20150201.1248</version>
+                <configuration>
+                    <vmArgs>
+                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                    </vmArgs>
+                    <encoding>utf-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>WsdlPerson</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>Binding.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <wsdlDirectory>src/main/resources/wsdl/person/</wsdlDirectory>
+                            <sourceDestDir>target/generated-sources/person</sourceDestDir>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

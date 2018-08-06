@@ -18,8 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
 
-@SpringBootApplication
-@EnableAutoConfiguration(exclude = ErrorMvcAutoConfiguration.class)
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @Import(ApplicationConfig.class)
 public class TestLauncher {
 

@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -51,11 +52,10 @@ public class SoknadMottakResourceTest {
     }
 
     @Test
-    @Ignore("Ignorert mens det testes manuelt og GET erstatter POST")
     public void at_motta_soknad_returnerer_ok() {
 
         Response response = jerseyTest.target("soknad").request().post(Entity.json(new Soknad("", "".getBytes())));
 
-        assertThat(response.getStatus(), is(equalTo(NO_CONTENT.getStatusCode())));
+        assertThat(response.getStatus(), is(equalTo(OK.getStatusCode())));
     }
 }
