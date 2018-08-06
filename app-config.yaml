@@ -1,4 +1,6 @@
+#jeg vil ikke ha hjelp fra pus
 name: soknad-kontantstotte-proxy
+team: soknad
 image: repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy
 replicas:
   min: 2
