@@ -1,10 +1,14 @@
 name: soknad-kontantstotte-proxy
 image: repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy
+team: søknad
 replicas:
   min: 2
   max: 4
   cpuThresholdPercentage: 50
 port: 8081
+resources:
+  limits:
+    cpu: 3
 healthcheck:
   liveness:
     initialDelay: 60
@@ -12,6 +16,9 @@ healthcheck:
   readiness:
     initialDelay: 60
     path: /api/status/isAlive
+prometheus:
+  enabled: true
+  path: /actuator/prometheus
 fasitResources:
   used:
   - alias: aad_b2c_clientid

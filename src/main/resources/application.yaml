@@ -27,3 +27,18 @@ logging:
     org.glassfish.jersey: DEBUG
 dokmot:
   enabled: true
+
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
+  metrics:
+    export:
+      prometheus:
+        enabled: true
