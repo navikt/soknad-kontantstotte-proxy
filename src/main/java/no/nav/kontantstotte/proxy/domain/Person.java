@@ -1,5 +1,7 @@
 package no.nav.kontantstotte.proxy.domain;
 
+import java.util.Optional;
+
 public class Person {
     private final String fornavn;
     private final String diskresjonskode;
@@ -15,8 +17,7 @@ public class Person {
         return fornavn;
     }
 
-    public String getDiskresjonskode() { return diskresjonskode; }
-
+    public Optional<String> getDiskresjonskode() { return Optional.ofNullable(diskresjonskode); }
 
     public static class Builder {
         private String fornavn;

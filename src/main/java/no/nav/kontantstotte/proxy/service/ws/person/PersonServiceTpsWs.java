@@ -31,7 +31,7 @@ public class PersonServiceTpsWs implements PersonService {
         try {
             HentPersonResponse hentPersonResponse = this.personV3.hentPerson(request);
             Person person = PersonMapper.person(hentPersonResponse.getPerson());
-            if(person.getDiskresjonskode() != null) {
+            if (person.getDiskresjonskode().isPresent()) {
                 throw new SikkerhetsbegrensningExeption("Ikke tilgang til å hente personinformasjon");
             }
             return person;

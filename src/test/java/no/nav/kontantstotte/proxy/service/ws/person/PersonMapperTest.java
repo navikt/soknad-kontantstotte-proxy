@@ -8,6 +8,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,7 +29,7 @@ public class PersonMapperTest {
         String testDiskresjonskode = "KODE 6";
         Person person = personV3("", "", null, testDiskresjonskode, dato(LocalDate.now()));
 
-        assertThat(PersonMapper.person(person).getDiskresjonskode()).isEqualTo(testDiskresjonskode);
+        assertThat(testDiskresjonskode).isEqualTo(PersonMapper.person(person).getDiskresjonskode().orElse(null));
     }
 
     public Person personV3(String fornavn, String etternavn, String fødselsnummer, String diskresjonskode, XMLGregorianCalendar fødselsdato) {
