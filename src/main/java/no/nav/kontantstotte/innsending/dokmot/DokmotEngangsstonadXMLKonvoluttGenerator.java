@@ -2,6 +2,7 @@ package no.nav.kontantstotte.innsending.dokmot;
 
 import no.nav.kontantstotte.innsending.domene.Soknad;
 import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
+import no.nav.servlet.callid.CallId;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
@@ -26,9 +27,11 @@ public class DokmotEngangsstonadXMLKonvoluttGenerator {
 
     String toXML(Soknad søknad) {
 
+        String ref = CallId.getOrCreate();
+
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
-                        .withKanalreferanseId("anything")
+                        .withKanalreferanseId(ref)
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
@@ -46,6 +49,7 @@ public class DokmotEngangsstonadXMLKonvoluttGenerator {
                 .withVariantformat(new Variantformater().withValue("ARKIV"));
 
         return new Hoveddokument()
+                .withDokumenttypeId("I000072")
                 .withDokumentinnholdListe(Collections.singletonList(hovedskjemaInnhold));
     }
 
