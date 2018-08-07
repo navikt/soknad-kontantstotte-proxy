@@ -1,6 +1,6 @@
 name: soknad-kontantstotte-proxy
 image: repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy
-team: søknad
+team: soknad
 replicas:
   min: 2
   max: 4
