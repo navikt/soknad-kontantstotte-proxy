@@ -26,6 +26,8 @@ public class DokmotConnection {
     public DokmotConnection(JmsTemplate template, QueueConfigration queueConfig) {
         this.template = template;
         this.queueConfig = queueConfig;
+
+        LOG.info("QueueConfiguration: " + queueConfig.toString());
     }
 
     public void ping() {
