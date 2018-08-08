@@ -96,7 +96,7 @@ public class QueueConfigration {
     public String toString() {
         return getClass().getSimpleName() + " [hostname=" + hostname + ", port=" + port + ", name=" + name
                 + ", channelname="
-                + channelname + ", username=" + "********" + ", queuename=" + queuename + "]";
+                + channelname + ", username=" + "********" + ", queuename=" + queuename + ", enabled=" + enabled + "]";
     }
 
 }

@@ -20,7 +20,6 @@ no.nav.security.oidc:
     acceptedaudience: <Hentes fra fasit>
     cookie_name: selvbetjening_idtoken
 
-
 logging:
   level:
     org.springframework: DEBUG
