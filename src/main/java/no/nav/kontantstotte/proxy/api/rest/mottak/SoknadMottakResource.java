@@ -3,6 +3,7 @@ package no.nav.kontantstotte.proxy.api.rest.mottak;
 import no.nav.kontantstotte.innsending.domene.Soknad;
 import no.nav.kontantstotte.innsending.domene.SoknadSender;
 import no.nav.security.oidc.api.Unprotected;
+import no.nav.servlet.callid.CallId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ public class SoknadMottakResource {
     @Produces(APPLICATION_JSON)
     @Unprotected // TODO Add protection at some point!
     public Response mottaSoknad() {
+        log.info(CallId.get());
         Soknad mock = MockedRequestGenerator.soknad();
         log.info("MOCKED REQUEST: " + mock);
         SoknadDto dto = new SoknadDto(mock.getFnr(), mock.getPdf());

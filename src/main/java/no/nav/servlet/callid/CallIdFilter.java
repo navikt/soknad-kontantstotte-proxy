@@ -24,6 +24,8 @@ public class CallIdFilter implements Filter {
                 .map(CallId::set)
                 .orElseGet(CallId::create);
 
+        filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
     @Override

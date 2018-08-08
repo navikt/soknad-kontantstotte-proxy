@@ -5,6 +5,7 @@ import no.nav.kontantstotte.innsending.config.DokmotConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
+import no.nav.servlet.callid.CallIdFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,13 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
+    public FilterRegistrationBean callIdFilter() {
+        FilterRegistrationBean<?> filterRegistration = new FilterRegistrationBean<>(new CallIdFilter());
+        filterRegistration.setOrder(1);
+        return filterRegistration;
+    }
+
+    @Bean
     public FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> oidcTokenValidationFilterBean(JaxrsOIDCTokenValidationFilter validationFilter) {
         log.info("Registering validation filter");
         final FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> filterRegistration = new FilterRegistrationBean<>();
@@ -75,7 +83,7 @@ public class ApplicationConfig implements EnvironmentAware {
         filterRegistration
                 .setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC));
         filterRegistration.setAsyncSupported(true);
-        filterRegistration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        filterRegistration.setOrder(2);
         return filterRegistration;
     }
 
