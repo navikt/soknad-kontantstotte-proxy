@@ -60,7 +60,7 @@ fasitResources:
       username: DOKMOT_USERNAME
       password: DOKMOT_PASSWORD
 
-  - alias : dokmot_motta_forsendelse_ditt_nav
+  - alias : dokmot_motta_forsendelse_ditt_nav_kontantstotte
     resourceType: queue
     propertyMap:
       queueName: DOKMOT_QUEUENAME

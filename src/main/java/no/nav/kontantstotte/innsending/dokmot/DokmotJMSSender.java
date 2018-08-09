@@ -41,8 +41,9 @@ public class DokmotJMSSender implements SoknadSender {
 
 //            return new Kvittering(PÅ_VENT, ref);
 
+        } else {
+            LOG.info("Leveranse til DOKMOT er deaktivert, ingenting å sende");
         }
-        LOG.info("Leveranse til DOKMOT er deaktivert, ingenting å sende");
 //        return new Kvittering(IKKE_SENDT_FPSAK, "42");
     }
 
