@@ -13,18 +13,15 @@ import javax.jms.TextMessage;
 public class DokmotJMSSender implements SoknadSender {
 
     private final DokmotConnection dokmotConnection;
-    private final DokmotEngangsstonadXMLKonvoluttGenerator generator;
-//    private final CallIdGenerator idGenerator;
+    private final DokmotKontantstotteXMLKonvoluttGenerator generator;
 
     private static final Logger LOG = LoggerFactory.getLogger(DokmotJMSSender.class);
 
     public DokmotJMSSender(
             DokmotConnection connection,
-//            CallIdGenerator callIdGenerator,
-            DokmotEngangsstonadXMLKonvoluttGenerator generator) {
+            DokmotKontantstotteXMLKonvoluttGenerator generator) {
         this.dokmotConnection = connection;
         this.generator = generator;
-//        this.idGenerator = callIdGenerator;
     }
 
     @Override
@@ -39,24 +36,15 @@ public class DokmotJMSSender implements SoknadSender {
                 return msg;
             });
 
-//            return new Kvittering(PÅ_VENT, ref);
 
         } else {
             LOG.info("Leveranse til DOKMOT er deaktivert, ingenting å sende");
         }
-//        return new Kvittering(IKKE_SENDT_FPSAK, "42");
     }
-
-//    @Override
-//    public Kvittering send(Ettersending ettersending, Person søker) {
-//        throw new IllegalArgumentException("Ettersending for engangsstønad ikke implementert");
-//    }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [dokmotTemplate=" + dokmotConnection + ", generator=" + generator
-//                + ", callIdGenerator=" + idGenerator
-                + "]";
+        return getClass().getSimpleName() + " [dokmotTemplate=" + dokmotConnection + ", generator=" + generator + "]";
     }
 
 }

@@ -40,7 +40,7 @@ public class DokmotConnection {
         }
     }
 
-    public void send(MessageCreator msg) {
+    void send(MessageCreator msg) {
         try {
             template.send(msg);
             dokmotSuccess.increment();
@@ -51,7 +51,7 @@ public class DokmotConnection {
         }
     }
 
-    public boolean isEnabled() {
+    boolean isEnabled() {
         return queueConfig.isEnabled();
     }
 

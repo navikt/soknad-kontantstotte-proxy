@@ -6,16 +6,11 @@ import no.nav.servlet.callid.CallId;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
-public class DokmotEngangsstonadXMLKonvoluttGenerator {
+public class DokmotKontantstotteXMLKonvoluttGenerator {
 
     private static final String TEMA = "KON";
 
