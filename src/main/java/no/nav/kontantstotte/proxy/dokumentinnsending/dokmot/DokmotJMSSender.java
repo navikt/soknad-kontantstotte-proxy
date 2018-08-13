@@ -36,12 +36,11 @@ public class DokmotJMSSender implements SoknadSender {
             return;
         }
 
-        String ref = CallId.getOrCreate();
         try {
             template.send(session -> {
                 LOG.info("Sender SøknadsXML til DOKMOT");
                 TextMessage msg = session.createTextMessage(generator.toXML(soknad));
-                msg.setStringProperty("callId", ref);
+                msg.setStringProperty("callId", CallId.getOrCreate());
 
                 return msg;
             });

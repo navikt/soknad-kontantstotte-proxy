@@ -4,7 +4,6 @@ import no.nav.kontantstotte.proxy.dokumentinnsending.dokmot.conversion.Jaxb;
 import no.nav.kontantstotte.proxy.dokumentinnsending.domain.Soknad;
 import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
 import no.nav.servlet.callid.CallId;
-import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
 import java.time.LocalDateTime;
