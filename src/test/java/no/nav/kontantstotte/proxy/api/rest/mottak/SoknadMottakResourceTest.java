@@ -1,14 +1,12 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.nav.kontantstotte.innsending.domene.Soknad;
-import no.nav.kontantstotte.innsending.domene.SoknadSender;
-import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource;
+import no.nav.kontantstotte.proxy.dokumentinnsending.domain.Soknad;
+import no.nav.kontantstotte.proxy.dokumentinnsending.domain.SoknadSender;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -19,7 +17,6 @@ import javax.ws.rs.core.Response;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

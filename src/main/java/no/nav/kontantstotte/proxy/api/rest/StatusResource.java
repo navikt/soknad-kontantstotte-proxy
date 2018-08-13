@@ -14,4 +14,5 @@ public class StatusResource {
     @Path("isAlive")
     @Unprotected
     public String isAlive() { return "Ok"; }
+
 }

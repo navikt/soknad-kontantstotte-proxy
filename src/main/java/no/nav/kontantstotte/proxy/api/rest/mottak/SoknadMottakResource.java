@@ -1,22 +1,19 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.nav.kontantstotte.innsending.domene.Soknad;
-import no.nav.kontantstotte.innsending.domene.SoknadSender;
+import no.nav.kontantstotte.proxy.dokumentinnsending.domain.SoknadSender;
 import no.nav.security.oidc.api.Unprotected;
-import no.nav.servlet.callid.CallId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("soknad")
 public class SoknadMottakResource {
-
-    private static final Logger log = LoggerFactory.getLogger(SoknadMottakResource.class);
 
     private final SoknadSender soknadSender;
 
@@ -32,13 +29,9 @@ public class SoknadMottakResource {
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Unprotected // TODO Add protection at some point!
-    public Response mottaSoknad() {
-        log.info(CallId.get());
-        Soknad mock = MockedRequestGenerator.soknad();
-        log.info("MOCKED REQUEST: " + mock);
-        SoknadDto dto = new SoknadDto(mock.getFnr(), mock.getPdf());
-        soknadSender.send(converter.toSoknad(dto));
-        return Response.ok().entity(dto).build();
+    public Response mottaSoknad(SoknadDto soknadDto) {
+        soknadSender.send(converter.toSoknad(soknadDto));
+        return Response.ok().build();
     }
 
 }

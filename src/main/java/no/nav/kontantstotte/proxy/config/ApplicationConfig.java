@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.config;
 
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
-import no.nav.kontantstotte.innsending.config.DokmotConfiguration;
+import no.nav.kontantstotte.proxy.dokumentinnsending.dokmot.DokmotConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
@@ -18,7 +18,6 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextListener;
 
@@ -30,7 +29,7 @@ import java.util.EnumSet;
 @SpringBootConfiguration
 @EnableConfigurationProperties({MultiIssuerProperties.class})
 @Import({FeatureToggleConfig.class, DokmotConfiguration.class})
-@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.service"})
+@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.person.service"})
 public class ApplicationConfig implements EnvironmentAware {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
@@ -104,7 +103,7 @@ public class ApplicationConfig implements EnvironmentAware {
             try {
                 proxy = new URL(proxyconfig);
             } catch (MalformedURLException e) {
-                throw new RuntimeException("config [" + proxyParameterName + "] is misconfigured: " + e, e);
+                throw new RuntimeException("messagequeue [" + proxyParameterName + "] is misconfigured: " + e, e);
             }
         } else {
             log.info("No proxy configuration found [" + proxyParameterName + "]");

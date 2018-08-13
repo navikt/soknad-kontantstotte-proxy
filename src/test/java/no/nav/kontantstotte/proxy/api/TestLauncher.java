@@ -2,15 +2,13 @@ package no.nav.kontantstotte.proxy.api;
 
 import no.finn.unleash.FakeUnleash;
 import no.finn.unleash.Unleash;
-import no.nav.kontantstotte.innsending.domene.SoknadSender;
+import no.nav.kontantstotte.proxy.dokumentinnsending.domain.SoknadSender;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
-import no.nav.kontantstotte.proxy.config.RestConfiguration;
 import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;

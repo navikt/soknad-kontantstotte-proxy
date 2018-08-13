@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SoknadInnsendingExceptionMapper;
 import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource;
 import no.nav.kontantstotte.proxy.api.rest.PersonResource;
 import no.nav.kontantstotte.proxy.api.rest.StatusResource;
@@ -19,6 +20,7 @@ public class RestConfiguration extends ResourceConfig {
         // Exception Mappers
         register(OIDCUnauthorizedExceptionMapper.class);
         register(ServiceExceptionMapper.class);
+        register(SoknadInnsendingExceptionMapper.class);
         // Resources
         register(StatusResource.class);
         register(SoknadMottakResource.class);

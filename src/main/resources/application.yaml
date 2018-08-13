@@ -11,6 +11,7 @@ spring:
     application-path: "/api"
   main:
     banner-mode: "off"
+  metrics.web.server.auto-time-requests: true
 
 http.proxy: http://webproxy-nais.nav.no:8088
 no.nav.security.oidc:
@@ -22,7 +23,7 @@ no.nav.security.oidc:
 
 logging:
   level:
-    org.springframework: DEBUG
+    org.springframework: INFO
     org.glassfish.jersey: DEBUG
     no.nav: INFO
 dokmot:
@@ -37,7 +38,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "prometheus"
+        include: info, health, metrics, prometheus
   metrics:
     export:
       prometheus:

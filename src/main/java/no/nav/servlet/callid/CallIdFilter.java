@@ -7,6 +7,11 @@ import java.util.Optional;
 
 import static no.nav.servlet.callid.CallId.DEFAULT_CALL_ID_KEY;
 
+
+/**
+ * @deprecated Ta i bruk PUS sitt filter istedet
+ */
+@Deprecated
 public class CallIdFilter implements Filter {
 
 

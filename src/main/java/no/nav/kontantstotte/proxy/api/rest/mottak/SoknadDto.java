@@ -17,11 +17,11 @@ public class SoknadDto {
         this.fnr = fnr;
     }
 
-    public byte[] getPdf() {
+    byte[] getPdf() {
         return pdf;
     }
 
-    public String getFnr() {
+    String getFnr() {
         return fnr;
     }
 

@@ -5,6 +5,10 @@ import org.slf4j.MDC;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * @deprecated Bruk pus sine mekanismer istedet. Vurder å fjerne deprecation hvis det virker lurt å beholde klassen,
+ * men fortsatt bruk pus sine mekanismer i bakkant
+ */
 public class CallId {
 
     public static final String DEFAULT_CALL_ID_KEY = "Nav-CallId";
