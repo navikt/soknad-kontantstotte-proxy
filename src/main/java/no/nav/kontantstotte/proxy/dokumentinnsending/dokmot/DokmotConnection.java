@@ -12,7 +12,7 @@ class DokmotConnection {
 
     private static final Logger LOG = LoggerFactory.getLogger(DokmotConnection.class);
 
-    private final Counter dokmotSuccess = Metrics.counter("dokmot,send", "søknad", "success");
+    private final Counter dokmotSuccess = Metrics.counter("dokmot.send", "søknad", "success");
     private final Counter dokmotFailure = Metrics.counter("dokmot.send", "søknad", "failure");
 
     private final JmsTemplate template;

@@ -35,6 +35,8 @@ management:
       enabled: true
     prometheus:
       enabled: true
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
