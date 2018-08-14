@@ -19,7 +19,7 @@ import static com.ibm.msg.client.jms.JmsConstants.JMS_IBM_CHARACTER_SET;
 import static com.ibm.msg.client.jms.JmsConstants.JMS_IBM_ENCODING;
 import static com.ibm.msg.client.wmq.common.CommonConstants.WMQ_CM_CLIENT;
 
-//@Profile("!dev")
+@Profile("!dev")
 @Configuration
 @EnableConfigurationProperties(QueueConfigration.class)
 public class DokmotConfiguration {
