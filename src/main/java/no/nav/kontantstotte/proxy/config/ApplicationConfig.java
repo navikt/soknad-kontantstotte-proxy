@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.config;
 
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
-import no.nav.kontantstotte.proxy.dokumentinnsending.dokmot.DokmotConfiguration;
+import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.DokmotConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;

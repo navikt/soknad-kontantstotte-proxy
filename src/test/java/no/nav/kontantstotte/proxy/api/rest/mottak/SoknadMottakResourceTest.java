@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.nav.kontantstotte.proxy.dokumentinnsending.domain.Soknad;
-import no.nav.kontantstotte.proxy.dokumentinnsending.domain.SoknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;

@@ -1,6 +1,6 @@
 package no.nav.kontantstotte.proxy.api.rest.exceptionmapper;
 
-import no.nav.kontantstotte.proxy.person.service.ws.OIDCUnauthorizedException;
+import no.nav.kontantstotte.proxy.oppslag.person.service.ws.OIDCUnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

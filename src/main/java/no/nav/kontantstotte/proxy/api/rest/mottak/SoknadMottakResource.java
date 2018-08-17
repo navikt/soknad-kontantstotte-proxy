@@ -1,6 +1,6 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.nav.kontantstotte.proxy.dokumentinnsending.domain.SoknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.security.oidc.api.Unprotected;
 
 import javax.inject.Inject;
