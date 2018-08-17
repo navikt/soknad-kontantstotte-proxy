@@ -17,7 +17,10 @@
 
     <properties>
         <oidc-support.version>0.2.6</oidc-support.version>
+        <common-java-modules.version>2018.08.14.11.00</common-java-modules.version>
         <commons-lang3.version>3.7</commons-lang3.version>
+        <xsd.location>${project.build.directory}/classes</xsd.location>
+        <jaxb.location>${project.build.directory}/classes/</jaxb.location>
         <cxf.version>3.2.0</cxf.version>
         <unleash.version>3.1.0</unleash.version>
     </properties>
@@ -29,6 +32,47 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <extension>true</extension>
+                    <arguments>-Xvalue-constructor -Xfluent-api -Xannotate</arguments>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.codemodel</groupId>
+                        <artifactId>codemodel</artifactId>
+                        <version>2.6</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics-annotate</artifactId>
+                        <version>0.6.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-value-constructor</artifactId>
+                        <version>3.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.java.dev.jaxb2-commons</groupId>
+                        <artifactId>jaxb-fluent-api</artifactId>
+                        <version>2.1.8</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
             <plugin>
                 <groupId>org.jvnet.jax-ws-commons</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
@@ -50,7 +94,7 @@
                                 <wsdlFile>Binding.wsdl</wsdlFile>
                             </wsdlFiles>
                             <wsdlDirectory>src/main/resources/wsdl/person/</wsdlDirectory>
-                            <sourceDestDir>target/generated-sources</sourceDestDir>
+                            <sourceDestDir>target/generated-sources/person</sourceDestDir>
                         </configuration>
                     </execution>
                 </executions>
@@ -78,6 +122,30 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- To get the MDC constant values -->
+        <dependency>
+            <groupId>no.nav.sbl</groupId>
+            <artifactId>log</artifactId>
+            <version>${common-java-modules.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Jersey tools to add MDC values to request in a standardized manner -->
+        <dependency>
+            <groupId>no.nav.sbl</groupId>
+            <artifactId>rest</artifactId>
+            <version>${common-java-modules.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Servlet filters to parse MDC values from requests in a standardized manner -->
+        <dependency>
+            <groupId>no.nav.sbl</groupId>
+            <artifactId>api-app</artifactId>
+            <version>${common-java-modules.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
 
         <!-- spring boot -->
@@ -91,6 +159,19 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- Micormeter core dependecy  -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
+        <!-- Micrometer Prometheus registry  -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jersey</artifactId>
@@ -100,6 +181,12 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -167,6 +254,19 @@
         </dependency>
 
         <!-- Utils -->
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>com.ibm.mq.allclient</artifactId>
+            <version>8.0.0.6</version>
+        </dependency>
 
         <dependency>
             <groupId>no.finn.unleash</groupId>

@@ -12,3 +12,17 @@ SOKNADKONTANTSTOTTE_PASSWORD: bogus
 VIRKSOMHET_PERSON_V3_ENDPOINTURL: http://localhost
 UNLEASH_API_URL: http://localhost
 APP_NAME: soknad-kontantstotte-proxy
+
+dokmot :
+  queuename : ueue
+  hostname : hostname
+  port : 2412
+  name : name
+  usrname : user
+  channelname : channel
+  enabled: false
+
+logging:
+  level:
+    org.springframework: INFO
+    org.glassfish.jersey: DEBUG

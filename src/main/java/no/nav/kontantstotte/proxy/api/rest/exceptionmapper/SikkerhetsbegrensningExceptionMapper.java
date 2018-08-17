@@ -1,6 +1,6 @@
 package no.nav.kontantstotte.proxy.api.rest.exceptionmapper;
 
-import no.nav.kontantstotte.proxy.service.SikkerhetsbegrensningExeption;
+import no.nav.kontantstotte.proxy.oppslag.person.service.ws.SikkerhetsbegrensningExeption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

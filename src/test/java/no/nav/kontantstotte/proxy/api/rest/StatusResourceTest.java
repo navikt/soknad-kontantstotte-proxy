@@ -28,30 +28,17 @@ public class StatusResourceTest {
     @Value("${local.server.port}")
     private int port;
 
-    @Value("${server.servlet.context-path:}")
+    @Value("${spring.jersey.application-path:}")
     private String contextPath;
 
     @Test
-    public void skalGi200MedGyldigToken() {
-
+    public void isAlive() {
         WebTarget target = ClientBuilder.newClient().target("http://localhost:" + port + contextPath);
-        SignedJWT signedJWT = JwtTokenGenerator.createSignedJWT("12345678911");
-        Response response = target.path("/status/ping")
+        Response response = target.path("status/isAlive")
                 .request()
-                .header(OIDCConstants.AUTHORIZATION_HEADER, "Bearer " + signedJWT.serialize())
                 .get();
 
         assertThat(response.getStatus(), is(equalTo(Response.Status.OK.getStatusCode())));
-    }
-
-    @Test
-    public void skalGi401UtenToken() {
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:" + port + contextPath);
-        Response response = target.path("/status/ping")
-                .request()
-                .get();
-
-        assertThat(response.getStatus(), is(equalTo(Response.Status.UNAUTHORIZED.getStatusCode())));
     }
 
 }

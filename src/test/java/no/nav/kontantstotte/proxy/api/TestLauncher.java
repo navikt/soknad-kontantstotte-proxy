@@ -2,14 +2,13 @@ package no.nav.kontantstotte.proxy.api;
 
 import no.finn.unleash.FakeUnleash;
 import no.finn.unleash.Unleash;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
-import no.nav.kontantstotte.proxy.config.RestConfiguration;
 import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
 
-@SpringBootApplication
-@EnableAutoConfiguration(exclude = ErrorMvcAutoConfiguration.class)
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @Import(ApplicationConfig.class)
 public class TestLauncher {
 
@@ -49,5 +47,9 @@ public class TestLauncher {
         return new TestRestConfiguration();
     }
 
+    @Bean
+    public SoknadSender soknadSender() {
+        return input -> {};
+    }
 
 }

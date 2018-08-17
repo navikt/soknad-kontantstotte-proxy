@@ -1,9 +1,9 @@
 package no.nav.kontantstotte.proxy.api.rest;
 
 import no.finn.unleash.Unleash;
-import no.nav.kontantstotte.proxy.domain.Person;
-import no.nav.kontantstotte.proxy.domain.PersonService;
-import no.nav.kontantstotte.proxy.service.ServiceException;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonService;
+import no.nav.kontantstotte.proxy.oppslag.person.service.ServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 import no.nav.security.oidc.api.Unprotected;
 import no.nav.security.oidc.context.OIDCValidationContext;

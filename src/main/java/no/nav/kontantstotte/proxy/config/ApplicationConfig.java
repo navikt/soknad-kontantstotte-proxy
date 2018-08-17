@@ -1,9 +1,12 @@
 package no.nav.kontantstotte.proxy.config;
 
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
+import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.DokmotConfiguration;
+import no.nav.kontantstotte.proxy.oppslag.person.service.ws.person.PersonConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
+import no.nav.servlet.callid.CallIdFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +19,6 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextListener;
 
@@ -27,8 +29,8 @@ import java.util.EnumSet;
 
 @SpringBootConfiguration
 @EnableConfigurationProperties({MultiIssuerProperties.class})
-@Import({FeatureToggleConfig.class})
-@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.service"})
+@Import({FeatureToggleConfig.class, DokmotConfiguration.class, PersonConfiguration.class})
+@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.oppslag.person.service.ws"})
 public class ApplicationConfig implements EnvironmentAware {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
@@ -66,6 +68,13 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
+    public FilterRegistrationBean callIdFilter() {
+        FilterRegistrationBean<?> filterRegistration = new FilterRegistrationBean<>(new CallIdFilter());
+        filterRegistration.setOrder(1);
+        return filterRegistration;
+    }
+
+    @Bean
     public FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> oidcTokenValidationFilterBean(JaxrsOIDCTokenValidationFilter validationFilter) {
         log.info("Registering validation filter");
         final FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> filterRegistration = new FilterRegistrationBean<>();
@@ -74,7 +83,7 @@ public class ApplicationConfig implements EnvironmentAware {
         filterRegistration
                 .setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC));
         filterRegistration.setAsyncSupported(true);
-        filterRegistration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        filterRegistration.setOrder(2);
         return filterRegistration;
     }
 
@@ -95,7 +104,7 @@ public class ApplicationConfig implements EnvironmentAware {
             try {
                 proxy = new URL(proxyconfig);
             } catch (MalformedURLException e) {
-                throw new RuntimeException("config [" + proxyParameterName + "] is misconfigured: " + e, e);
+                throw new RuntimeException("messagequeue [" + proxyParameterName + "] is misconfigured: " + e, e);
             }
         } else {
             log.info("No proxy configuration found [" + proxyParameterName + "]");

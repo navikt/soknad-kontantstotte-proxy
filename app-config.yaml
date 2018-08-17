@@ -2,11 +2,15 @@
 name: soknad-kontantstotte-proxy
 team: soknad
 image: repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy
+team: soknad
 replicas:
   min: 2
   max: 4
   cpuThresholdPercentage: 50
 port: 8081
+resources:
+  limits:
+    cpu: 3
 healthcheck:
   liveness:
     initialDelay: 60
@@ -14,6 +18,9 @@ healthcheck:
   readiness:
     initialDelay: 60
     path: /api/status/isAlive
+prometheus:
+  enabled: true
+  path: /actuator/prometheus
 fasitResources:
   used:
   - alias: aad_b2c_clientid
@@ -35,6 +42,32 @@ fasitResources:
     resourceType: webserviceendpoint
   - alias: unleash-api
     resourceType: restservice
+  - alias: appres.cms
+    resourceType: baseUrl
+# DOKMOT STASJ
+  - alias: mqGateway01
+    resourceType: queuemanager
+    propertyMap:
+      hostname: DOKMOT_HOSTNAME
+      port: DOKMOT_PORT
+      name: DOKMOT_NAME
+  - alias: dokmot_channel
+    resourceType: channel
+    propertyMap:
+      name: DOKMOT_CHANNELNAME
+
+  - alias: brisdokmot
+    resourceType: credential
+    propertyMap:
+      username: DOKMOT_USERNAME
+      password: DOKMOT_PASSWORD
+
+  - alias : dokmot_MOTTA_FORSENDELSE_DITT_NAV_kontantstotte
+    resourceType: queue
+    propertyMap:
+      queueName: DOKMOT_QUEUENAME
+      queueManager: DOKMOT_QUEUEMANAGER
+# SLUTT PÅ DOKMOT STASJ
   exposed:
     - alias: soknad-kontantstotte-proxy-api
       resourceType: restservice
