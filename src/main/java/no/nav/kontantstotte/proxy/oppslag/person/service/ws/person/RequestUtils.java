@@ -8,11 +8,7 @@ import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
 
 public class RequestUtils {
 
-    static final String OFFISIELL_ADRESSE = "OFFISIELL ADRESSE";
     static final String FNR = "FNR";
-    static final String DNR = "DNR";
-    static final String MOR = "MORA";
-    static final String BARN = "BARN";
 
     static HentPersonRequest request(String fnr, Informasjonsbehov... behov) {
         HentPersonRequest req = new HentPersonRequest();

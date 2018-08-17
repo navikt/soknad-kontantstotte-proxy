@@ -3,10 +3,10 @@ package no.nav.kontantstotte.proxy.oppslag.person.service.ws.person;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonService;
 import no.nav.kontantstotte.proxy.oppslag.person.service.ServiceException;
+import no.nav.kontantstotte.proxy.oppslag.person.service.ws.SikkerhetsbegrensningExeption;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.person.v3.binding.PersonV3;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Informasjonsbehov;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonResponse;
 
@@ -27,10 +27,14 @@ public class PersonServiceTpsWs implements PersonService {
 
     @Override
     public Person hentPersonInfo(String fnr) throws ServiceException {
-        HentPersonRequest request = RequestUtils.request(fnr, Informasjonsbehov.FAMILIERELASJONER);
+        HentPersonRequest request = RequestUtils.request(fnr);
         try {
             HentPersonResponse hentPersonResponse = this.personV3.hentPerson(request);
-            return PersonV3ToPersonMapper.map(hentPersonResponse.getPerson());
+            Person person = PersonV3ToPersonMapper.map(hentPersonResponse.getPerson());
+            if (person.getDiskresjonskode().isPresent()) {
+                throw new SikkerhetsbegrensningExeption("Ikke tilgang til å hente personinformasjon");
+            }
+            return person;
         } catch (HentPersonSikkerhetsbegrensning | HentPersonPersonIkkeFunnet e) {
             throw new ServiceException(e);
         }
