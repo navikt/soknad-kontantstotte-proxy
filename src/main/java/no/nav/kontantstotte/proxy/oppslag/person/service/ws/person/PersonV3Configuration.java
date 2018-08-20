@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class PersonConfiguration extends WsClient<PersonV3> {
+public class PersonV3Configuration extends WsClient<PersonV3> {
 
     @Bean
     public PersonV3 personV3(@Value("${VIRKSOMHET_PERSON_V3_ENDPOINTURL}") String serviceUrl) {

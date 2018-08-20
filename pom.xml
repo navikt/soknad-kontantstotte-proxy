@@ -17,7 +17,7 @@
 
     <properties>
         <oidc-support.version>0.2.6</oidc-support.version>
-        <common-java-modules.version>2018.08.14.11.00</common-java-modules.version>
+        <common-java-modules.version>2018.08.17.12.35</common-java-modules.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <xsd.location>${project.build.directory}/classes</xsd.location>
         <jaxb.location>${project.build.directory}/classes/</jaxb.location>
@@ -99,6 +99,38 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+
+                            <inputSpec>${project.basedir}/src/main/resources/tps/person-swagger.json</inputSpec>
+                            <language>jaxrs</language>
+                            <generateApis>false</generateApis>
+
+                            <modelPackage>no.nav.tps.person</modelPackage>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+
+                            <generateSupportingFiles>false</generateSupportingFiles>
+
+                            <configOptions>
+                                <java8>true</java8>
+                                <useBeanValidation>false</useBeanValidation>
+                                <sourceFolder>person</sourceFolder>
+                            </configOptions>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -122,30 +154,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- To get the MDC constant values -->
-        <dependency>
-            <groupId>no.nav.sbl</groupId>
-            <artifactId>log</artifactId>
-            <version>${common-java-modules.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Jersey tools to add MDC values to request in a standardized manner -->
         <dependency>
             <groupId>no.nav.sbl</groupId>
             <artifactId>rest</artifactId>
             <version>${common-java-modules.version}</version>
-            <scope>test</scope>
         </dependency>
-
-        <!-- Servlet filters to parse MDC values from requests in a standardized manner -->
-        <dependency>
-            <groupId>no.nav.sbl</groupId>
-            <artifactId>api-app</artifactId>
-            <version>${common-java-modules.version}</version>
-            <scope>test</scope>
-        </dependency>
-
 
 
         <!-- spring boot -->
@@ -159,7 +172,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Micormeter core dependecy  -->
+        <!-- Micrometer core dependency  -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
@@ -273,6 +286,15 @@
             <artifactId>unleash-client-java</artifactId>
             <version>${unleash.version}</version>
         </dependency>
+
+        <!-- Swagger annotations in generated code by swagger code-gen -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.0</version>
+            <scope>compile</scope>
+        </dependency>
+
 
         <!-- Test -->
 

@@ -2,7 +2,7 @@ package no.nav.kontantstotte.proxy.config;
 
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
 import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.DokmotConfiguration;
-import no.nav.kontantstotte.proxy.oppslag.person.service.ws.person.PersonConfiguration;
+import no.nav.kontantstotte.proxy.oppslag.person.service.rest.PersonRestConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
@@ -29,7 +29,7 @@ import java.util.EnumSet;
 
 @SpringBootConfiguration
 @EnableConfigurationProperties({MultiIssuerProperties.class})
-@Import({FeatureToggleConfig.class, DokmotConfiguration.class, PersonConfiguration.class})
+@Import({FeatureToggleConfig.class, DokmotConfiguration.class, PersonRestConfiguration.class})
 @ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.oppslag.person.service.ws"})
 public class ApplicationConfig implements EnvironmentAware {
 
