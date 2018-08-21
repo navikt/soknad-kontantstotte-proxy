@@ -41,7 +41,7 @@ fasitResources:
     propertyMap:
       name: DOKMOT_CHANNELNAME
 
-  - alias: brisdokmot
+  - alias: KontantstotteDokmot
     resourceType: credential
     propertyMap:
       username: DOKMOT_USERNAME
