@@ -23,6 +23,18 @@ public class Person {
         return fornavn;
     }
 
+    public String getMellomnavn() {
+        return mellomnavn;
+    }
+
+    public String getSlektsnavn() {
+        return slektsnavn;
+    }
+
+    public Adresse getAdresse() {
+        return adresse;
+    }
+
     public Optional<String> getDiskresjonskode() { return Optional.ofNullable(diskresjonskode); }
 
     public static class Builder {

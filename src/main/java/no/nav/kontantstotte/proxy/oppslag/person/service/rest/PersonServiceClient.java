@@ -2,7 +2,7 @@ package no.nav.kontantstotte.proxy.oppslag.person.service.rest;
 
 import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonService;
-import no.nav.kontantstotte.proxy.oppslag.person.service.ServiceException;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonServiceException;
 import no.nav.log.MDCConstants;
 import no.nav.sbl.rest.RestUtils;
 import no.nav.security.oidc.jaxrs.OidcClientRequestFilter;
@@ -38,7 +38,7 @@ class PersonServiceClient implements PersonService {
     }
 
     @Override
-    public Person hentPersonInfo(String fnr) throws ServiceException {
+    public Person hentPersonInfo(String fnr) throws PersonServiceException {
         PersoninfoDto dto = client.target(personServiceUri)
                 .path("person")
                 .request()

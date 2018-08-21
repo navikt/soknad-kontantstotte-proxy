@@ -37,7 +37,7 @@ class PersonRestHealthIndicator implements HealthIndicator, EnvironmentAware {
         } catch (Exception e) {
             tpsPersonFailure.increment();
             LOG.warn("Could not verify health of TPS person service ", e);
-            return isPreprod() ? downWithDetails(e) : down();
+            return isPreprod() ? downWithDetails(e) : up();
         }
     }
 

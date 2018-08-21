@@ -74,33 +74,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.jvnet.jax-ws-commons</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.3.1-b20150201.1248</version>
-                <configuration>
-                    <vmArgs>
-                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                    </vmArgs>
-                    <encoding>utf-8</encoding>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>WsdlPerson</id>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>Binding.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <wsdlDirectory>src/main/resources/wsdl/person/</wsdlDirectory>
-                            <sourceDestDir>target/generated-sources/person</sourceDestDir>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
                 <version>2.3.1</version>
@@ -158,6 +131,12 @@
             <groupId>no.nav.sbl</groupId>
             <artifactId>rest</artifactId>
             <version>${common-java-modules.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

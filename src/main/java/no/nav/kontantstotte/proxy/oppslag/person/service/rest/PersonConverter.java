@@ -20,6 +20,7 @@ class PersonConverter {
                         .map(AdresseinfoDto::getBoadresse)
                         .map(boadresseDtoToBoadresse)
                         .orElse(null))
+                .diskresjonskode(dto.getSpesreg().getKode())
                 .build();
 
 

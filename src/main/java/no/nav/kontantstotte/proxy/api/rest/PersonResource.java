@@ -3,7 +3,7 @@ package no.nav.kontantstotte.proxy.api.rest;
 import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonService;
-import no.nav.kontantstotte.proxy.oppslag.person.service.ServiceException;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 import no.nav.security.oidc.api.Unprotected;
 import no.nav.security.oidc.context.OIDCValidationContext;
@@ -38,7 +38,7 @@ public class PersonResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Person hentPerson() throws ServiceException {
+    public Person hentPerson() throws PersonServiceException {
         if( unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
             return personService.hentPersonInfo(extractFnr());
         } else {

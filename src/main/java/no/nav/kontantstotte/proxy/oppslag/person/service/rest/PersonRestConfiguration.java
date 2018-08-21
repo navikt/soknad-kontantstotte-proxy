@@ -11,12 +11,12 @@ import java.net.URI;
 public class PersonRestConfiguration {
 
     @Bean
-    public PersonService personServiceTpsWs(@Value("${SOKNAD_KONTANTSTOTTE_PROXY_API_URL}") URI personServiceUri) {
+    public PersonService personServiceTpsWs(@Value("${PERSONINFO_V1_URL}") URI personServiceUri) {
         return new PersonServiceClient(personServiceUri);
     }
 
     @Bean
-    public PersonRestHealthIndicator dokmotHealthIndicator(PersonService personService) {
+    public PersonRestHealthIndicator tpsPersonHealthIndicator(PersonService personService) {
         return new PersonRestHealthIndicator(personService);
     }
 }
