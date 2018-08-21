@@ -1,32 +1,37 @@
 package no.nav.kontantstotte.proxy.oppslag.person.service.rest;
 
+import no.nav.kontantstotte.proxy.oppslag.person.domain.SikkerhetsbegrensningExeption;
 import no.nav.tps.person.NavnDto;
 import no.nav.tps.person.PersoninfoDto;
 import no.nav.tps.person.SpesregDto;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import static no.nav.kontantstotte.proxy.oppslag.person.service.rest.PersonConverter.personinfoDtoToPerson;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.rules.ExpectedException.none;
 
 
 public class PersonMapperTest {
+
+    @Rule
+    public ExpectedException exception = none();
 
     @Test
     public void mappingAvPersonnavn() {
 
         PersoninfoDto tpsPerson = tpsPerson("Testfornavn", "Etternanvsen", "12345678901", null);
 
-        assertThat(PersonConverter.personinfoDtoToPerson.apply(tpsPerson).getFornavn()).isEqualTo("Testfornavn");
-        assertThat(PersonConverter.personinfoDtoToPerson.apply(tpsPerson).getSlektsnavn()).isEqualTo("Etternanvsen");
+        assertThat(personinfoDtoToPerson.apply(tpsPerson).getFornavn()).isEqualTo("Testfornavn");
+        assertThat(personinfoDtoToPerson.apply(tpsPerson).getSlektsnavn()).isEqualTo("Etternanvsen");
     }
 
     @Test
     public void mappingAvDiskresjonskode() {
-        PersoninfoDto tpsPerson = tpsPerson("", "", null, "KODE 6");
-
-        assertThat(PersonConverter.personinfoDtoToPerson.apply(tpsPerson).getDiskresjonskode().isPresent())
-                .isTrue();
-        assertThat(PersonConverter.personinfoDtoToPerson.apply(tpsPerson).getDiskresjonskode().get())
-                .isEqualTo("KODE 6");
+        exception.expect(SikkerhetsbegrensningExeption.class);
+        
+        personinfoDtoToPerson.apply(tpsPerson("", "", null, "KODE 6"));
     }
 
     private PersoninfoDto tpsPerson(String fornavn, String etternavn, String fødselsnummer, String diskresjonskode) {

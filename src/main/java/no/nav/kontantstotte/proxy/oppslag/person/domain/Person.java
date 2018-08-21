@@ -6,13 +6,11 @@ public class Person {
     private final String fornavn;
     private final String mellomnavn;
     private final String slektsnavn;
-    private final String diskresjonskode;
     private final Adresse adresse;
 
     public Person(Builder builder) {
 
         this.fornavn = builder.fornavn;
-        this.diskresjonskode = builder.diskresjonskode;
         this.mellomnavn = builder.mellomnavn;
         this.slektsnavn = builder.slektsnavn;
         this.adresse = builder.adresse;
@@ -35,23 +33,15 @@ public class Person {
         return adresse;
     }
 
-    public Optional<String> getDiskresjonskode() { return Optional.ofNullable(diskresjonskode); }
-
     public static class Builder {
         private String fornavn;
         private String mellomnavn;
         private String slektsnavn;
-        private String diskresjonskode;
         private Adresse adresse;
 
 
         public Builder fornavn(String fornavn) {
             this.fornavn = fornavn;
-            return this;
-        }
-
-        public Builder diskresjonskode(String diskresjonskode) {
-            this.diskresjonskode = diskresjonskode;
             return this;
         }
 
