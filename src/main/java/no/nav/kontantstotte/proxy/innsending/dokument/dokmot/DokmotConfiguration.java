@@ -68,6 +68,6 @@ public class DokmotConfiguration {
     @Bean
     public DokmotHealthIndicator dokmotHealthIndicator(JmsTemplate template, QueueConfigration queueConfig) {
         return new DokmotHealthIndicator(template, queueConfig);
-    };
+    }
 
 }
