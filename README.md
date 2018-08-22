@@ -4,7 +4,7 @@ For å kjøre opp løsningen lokalt:
 
 ## Fra kommandolinje:
 ```
-mvn package && java -jar target/søknad-kontantstotte-proxy.jar
+mvn package && java -jar target/soknad-kontantstotte-proxy.jar
 ```
 
 ## Fra IntelliJ
@@ -16,7 +16,7 @@ Erstatt `unversioned` med versjonen du ønsker å kjøre eller bygg unversioned-
 
 ```
 docker login repo.adeo.no:5443
-docker run -p 8080:8080 repo.adeo.no:5443/søknad/søknad-kontantstotte-proxy:unversioned
+docker run -p 8080:8080 repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy:unversioned
 ```
 
 Kommandoen tilgjengeliggjør serveren på localhost:8081
