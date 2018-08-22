@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>no.nav.kontantstotte.proxy</groupId>
-    <artifactId>søknad-kontantstotte-proxy</artifactId>
+    <artifactId>soknad-kontantstotte-proxy</artifactId>
     <version>1</version>
     <packaging>jar</packaging>
 
