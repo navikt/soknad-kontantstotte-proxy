@@ -5,3 +5,22 @@ no.nav.security.oidc:
      discoveryurl: http://metadata
      accepted_audience: aud-localhost
      cookie_name: localhost-idtoken
+
+UNLEASH_API_URL: http://localhost
+APP_NAME: soknad-kontantstotte-proxy
+
+dokmot :
+  queuename : ueue
+  hostname : hostname
+  port : 2412
+  name : name
+  username : user
+  channelname : channel
+  enabled: false
+
+PERSONINFO_V1_URL: http://localhost
+
+logging:
+  level:
+    org.springframework: INFO
+    org.glassfish.jersey: DEBUG

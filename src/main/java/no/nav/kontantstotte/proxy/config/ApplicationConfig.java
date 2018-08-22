@@ -1,22 +1,24 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
+import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.DokmotConfiguration;
+import no.nav.kontantstotte.proxy.oppslag.person.service.rest.PersonRestConfiguration;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.servlet.ServletProperties;
+import no.nav.servlet.callid.CallIdFilter;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.Ordered;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextListener;
 
@@ -26,8 +28,9 @@ import java.net.URL;
 import java.util.EnumSet;
 
 @SpringBootConfiguration
-@ComponentScan({"no.nav.kontantstotte.proxy.api"})
-@EnableConfigurationProperties(MultiIssuerProperties.class)
+@EnableConfigurationProperties({MultiIssuerProperties.class})
+@Import({FeatureToggleConfig.class, DokmotConfiguration.class, PersonRestConfiguration.class})
+@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.oppslag.person.service.ws"})
 public class ApplicationConfig implements EnvironmentAware {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
@@ -50,13 +53,8 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
-    ServletRegistrationBean<?> jerseyServletRegistration() {
-
-        ServletRegistrationBean<?> jerseyServletRegistration = new ServletRegistrationBean<>(new ServletContainer());
-
-        jerseyServletRegistration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, RestConfiguration.class.getName());
-
-        return jerseyServletRegistration;
+    public ResourceConfig proxyConfig() {
+        return new RestConfiguration();
     }
 
     @Bean
@@ -70,6 +68,13 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
+    public FilterRegistrationBean callIdFilter() {
+        FilterRegistrationBean<?> filterRegistration = new FilterRegistrationBean<>(new CallIdFilter());
+        filterRegistration.setOrder(1);
+        return filterRegistration;
+    }
+
+    @Bean
     public FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> oidcTokenValidationFilterBean(JaxrsOIDCTokenValidationFilter validationFilter) {
         log.info("Registering validation filter");
         final FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> filterRegistration = new FilterRegistrationBean<>();
@@ -78,7 +83,7 @@ public class ApplicationConfig implements EnvironmentAware {
         filterRegistration
                 .setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC));
         filterRegistration.setAsyncSupported(true);
-        filterRegistration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        filterRegistration.setOrder(2);
         return filterRegistration;
     }
 
@@ -99,7 +104,7 @@ public class ApplicationConfig implements EnvironmentAware {
             try {
                 proxy = new URL(proxyconfig);
             } catch (MalformedURLException e) {
-                throw new RuntimeException("config [" + proxyParameterName + "] is misconfigured: " + e, e);
+                throw new RuntimeException("messagequeue [" + proxyParameterName + "] is misconfigured: " + e, e);
             }
         } else {
             log.info("No proxy configuration found [" + proxyParameterName + "]");

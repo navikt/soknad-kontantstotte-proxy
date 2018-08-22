@@ -11,13 +11,18 @@
     </parent>
 
     <groupId>no.nav.kontantstotte.proxy</groupId>
-    <artifactId>soknad-kontantstotte-proxy</artifactId>
+    <artifactId>søknad-kontantstotte-proxy</artifactId>
     <version>1</version>
     <packaging>jar</packaging>
 
     <properties>
         <oidc-support.version>0.2.6</oidc-support.version>
+        <common-java-modules.version>2018.08.17.12.35</common-java-modules.version>
         <commons-lang3.version>3.7</commons-lang3.version>
+        <xsd.location>${project.build.directory}/classes</xsd.location>
+        <jaxb.location>${project.build.directory}/classes/</jaxb.location>
+        <cxf.version>3.2.0</cxf.version>
+        <unleash.version>3.1.0</unleash.version>
     </properties>
 
     <build>
@@ -27,6 +32,78 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <extension>true</extension>
+                    <arguments>-Xvalue-constructor -Xfluent-api -Xannotate</arguments>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.codemodel</groupId>
+                        <artifactId>codemodel</artifactId>
+                        <version>2.6</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics-annotate</artifactId>
+                        <version>0.6.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-value-constructor</artifactId>
+                        <version>3.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.java.dev.jaxb2-commons</groupId>
+                        <artifactId>jaxb-fluent-api</artifactId>
+                        <version>2.1.8</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+
+                            <inputSpec>${project.basedir}/src/main/resources/tps/person-swagger.json</inputSpec>
+                            <language>jaxrs</language>
+                            <generateApis>false</generateApis>
+
+                            <modelPackage>no.nav.tps.person</modelPackage>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+
+                            <generateSupportingFiles>false</generateSupportingFiles>
+
+                            <configOptions>
+                                <java8>true</java8>
+                                <useBeanValidation>false</useBeanValidation>
+                                <sourceFolder>person</sourceFolder>
+                            </configOptions>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -50,6 +127,17 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>no.nav.sbl</groupId>
+            <artifactId>rest</artifactId>
+            <version>${common-java-modules.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
         <!-- spring boot -->
@@ -63,6 +151,19 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- Micrometer core dependency  -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
+        <!-- Micrometer Prometheus registry  -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jersey</artifactId>
@@ -72,6 +173,12 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -115,7 +222,58 @@
             <version>4.10</version>
         </dependency>
 
+        <!-- cxf -->
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-policy</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
         <!-- Utils -->
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>com.ibm.mq.allclient</artifactId>
+            <version>8.0.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>no.finn.unleash</groupId>
+            <artifactId>unleash-client-java</artifactId>
+            <version>${unleash.version}</version>
+        </dependency>
+
+        <!-- Swagger annotations in generated code by swagger code-gen -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.0</version>
+            <scope>compile</scope>
+        </dependency>
+
 
         <!-- Test -->
 
