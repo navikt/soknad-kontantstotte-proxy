@@ -1,4 +1,3 @@
-#jeg vil ikke ha hjelp fra pus
 name: soknad-kontantstotte-proxy
 team: soknad
 image: repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy
@@ -22,13 +21,10 @@ prometheus:
   path: /actuator/prometheus
 fasitResources:
   used:
-
   - alias: personinfo_v1
     resourceType: restservice
   - alias: unleash-api
     resourceType: restservice
-  - alias: appres.cms
-    resourceType: baseUrl
 # DOKMOT STASJ
   - alias: mqGateway01
     resourceType: queuemanager

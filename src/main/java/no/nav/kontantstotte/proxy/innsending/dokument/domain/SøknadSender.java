@@ -1,6 +1,6 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.domain;
 
-public interface SoknadSender {
+public interface SøknadSender {
 
-    void send(Soknad soknad);
+    void send(Søknad søknad);
 }

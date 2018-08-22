@@ -10,7 +10,7 @@ import javax.validation.constraints.Positive;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "dokmot")
 @Configuration
-public class QueueConfigration {
+public class QueueConfiguration {
 
     @NotNull
     private String hostname;
@@ -83,8 +83,8 @@ public class QueueConfigration {
         this.queuename = queuename;
     }
 
-    public QueueConfigration loggable() {
-        QueueConfigration unwrapped = new QueueConfigration();
+    public QueueConfiguration loggable() {
+        QueueConfiguration unwrapped = new QueueConfiguration();
         unwrapped.setChannelname(getChannelname());
         unwrapped.setHostname(getHostname());
         unwrapped.setPort(getPort());

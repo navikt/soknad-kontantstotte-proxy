@@ -1,4 +1,4 @@
-package no.nav.kontantstotte.proxy.api.rest;
+package no.nav.kontantstotte.proxy.api.rest.oppslag;
 
 import no.finn.unleash.Unleash;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 public class PersonResource {
 
     private static final String SELVBETJENING = "selvbetjening";
-    private final String BRUK_TPS_INTEGRASJON = "kontantstotte.integrasjon.tps";
+    private static final String BRUK_TPS_INTEGRASJON = "kontantstotte.integrasjon.tps";
 
     private final PersonService personService;
     private final Unleash unleash;
@@ -39,25 +39,12 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Person hentPerson() throws PersonServiceException {
-        if( unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
+        if(unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
             return personService.hentPersonInfo(extractFnr());
         } else {
             throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
         }
     }
-
-    @GET
-    @Unprotected
-    @Path("ping")
-    public String ping() {
-        if( unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
-            personService.ping();
-            return "Personservice OK";
-        } else {
-            throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
-        }
-    }
-
 
     private static String extractFnr() {
         OIDCValidationContext context = OidcRequestContext.getHolder().getOIDCValidationContext();

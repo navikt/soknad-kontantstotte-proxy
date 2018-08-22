@@ -1,17 +1,17 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadInnsendingException;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SøknadInnsendingException;
 
-class DokmotQueueUnavailableException extends SoknadInnsendingException {
+class DokmotQueueUnavailableException extends SøknadInnsendingException {
 
-    private final QueueConfigration config;
+    private final QueueConfiguration config;
 
-    DokmotQueueUnavailableException(Exception e, QueueConfigration config) {
+    DokmotQueueUnavailableException(Exception e, QueueConfiguration config) {
         super(e);
         this.config = config;
     }
 
-    public QueueConfigration getConfig() {
+    public QueueConfiguration getConfig() {
         return config;
     }
 }

@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-public class SoknadInnsendingExceptionMapper implements ExceptionMapper<PersonServiceException> {
+public class SøknadInnsendingExceptionMapper implements ExceptionMapper<PersonServiceException> {
 
-    private static final Logger logger = LoggerFactory.getLogger(SoknadInnsendingExceptionMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(SøknadInnsendingExceptionMapper.class);
 
     @Override
     public Response toResponse(PersonServiceException e) {

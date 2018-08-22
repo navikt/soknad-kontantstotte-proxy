@@ -1,8 +1,8 @@
 package no.nav.kontantstotte.proxy.config;
 
-import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SoknadInnsendingExceptionMapper;
-import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource;
-import no.nav.kontantstotte.proxy.api.rest.PersonResource;
+import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SøknadInnsendingExceptionMapper;
+import no.nav.kontantstotte.proxy.api.rest.mottak.SøknadMottakResource;
+import no.nav.kontantstotte.proxy.api.rest.oppslag.PersonResource;
 import no.nav.kontantstotte.proxy.api.rest.StatusResource;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.ServiceExceptionMapper;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SikkerhetsbegrensningExceptionMapper;
@@ -19,11 +19,11 @@ public class RestConfiguration extends ResourceConfig {
         register(OidcContainerRequestFilter.class);
         // Exception Mappers
         register(ServiceExceptionMapper.class);
-        register(SoknadInnsendingExceptionMapper.class);
+        register(SøknadInnsendingExceptionMapper.class);
         register(SikkerhetsbegrensningExceptionMapper.class);
         // Resources
         register(StatusResource.class);
-        register(SoknadMottakResource.class);
+        register(SøknadMottakResource.class);
         register(PersonResource.class);
     }
 

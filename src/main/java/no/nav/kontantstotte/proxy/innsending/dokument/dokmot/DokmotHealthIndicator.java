@@ -23,11 +23,11 @@ class DokmotHealthIndicator implements HealthIndicator, EnvironmentAware {
     private Environment env;
 
     private final JmsTemplate template;
-    private final QueueConfigration queueConfig;
+    private final QueueConfiguration queueConfig;
 
     DokmotHealthIndicator(
             JmsTemplate template,
-            QueueConfigration queueConfig) {
+            QueueConfiguration queueConfig) {
         this.template = template;
         this.queueConfig = queueConfig;
     }

@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.Søknad;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SøknadSender;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
@@ -23,9 +23,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.mock;
 
-public class SoknadMottakResourceTest {
+public class SøknadMottakResourceTest {
 
-    private SoknadSender soknadSender = mock(SoknadSender.class);
+    private SøknadSender søknadSender = mock(SøknadSender.class);
 
     private JerseyTest jerseyTest;
 
@@ -38,7 +38,7 @@ public class SoknadMottakResourceTest {
                 forceSet(TestProperties.CONTAINER_PORT, "0");
 
                 return new ResourceConfig()
-                        .register(new SoknadMottakResource(soknadSender))
+                        .register(new SøknadMottakResource(søknadSender))
                         .register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO, LoggingFeature.DEFAULT_VERBOSITY, 10000))
                         .property("contextConfig", new AnnotationConfigApplicationContext());
             }
@@ -49,9 +49,9 @@ public class SoknadMottakResourceTest {
     }
 
     @Test
-    public void at_motta_soknad_returnerer_ok() {
+    public void at_motta_søknad_returnerer_ok() {
 
-        Response response = jerseyTest.target("soknad").request().post(Entity.json(new Soknad("", "".getBytes())));
+        Response response = jerseyTest.target("soknad").request().post(Entity.json(new Søknad("", "".getBytes())));
 
         assertThat(response.getStatus(), is(equalTo(OK.getStatusCode())));
     }

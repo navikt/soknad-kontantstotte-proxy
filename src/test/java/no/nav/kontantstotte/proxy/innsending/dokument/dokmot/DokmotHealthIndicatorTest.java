@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class DokmotHealthIndicatorTest {
 
-    private QueueConfigration queueConfig = mock(QueueConfigration.class);
+    private QueueConfiguration queueConfig = mock(QueueConfiguration.class);
 
     private JmsTemplate template = mock(JmsTemplate.class);
 

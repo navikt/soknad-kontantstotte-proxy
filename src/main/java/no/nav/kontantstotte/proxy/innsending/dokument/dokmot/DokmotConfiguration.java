@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SøknadSender;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,13 +21,13 @@ import static com.ibm.msg.client.wmq.common.CommonConstants.WMQ_CM_CLIENT;
 
 @Profile("!dev")
 @Configuration
-@EnableConfigurationProperties(QueueConfigration.class)
+@EnableConfigurationProperties(QueueConfiguration.class)
 public class DokmotConfiguration {
 
     private static final int UTF_8_WITH_PUA = 1208;
 
     @Bean
-    public JmsTemplate dokmotTemplate(QueueConfigration cfg, ConnectionFactory cf) {
+    public JmsTemplate dokmotTemplate(QueueConfiguration cfg, ConnectionFactory cf) {
         JmsTemplate jmsTemplate = new JmsTemplate(cf);
         jmsTemplate.setDefaultDestinationName(cfg.getQueuename());
         jmsTemplate.setDestinationResolver(new DynamicDestinationResolver());
@@ -35,7 +35,7 @@ public class DokmotConfiguration {
     }
 
     @Bean
-    public MQQueueConnectionFactory connectionFactory(QueueConfigration cfg) throws JMSException {
+    public MQQueueConnectionFactory connectionFactory(QueueConfiguration cfg) throws JMSException {
 
         MQQueueConnectionFactory cf = new MQQueueConnectionFactory();
         cf.setHostName(cfg.getHostname());
@@ -52,7 +52,7 @@ public class DokmotConfiguration {
     @Bean
     @Primary
     ConnectionFactory userCredentialsConnectionFactoryAdapter(
-            QueueConfigration cfg,
+            QueueConfiguration cfg,
             MQQueueConnectionFactory delegate) {
         UserCredentialsConnectionFactoryAdapter cf = new UserCredentialsConnectionFactoryAdapter();
         cf.setUsername(cfg.getUsername());
@@ -61,12 +61,12 @@ public class DokmotConfiguration {
     }
 
     @Bean
-    public SoknadSender soknadSender(JmsTemplate template, QueueConfigration queueConfig) {
+    public SøknadSender søknadSender(JmsTemplate template, QueueConfiguration queueConfig) {
         return new DokmotJMSSender(template, queueConfig);
     }
 
     @Bean
-    public DokmotHealthIndicator dokmotHealthIndicator(JmsTemplate template, QueueConfigration queueConfig) {
+    public DokmotHealthIndicator dokmotHealthIndicator(JmsTemplate template, QueueConfiguration queueConfig) {
         return new DokmotHealthIndicator(template, queueConfig);
     }
 
