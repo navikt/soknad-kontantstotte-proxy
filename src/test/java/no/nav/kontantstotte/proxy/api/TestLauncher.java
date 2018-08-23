@@ -2,7 +2,7 @@ package no.nav.kontantstotte.proxy.api;
 
 import no.finn.unleash.FakeUnleash;
 import no.finn.unleash.Unleash;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SøknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
 import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
@@ -48,7 +48,7 @@ public class TestLauncher {
     }
 
     @Bean
-    public SøknadSender søknadSender() {
+    public SoknadSender soknadSender() {
         return input -> {};
     }
 

@@ -34,13 +34,13 @@ public class PersonMapperTest {
         personinfoDtoToPerson.apply(tpsPerson("", "", null, "KODE 6"));
     }
 
-    private PersoninfoDto tpsPerson(String fornavn, String etternavn, String fødselsnummer, String diskresjonskode) {
+    private PersoninfoDto tpsPerson(String fornavn, String etternavn, String fodselsnummer, String diskresjonskode) {
 
         return new PersoninfoDto()
                 .navn(new NavnDto()
                         .fornavn(fornavn)
                         .slektsnavn(etternavn))
-                .ident(fødselsnummer)
+                .ident(fodselsnummer)
                 .spesreg(new SpesregDto()
                         .kode(diskresjonskode));
 

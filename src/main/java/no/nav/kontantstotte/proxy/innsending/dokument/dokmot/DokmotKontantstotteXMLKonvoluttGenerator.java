@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.conversion.Jaxb;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.Søknad;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
 import no.nav.servlet.callid.CallId;
 
@@ -21,7 +21,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
     private static final JAXBContext CONTEXT = Jaxb.context(Dokumentforsendelse.class);
 
-    String toXML(Søknad søknad) {
+    String toXML(Soknad soknad) {
 
         String ref = CallId.getOrCreate();
 
@@ -33,14 +33,14 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
                         .withForsendelseInnsendt(LocalDateTime.now())
                         .withForsendelseMottatt(LocalDateTime.now())
-                        .withAvsender(new Person(søknad.getFnr()))
-                        .withBruker(new Person(søknad.getFnr())))
-                .withHoveddokument(hoveddokument(søknad)));
+                        .withAvsender(new Person(soknad.getFnr()))
+                        .withBruker(new Person(soknad.getFnr())))
+                .withHoveddokument(hoveddokument(soknad)));
     }
 
-    private Hoveddokument hoveddokument(Søknad søknad) {
+    private Hoveddokument hoveddokument(Soknad soknad) {
         Dokumentinnhold hovedskjemaInnhold = new Dokumentinnhold()
-                .withDokument(søknad.getPdf())
+                .withDokument(soknad.getPdf())
                 .withArkivfiltype(new Arkivfiltyper().withValue("PDFA"))
                 .withVariantformat(new Variantformater().withValue("ARKIV"));
 

@@ -1,12 +1,12 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.domain;
 
-public class Søknad {
+public class Soknad {
 
     private final byte[] pdf;
 
     private final String fnr;
 
-    public Søknad(String fnr, byte[] pdf) {
+    public Soknad(String fnr, byte[] pdf) {
         this.pdf = pdf;
         this.fnr = fnr;
     }
@@ -21,7 +21,7 @@ public class Søknad {
 
     @Override
     public String toString() {
-        return "Søknad{" +
+        return "Soknad{" +
                 "fnr='" + fnr + '\'' +
                 ", pdf=" + (pdf == null ? null : pdf.length + " bytes") +
                 '}';

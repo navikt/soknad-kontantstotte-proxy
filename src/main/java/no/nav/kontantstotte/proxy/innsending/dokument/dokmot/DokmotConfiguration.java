@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SøknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,7 +61,7 @@ public class DokmotConfiguration {
     }
 
     @Bean
-    public SøknadSender søknadSender(JmsTemplate template, QueueConfiguration queueConfig) {
+    public SoknadSender soknadSender(JmsTemplate template, QueueConfiguration queueConfig) {
         return new DokmotJMSSender(template, queueConfig);
     }
 

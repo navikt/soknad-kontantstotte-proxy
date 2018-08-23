@@ -1,6 +1,6 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SøknadSender;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 import javax.inject.Inject;
@@ -13,24 +13,24 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("soknad")
-public class SøknadMottakResource {
+public class SoknadMottakResource {
 
-    private final SøknadSender søknadSender;
+    private final SoknadSender soknadSender;
 
-    private final SøknadConverter converter = new SøknadConverter();
+    private final SoknadConverter converter = new SoknadConverter();
 
     @Inject
-    public SøknadMottakResource(SøknadSender søknadSender) {
+    public SoknadMottakResource(SoknadSender soknadSender) {
 
-        this.søknadSender = søknadSender;
+        this.soknadSender = soknadSender;
     }
 
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
-    public Response mottaSøknad(SoknadDto soknadDto) {
-        søknadSender.send(converter.toSøknad(soknadDto));
+    public Response mottaSoknad(SoknadDto soknadDto) {
+        soknadSender.send(converter.toSoknad(soknadDto));
         return Response.ok().build();
     }
 
