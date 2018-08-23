@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
+import static no.nav.kontantstotte.proxy.api.rest.oppslag.PersonResource.BRUK_MOCK_TPS_INTEGRASJON;
+import static no.nav.kontantstotte.proxy.api.rest.oppslag.PersonResource.BRUK_TPS_INTEGRASJON;
+
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @Import(ApplicationConfig.class)
@@ -37,7 +40,8 @@ public class TestLauncher {
     @Bean
     Unleash fakeUnleash() {
         FakeUnleash unleash = new FakeUnleash();
-        unleash.enableAll();
+        //unleash.enableAll();
+        unleash.enable( BRUK_MOCK_TPS_INTEGRASJON );
         return unleash;
     }
 
