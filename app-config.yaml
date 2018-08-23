@@ -22,8 +22,6 @@ prometheus:
   path: /actuator/prometheus
 fasitResources:
   used:
-  #- alias: personinfo_v1 Se hardkoding i application-dev.yaml
-  #  resourceType: restservice
   - alias: unleash-api
     resourceType: restservice
 # DOKMOT STASJ
