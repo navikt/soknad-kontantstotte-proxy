@@ -1,11 +1,11 @@
 package no.nav.kontantstotte.proxy.api.rest.oppslag;
 
 import no.finn.unleash.Unleash;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.Adresse;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonService;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
-import no.nav.security.oidc.api.Unprotected;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.oidc.jaxrs.OidcRequestContext;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,8 @@ import javax.ws.rs.core.Response;
 public class PersonResource {
 
     private static final String SELVBETJENING = "selvbetjening";
-    private static final String BRUK_TPS_INTEGRASJON = "kontantstotte.integrasjon.tps";
+    public static final String BRUK_TPS_INTEGRASJON = "kontantstotte.integrasjon.tps";
+    public static final String BRUK_MOCK_TPS_INTEGRASJON = "kontantstotte.integrasjon.mock.tps";
 
     private final PersonService personService;
     private final Unleash unleash;
@@ -41,6 +42,20 @@ public class PersonResource {
     public Person hentPerson() throws PersonServiceException {
         if(unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
             return personService.hentPersonInfo(extractFnr());
+        } else if (unleash.isEnabled(BRUK_MOCK_TPS_INTEGRASJON)) {
+            return new Person.Builder()
+                    .fornavn("Ola")
+                    .mellomnavn("T")
+                    .slektsnavn("Nordmann")
+                    .boadresse(new Adresse.Builder()
+                            .adresse("Olaveien")
+                            .adressetillegg("Tillegg")
+                            .bydel("Ola")
+                            .kommune("Ola")
+                            .landkode("0123")
+                            .postnummer("0123")
+                            .build())
+                    .build();
         } else {
             throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
         }

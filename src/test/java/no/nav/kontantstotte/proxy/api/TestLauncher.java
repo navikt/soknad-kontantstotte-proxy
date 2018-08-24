@@ -2,9 +2,9 @@ package no.nav.kontantstotte.proxy.api;
 
 import no.finn.unleash.FakeUnleash;
 import no.finn.unleash.Unleash;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
 import no.nav.kontantstotte.proxy.config.TestRestConfiguration;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -14,6 +14,8 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
+
+import static no.nav.kontantstotte.proxy.api.rest.oppslag.PersonResource.BRUK_MOCK_TPS_INTEGRASJON;
 
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
@@ -37,7 +39,7 @@ public class TestLauncher {
     @Bean
     Unleash fakeUnleash() {
         FakeUnleash unleash = new FakeUnleash();
-        unleash.enableAll();
+        unleash.enable( BRUK_MOCK_TPS_INTEGRASJON );
         return unleash;
     }
 
