@@ -6,7 +6,6 @@ import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonService;
 import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
-import no.nav.security.oidc.api.Unprotected;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.oidc.jaxrs.OidcRequestContext;
 import org.springframework.stereotype.Component;
@@ -40,7 +39,6 @@ public class PersonResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Unprotected
     public Person hentPerson() throws PersonServiceException {
         if(unleash.isEnabled(BRUK_TPS_INTEGRASJON) ) {
             return personService.hentPersonInfo(extractFnr());
