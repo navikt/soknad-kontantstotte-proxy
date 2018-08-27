@@ -31,6 +31,8 @@ public class DokmotJMSSender implements SoknadSender {
 
     @Override
     public void send(Soknad soknad) {
+        LOG.info("soknad: {}", soknad);
+
         if (!queueConfig.isEnabled()) {
             LOG.info("Leveranse til DOKMOT er deaktivert, ingenting å sende");
             return;
