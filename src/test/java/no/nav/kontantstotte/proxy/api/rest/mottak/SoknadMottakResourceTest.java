@@ -1,5 +1,6 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
+import no.finn.unleash.FakeUnleash;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -25,20 +26,21 @@ import static org.mockito.Mockito.mock;
 
 public class SoknadMottakResourceTest {
 
+    public static final FakeUnleash FAKE_UNLEASH = new FakeUnleash();
     private SoknadSender soknadSender = mock(SoknadSender.class);
 
     private JerseyTest jerseyTest;
 
     @Before
     public void setUp() throws Exception {
-
+        FAKE_UNLEASH.enableAll();
         jerseyTest = new JerseyTest() {
             @Override
             protected Application configure() {
                 forceSet(TestProperties.CONTAINER_PORT, "0");
 
                 return new ResourceConfig()
-                        .register(new SoknadMottakResource(soknadSender))
+                        .register(new SoknadMottakResource(soknadSender, FAKE_UNLEASH))
                         .register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO, LoggingFeature.DEFAULT_VERBOSITY, 10000))
                         .property("contextConfig", new AnnotationConfigApplicationContext());
             }

@@ -23,7 +23,7 @@ public class IsNotProdStrategy implements Strategy {
     }
 
     private boolean isProd(String environment) {
-        return "p".equals(environment);
+        return "p".equalsIgnoreCase(environment);
     }
 
 }
