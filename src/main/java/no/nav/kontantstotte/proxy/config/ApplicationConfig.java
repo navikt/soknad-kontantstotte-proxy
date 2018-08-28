@@ -30,7 +30,7 @@ import java.util.EnumSet;
 @SpringBootConfiguration
 @EnableConfigurationProperties({MultiIssuerProperties.class})
 @Import({FeatureToggleConfig.class, DokmotConfiguration.class, PersonRestConfiguration.class})
-@ComponentScan({"no.nav.kontantstotte.proxy.api", "no.nav.kontantstotte.proxy.oppslag.person.service.ws"})
+@ComponentScan({"no.nav.kontantstotte.proxy.api"})
 public class ApplicationConfig implements EnvironmentAware {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
