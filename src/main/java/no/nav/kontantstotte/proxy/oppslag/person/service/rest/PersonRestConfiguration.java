@@ -11,12 +11,12 @@ import java.net.URI;
 public class PersonRestConfiguration {
 
     @Bean
-    public PersonService personServiceTpsWs(@Value("${PERSONINFO_V1_URL}") URI personServiceUri) {
+    public PersonService personServiceRest(@Value("${PERSONINFO_V1_URL}") URI personServiceUri) {
         return new PersonServiceClient(personServiceUri);
     }
 
     @Bean
-    public PersonRestHealthIndicator tpsPersonHealthIndicator(PersonService personService) {
+    public PersonRestHealthIndicator personServiceHealthIndicator(PersonService personService) {
         return new PersonRestHealthIndicator(personService);
     }
 }
