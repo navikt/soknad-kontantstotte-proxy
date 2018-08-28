@@ -1,6 +1,6 @@
 package no.nav.kontantstotte.proxy.oppslag.person.service.rest;
 
-import no.nav.kontantstotte.proxy.oppslag.person.domain.SikkerhetsbegrensningExeption;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.SikkerhetsbegrensningException;
 import no.nav.tps.person.NavnDto;
 import no.nav.tps.person.PersoninfoDto;
 import no.nav.tps.person.SpesregDto;
@@ -29,7 +29,7 @@ public class PersonMapperTest {
 
     @Test
     public void mappingAvDiskresjonskode() {
-        exception.expect(SikkerhetsbegrensningExeption.class);
+        exception.expect(SikkerhetsbegrensningException.class);
         
         personinfoDtoToPerson.apply(tpsPerson("", "", null, "KODE 6"));
     }

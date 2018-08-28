@@ -1,7 +1,7 @@
 package no.nav.kontantstotte.proxy.oppslag.person.service.rest;
 
 import no.nav.kontantstotte.proxy.oppslag.person.domain.Person;
-import no.nav.kontantstotte.proxy.oppslag.person.domain.SikkerhetsbegrensningExeption;
+import no.nav.kontantstotte.proxy.oppslag.person.domain.SikkerhetsbegrensningException;
 import no.nav.tps.person.AdresseinfoDto;
 import no.nav.tps.person.PersoninfoDto;
 import no.nav.tps.person.SpesregDto;
@@ -16,7 +16,7 @@ class PersonConverter {
     static Function<PersoninfoDto, Person> personinfoDtoToPerson = dto -> {
 
         if(Optional.ofNullable(dto.getSpesreg()).map(SpesregDto::getKode).isPresent()) {
-            throw new SikkerhetsbegrensningExeption("Personen er registrert med spesreg");
+            throw new SikkerhetsbegrensningException("Personen er registrert med spesreg");
         }
 
         return new Person.Builder()
