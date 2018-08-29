@@ -2,8 +2,9 @@ package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.conversion.Jaxb;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
+import no.nav.log.MDCConstants;
 import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
-import no.nav.servlet.callid.CallId;
+import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBContext;
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
     String toXML(Soknad soknad) {
 
-        String ref = CallId.getOrCreate();
+        String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
