@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name="ROOT_LOG_LEVEL" value="WARN"/>
 
     <include resource="logback-default-without-abac.xml"/>
 
