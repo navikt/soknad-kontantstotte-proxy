@@ -4,9 +4,10 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
-import no.nav.servlet.callid.CallId;
+import no.nav.log.MDCConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -40,7 +41,7 @@ public class DokmotJMSSender implements SoknadSender {
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
                 TextMessage msg = session.createTextMessage(generator.toXML(soknad));
-                msg.setStringProperty("callId", CallId.getOrCreate());
+                msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CORRELATION_ID));
 
                 return msg;
             });

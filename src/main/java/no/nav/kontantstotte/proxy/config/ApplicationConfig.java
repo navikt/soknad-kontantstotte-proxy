@@ -3,10 +3,10 @@ package no.nav.kontantstotte.proxy.config;
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
 import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.DokmotConfiguration;
 import no.nav.kontantstotte.proxy.oppslag.person.service.rest.PersonRestConfiguration;
+import no.nav.log.LogFilter;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
-import no.nav.servlet.callid.CallIdFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,15 +68,17 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
-    public FilterRegistrationBean callIdFilter() {
-        FilterRegistrationBean<?> filterRegistration = new FilterRegistrationBean<>(new CallIdFilter());
+    public FilterRegistrationBean<LogFilter> logFilter() {
+        log.info("Registering LogFilter filter");
+        final FilterRegistrationBean<LogFilter> filterRegistration = new FilterRegistrationBean<>();
+        filterRegistration.setFilter(new LogFilter());
         filterRegistration.setOrder(1);
         return filterRegistration;
     }
 
     @Bean
     public FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> oidcTokenValidationFilterBean(JaxrsOIDCTokenValidationFilter validationFilter) {
-        log.info("Registering validation filter");
+        log.info("Registering JaxrsOIDCTokenValidationFilter filter");
         final FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> filterRegistration = new FilterRegistrationBean<>();
         filterRegistration.setFilter(validationFilter);
         filterRegistration.setMatchAfter(false);
