@@ -8,6 +8,8 @@ import no.nav.kontantstotte.proxy.oppslag.person.domain.PersonServiceException;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.oidc.jaxrs.OidcRequestContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.Response;
 @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
 public class PersonResource {
 
+    private static final Logger logger = LoggerFactory.getLogger(PersonResource.class);
     private static final String SELVBETJENING = "selvbetjening";
     public static final String BRUK_TPS_INTEGRASJON = "kontantstotte.integrasjon.tps";
     public static final String BRUK_MOCK_TPS_INTEGRASJON = "kontantstotte.integrasjon.mock.tps";
@@ -57,6 +60,7 @@ public class PersonResource {
                             .build())
                     .build();
         } else {
+            logger.warn("Feature toggle {} og {} er skrudd av. Sjekk unleash.", BRUK_TPS_INTEGRASJON, BRUK_MOCK_TPS_INTEGRASJON);
             throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
         }
     }
