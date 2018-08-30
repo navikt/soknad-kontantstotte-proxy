@@ -1,5 +1,5 @@
 name: soknad-kontantstotte-proxy
-team: soknad
+team: team-soknad
 image: repo.adeo.no:5443/soknad/soknad-kontantstotte-proxy
 replicas:
   min: 2
