@@ -31,18 +31,13 @@ dokmot:
 
 management:
   endpoint:
-    metrics:
-      enabled: true
-    prometheus:
-      enabled: true
     health:
       show-details: always
-    loggers:
-      enabled: true
+  
   endpoints:
     web:
       exposure:
-        include: info, health, metrics, prometheus, loggers
+        include: info, health, metrics, prometheus
   metrics:
     export:
       prometheus:
