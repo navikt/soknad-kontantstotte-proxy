@@ -38,7 +38,7 @@ public class SoknadMottakResource {
     @Produces(APPLICATION_JSON)
     @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
     public Response mottaSoknad(SoknadDto soknadDto) {
-        if (hentFnrFraToken().equals(soknadDto.getFnr())) {
+        if (!hentFnrFraToken().equals(soknadDto.getFnr())) {
             logger.warn("Fødselsnummer på innsendt søknad tilsvarer ikke innlogget bruker");
             throw new WebApplicationException(Response.Status.CONFLICT);
         }
