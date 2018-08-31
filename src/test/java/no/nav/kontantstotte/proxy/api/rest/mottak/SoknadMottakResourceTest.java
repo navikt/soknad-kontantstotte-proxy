@@ -1,60 +1,57 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
-import no.finn.unleash.FakeUnleash;
+import com.nimbusds.jwt.SignedJWT;
+import no.nav.kontantstotte.proxy.config.ApplicationConfig;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
-import org.glassfish.jersey.logging.LoggingFeature;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.TestProperties;
-import org.junit.Before;
+import no.nav.security.oidc.OIDCConstants;
+import no.nav.security.oidc.test.support.JwtTokenGenerator;
+import no.nav.security.oidc.test.support.spring.TokenGeneratorConfiguration;
+import org.hamcrest.core.Is;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static javax.ws.rs.core.Response.Status.OK;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.mock;
 
+@ActiveProfiles("dev")
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = { ApplicationConfig.class, TokenGeneratorConfiguration.class })
 public class SoknadMottakResourceTest {
+    @Value("${local.server.port}")
+    private int port;
 
-    public static final FakeUnleash FAKE_UNLEASH = new FakeUnleash();
-    private SoknadSender soknadSender = mock(SoknadSender.class);
-
-    private JerseyTest jerseyTest;
-
-    @Before
-    public void setUp() throws Exception {
-        FAKE_UNLEASH.enableAll();
-        jerseyTest = new JerseyTest() {
-            @Override
-            protected Application configure() {
-                forceSet(TestProperties.CONTAINER_PORT, "0");
-
-                return new ResourceConfig()
-                        .register(new SoknadMottakResource(soknadSender, FAKE_UNLEASH))
-                        .register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO, LoggingFeature.DEFAULT_VERBOSITY, 10000))
-                        .property("contextConfig", new AnnotationConfigApplicationContext());
-            }
-
-        };
-
-        jerseyTest.setUp();
-    }
+    @Value("${spring.jersey.application-path}")
+    private String contextPath;
 
     @Test
     public void at_motta_soknad_returnerer_ok() {
+        Response response = send_soknad("12345678911");
+        assertThat(response.getStatus(), Is.is(equalTo(Response.Status.OK.getStatusCode())));
+    }
 
-        Response response = jerseyTest.target("soknad").request().post(Entity.json(new Soknad("", "".getBytes())));
+    @Test
+    public void at_motta_soknad_returnerer_forbidden() {
+        Response response = send_soknad("");
+        assertThat(response.getStatus(), Is.is(equalTo(Response.Status.FORBIDDEN.getStatusCode())));
+    }
 
-        assertThat(response.getStatus(), is(equalTo(OK.getStatusCode())));
+    private Response send_soknad(String soknadFnr) {
+        WebTarget target = ClientBuilder.newClient().target("http://localhost:" + port + contextPath);
+        SignedJWT signedJWT = JwtTokenGenerator.createSignedJWT("12345678911");
+        return target.path("/soknad")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header(OIDCConstants.AUTHORIZATION_HEADER, "Bearer " + signedJWT.serialize())
+                .buildPost(Entity.json(new Soknad(soknadFnr, "".getBytes())))
+                .invoke();
     }
 }

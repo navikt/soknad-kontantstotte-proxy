@@ -17,7 +17,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("soknad")
 public class SoknadMottakResource {
 
-    private static final String BRUK_DOKMOT_INTEGRASJON = "kontantstotte.integrasjon.dokmot";
+    public static final String BRUK_DOKMOT_INTEGRASJON = "kontantstotte.integrasjon.dokmot";
     private static final Logger logger = LoggerFactory.getLogger(SoknadMottakResource.class);
     private static final String SELVBETJENING = "selvbetjening";
 
@@ -40,7 +40,7 @@ public class SoknadMottakResource {
     public Response mottaSoknad(SoknadDto soknadDto) {
         if (!hentFnrFraToken().equals(soknadDto.getFnr())) {
             logger.warn("Fødselsnummer på innsendt søknad tilsvarer ikke innlogget bruker");
-            throw new WebApplicationException(Response.Status.CONFLICT);
+            throw new WebApplicationException(Response.Status.FORBIDDEN);
         }
 
         if(unleash.isEnabled(BRUK_DOKMOT_INTEGRASJON)) {
