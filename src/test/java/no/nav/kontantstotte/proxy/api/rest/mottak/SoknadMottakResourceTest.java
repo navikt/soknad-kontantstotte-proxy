@@ -41,7 +41,7 @@ public class SoknadMottakResourceTest {
 
     @Test
     public void at_motta_soknad_returnerer_forbidden() {
-        Response response = send_soknad("");
+        Response response = send_soknad("12345678912");
         assertThat(response.getStatus(), Is.is(equalTo(Response.Status.FORBIDDEN.getStatusCode())));
     }
 
