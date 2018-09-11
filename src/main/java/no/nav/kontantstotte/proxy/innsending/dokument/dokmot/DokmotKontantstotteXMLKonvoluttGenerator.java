@@ -14,7 +14,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
     private static final String TEMA = "KON";
 
-    private static final String BEHANDLINGSTEMA = "ab0050";
+    private static final String BEHANDLINGSTEMA = "ab0084";
 
     private static final String KANAL = "NAV_NO";
 

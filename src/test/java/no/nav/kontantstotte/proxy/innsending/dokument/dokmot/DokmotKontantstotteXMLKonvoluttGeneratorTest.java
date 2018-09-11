@@ -21,7 +21,7 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
         assertThat(xml, containsString("<dokumenttypeId>I000072</dokumenttypeId>"));
         assertThat(xml, containsString("<arkivfiltype>PDFA</arkivfiltype>"));
         assertThat(xml, containsString("<variantformat>ARKIV</variantformat>"));
-        assertThat(xml, containsString("<behandlingstema>ab0050</behandlingstema>"));
+        assertThat(xml, containsString("<behandlingstema>ab0084</behandlingstema>"));
         assertThat(xml, containsString("<dokument>dGVzdA==</dokument>"));
     }
 
