@@ -4,6 +4,9 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.now;
 import static org.mockito.Mockito.*;
 
 public class DokmotJmsSoknadSenderTest {
@@ -19,7 +22,7 @@ public class DokmotJmsSoknadSenderTest {
 
         when(queueConfig.isEnabled()).thenReturn(false);
 
-        soknadSender.send(new Soknad("12345678901", "test".getBytes()));
+        soknadSender.send(new Soknad("12345678901", "test".getBytes(), now()));
 
         verifyZeroInteractions(template);
     }
@@ -28,7 +31,7 @@ public class DokmotJmsSoknadSenderTest {
     public void successful_send() {
         when(queueConfig.isEnabled()).thenReturn(true);
 
-        soknadSender.send(new Soknad("12345678901", "test".getBytes()));
+        soknadSender.send(new Soknad("12345678901", "test".getBytes(), now()));
 
         verify(template).send(any());
     }
