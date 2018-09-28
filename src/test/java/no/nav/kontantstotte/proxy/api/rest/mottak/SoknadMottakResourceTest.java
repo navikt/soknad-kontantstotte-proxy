@@ -38,14 +38,13 @@ public class SoknadMottakResourceTest {
 
     @Test
     public void at_motta_soknad_returnerer_ok() {
-        Response response = send_soknad("12345678911");
-        System.out.println(response.readEntity(String.class));
+        Response response = send_soknad("MASKERT_FNR");
         assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void at_motta_soknad_returnerer_forbidden() {
-        Response response = send_soknad("12345678912");
+        Response response = send_soknad("MASKERT_FNR2");
         assertThat(response.getStatus()).isEqualTo(Response.Status.FORBIDDEN.getStatusCode());
     }
 
@@ -61,7 +60,7 @@ public class SoknadMottakResourceTest {
                 })
                 .register(new LoggingFeature())
                 .target("http://localhost:" + port + contextPath);
-        SignedJWT signedJWT = JwtTokenGenerator.createSignedJWT("12345678911");
+        SignedJWT signedJWT = JwtTokenGenerator.createSignedJWT("MASKERT_FNR");
         return target.path("/soknad")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header(OIDCConstants.AUTHORIZATION_HEADER, "Bearer " + signedJWT.serialize())

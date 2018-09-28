@@ -21,7 +21,7 @@ public class PersonMapperTest {
     @Test
     public void mappingAvPersonnavn() {
 
-        PersoninfoDto tpsPerson = tpsPerson("Testfornavn", "Etternanvsen", "12345678901", null);
+        PersoninfoDto tpsPerson = tpsPerson("Testfornavn", "Etternanvsen", "MASKERT_FNR", null);
 
         assertThat(personinfoDtoToPerson.apply(tpsPerson).getFornavn()).isEqualTo("Testfornavn");
         assertThat(personinfoDtoToPerson.apply(tpsPerson).getSlektsnavn()).isEqualTo("Etternanvsen");

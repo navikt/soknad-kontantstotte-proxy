@@ -14,7 +14,7 @@ public class SoknadConverterTest {
     @Test
     public void at_soknad_uten_innsendt_dato_far_generert_dato() {
 
-        Soknad soknadUtenTimestamp = converter.toSoknad(new SoknadDto("123456789011", "pdf".getBytes(), null));
+        Soknad soknadUtenTimestamp = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(), null));
 
         assertThat(soknadUtenTimestamp.getInnsendingTimestamp()).isNotNull();
 
@@ -25,7 +25,7 @@ public class SoknadConverterTest {
 
         LocalDateTime someDate = LocalDateTime.now().minusDays(10);
 
-        Soknad soknadMedTimestamp = converter.toSoknad(new SoknadDto("123456789011", "pdf".getBytes(),
+        Soknad soknadMedTimestamp = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(),
                 someDate));
 
         assertThat(soknadMedTimestamp.getInnsendingTimestamp()).isEqualTo(someDate);
