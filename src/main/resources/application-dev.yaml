@@ -18,5 +18,13 @@ dokmot :
   channelname : channel
   enabled: false
 
+logging:
+  level:
+    org.springframework: WARN
+    org.glassfish.jersey: WARN
+    org.glassfish.jersey.logging.LoggingFeature: DEBUG
+    com.fasterxml: WARN
+  config: classpath:logback-spring-test.xml
+
 PERSONINFO_V1_URL: http://localhost
 

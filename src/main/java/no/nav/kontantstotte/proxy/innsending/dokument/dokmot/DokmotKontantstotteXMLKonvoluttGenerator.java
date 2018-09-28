@@ -32,8 +32,8 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(LocalDateTime.now())
-                        .withForsendelseMottatt(LocalDateTime.now())
+                        .withForsendelseInnsendt(soknad.getInnsendingTimestamp())
+                        .withForsendelseMottatt(soknad.getInnsendingTimestamp())
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad)));
