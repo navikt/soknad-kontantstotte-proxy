@@ -1,9 +1,9 @@
 package no.nav.kontantstotte.proxy.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import no.nav.kontantstotte.proxy.api.rest.StatusResource;
+import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.ExceptionLogger;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.ServiceExceptionMapper;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SikkerhetsbegrensningExceptionMapper;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SoknadInnsendingExceptionMapper;
@@ -23,7 +23,8 @@ public class RestConfiguration extends ResourceConfig {
         register(objectMapperContextResolver());
         //Filter
         register(OidcContainerRequestFilter.class);
-        // Exception Mappers
+        // Exception handlers
+        register(ExceptionLogger.class);
         register(ServiceExceptionMapper.class);
         register(SoknadInnsendingExceptionMapper.class);
         register(SikkerhetsbegrensningExceptionMapper.class);
