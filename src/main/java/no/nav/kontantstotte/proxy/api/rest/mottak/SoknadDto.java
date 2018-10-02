@@ -1,6 +1,7 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.Instant;
@@ -17,7 +18,7 @@ public class SoknadDto {
     @JsonProperty
     private final String fnr;
 
-    @JsonProperty
+    @JsonIgnore
     private final LocalDateTime innsendingTimestamp;
 
     @JsonCreator
