@@ -24,11 +24,10 @@ public class SoknadDto {
     @JsonCreator
     public SoknadDto(
             @JsonProperty("fnr") String fnr,
-            @JsonProperty("pdf") byte[] pdf,
-            @JsonProperty("innsendingTimestamp") LocalDateTime innsendingTimestamp) {
+            @JsonProperty("pdf") byte[] pdf) {
         this.pdf = pdf;
         this.fnr = fnr;
-        this.innsendingTimestamp = innsendingTimestamp;
+        this.innsendingTimestamp = null;
     }
 
     byte[] getPdf() {
