@@ -3,10 +3,7 @@ package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import org.junit.Test;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 
 import static java.time.LocalDateTime.now;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -20,7 +17,7 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
     public void that_xml_konverteres_korrekt() {
 
         String xml = generator.toXML(new Soknad("MASKERT_FNR", "test".getBytes(),
-                Instant.from(LocalDateTime.of(2018, 05, 11, 13, 45, 11, 994000000))));
+                LocalDateTime.of(2018, 5, 11, 13, 45, 11, 994000000).atZone(ZoneId.systemDefault()).toInstant()));
 
         // only verifies the most interesting parts of the xml. Timestamps and callIds varies, so cannot verify against a reference xml
         assertThat(xml, containsString("hoveddokument"));

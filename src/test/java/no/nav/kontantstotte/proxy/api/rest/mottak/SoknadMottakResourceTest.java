@@ -51,17 +51,6 @@ public class SoknadMottakResourceTest {
         assertThat(response.getStatus()).isEqualTo(Response.Status.FORBIDDEN.getStatusCode());
     }
 
-    @Test
-    public void at_motta_soknad_fungerer_med_forventet_dato_format() {
-        Map<String, Object> json = new HashMap<>();
-        json.put("fnr", "MASKERT_FNR");
-        json.put("pdf", "".getBytes());
-        json.put("innsendingTimestamp", "2018-10-01T14:14:09.584+02:00");
-
-        Response response = send_soknad(json);
-        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
-    }
-
     private SoknadDto soknadDto(String soknadFnr) {
         return new SoknadDto(soknadFnr, "".getBytes(), now());
     }

@@ -8,6 +8,7 @@ import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBContext;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 
 class DokmotKontantstotteXMLKonvoluttGenerator {
@@ -32,8 +33,8 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(LocalDateTime.from(soknad.getInnsendingTimestamp()))
-                        .withForsendelseMottatt(LocalDateTime.from(soknad.getInnsendingTimestamp()))
+                        .withForsendelseInnsendt(LocalDateTime.ofInstant(soknad.getInnsendingTimestamp(), ZoneId.systemDefault()))
+                        .withForsendelseMottatt(LocalDateTime.ofInstant(soknad.getInnsendingTimestamp(), ZoneId.systemDefault()))
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad)));
