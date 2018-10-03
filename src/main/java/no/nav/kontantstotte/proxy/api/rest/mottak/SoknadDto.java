@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SoknadDto {
@@ -17,16 +16,16 @@ public class SoknadDto {
     private final String fnr;
 
     @JsonProperty
-    private final Instant innsendingTimestamp;
+    private final Instant innsendingsTidspunkt;
 
     @JsonCreator
     public SoknadDto(
             @JsonProperty("fnr") String fnr,
             @JsonProperty("pdf") byte[] pdf,
-            @JsonProperty("innsendingTimestamp") Instant innsendingTimestamp) {
+            @JsonProperty("innsendingsTidspunkt") Instant innsendingsTidspunkt) {
         this.pdf = pdf;
         this.fnr = fnr;
-        this.innsendingTimestamp = innsendingTimestamp;
+        this.innsendingsTidspunkt = innsendingsTidspunkt;
     }
 
     byte[] getPdf() {
@@ -37,7 +36,7 @@ public class SoknadDto {
         return fnr;
     }
 
-    Instant getInnsendingTimestamp() {
-        return innsendingTimestamp;
+    Instant getInnsendingsTidspunkt() {
+        return innsendingsTidspunkt;
     }
 }

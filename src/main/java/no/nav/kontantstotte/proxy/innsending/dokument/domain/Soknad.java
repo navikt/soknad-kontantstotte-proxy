@@ -8,12 +8,12 @@ public class Soknad {
 
     private final String fnr;
 
-    private final Instant innsendingTimestamp;
+    private final Instant innsendingsTidspunkt;
 
-    public Soknad(String fnr, byte[] pdf, Instant innsendingTimestamp) {
+    public Soknad(String fnr, byte[] pdf, Instant innsendingsTidspunkt) {
         this.pdf = pdf;
         this.fnr = fnr;
-        this.innsendingTimestamp = innsendingTimestamp;
+        this.innsendingsTidspunkt = innsendingsTidspunkt;
     }
 
     public byte[] getPdf() {
@@ -24,8 +24,8 @@ public class Soknad {
         return fnr;
     }
 
-    public Instant getInnsendingTimestamp() {
-        return innsendingTimestamp;
+    public Instant getInnsendingsTidspunkt() {
+        return innsendingsTidspunkt;
     }
 
     @Override

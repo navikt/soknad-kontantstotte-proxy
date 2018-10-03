@@ -27,14 +27,16 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
         String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
+        LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
+        
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
                         .withKanalreferanseId(ref)
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(LocalDateTime.ofInstant(soknad.getInnsendingTimestamp(), ZoneId.systemDefault()))
-                        .withForsendelseMottatt(LocalDateTime.ofInstant(soknad.getInnsendingTimestamp(), ZoneId.systemDefault()))
+                        .withForsendelseInnsendt(innsendingsTidspunkt)
+                        .withForsendelseMottatt(innsendingsTidspunkt)
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad)));

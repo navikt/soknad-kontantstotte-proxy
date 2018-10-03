@@ -17,7 +17,7 @@ public class SoknadConverterTest {
 
         Soknad soknadUtenTimestamp = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(), null));
 
-        assertThat(soknadUtenTimestamp.getInnsendingTimestamp()).isNotNull();
+        assertThat(soknadUtenTimestamp.getInnsendingsTidspunkt()).isNotNull();
 
     }
 
@@ -29,7 +29,7 @@ public class SoknadConverterTest {
         Soknad soknadMedTimestamp = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(),
                 someDate));
 
-        assertThat(soknadMedTimestamp.getInnsendingTimestamp()).isEqualTo(someDate);
+        assertThat(soknadMedTimestamp.getInnsendingsTidspunkt()).isEqualTo(someDate);
     }
 
 }

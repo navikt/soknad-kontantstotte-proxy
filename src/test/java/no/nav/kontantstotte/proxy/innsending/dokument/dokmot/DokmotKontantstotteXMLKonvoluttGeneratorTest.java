@@ -17,7 +17,7 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
     public void that_xml_konverteres_korrekt() {
 
         String xml = generator.toXML(new Soknad("MASKERT_FNR", "test".getBytes(),
-                LocalDateTime.of(2018, 5, 11, 13, 45, 11, 994000000).atZone(ZoneId.systemDefault()).toInstant()));
+                LocalDateTime.of(2018, 5, 11, 13, 45, 11, 994000000).atZone(ZoneId.of("Europe/Paris")).toInstant()));
 
         // only verifies the most interesting parts of the xml. Timestamps and callIds varies, so cannot verify against a reference xml
         assertThat(xml, containsString("hoveddokument"));

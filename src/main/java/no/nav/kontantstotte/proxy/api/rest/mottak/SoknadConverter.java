@@ -10,7 +10,7 @@ class SoknadConverter {
         return new Soknad(
                 dto.getFnr(),
                 dto.getPdf(),
-                dto.getInnsendingTimestamp() != null ? dto.getInnsendingTimestamp() : now());
+                dto.getInnsendingsTidspunkt() != null ? dto.getInnsendingsTidspunkt() : now());
     }
 
 }
