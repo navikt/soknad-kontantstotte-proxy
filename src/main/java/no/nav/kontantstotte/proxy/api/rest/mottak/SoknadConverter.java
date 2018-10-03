@@ -2,7 +2,7 @@ package no.nav.kontantstotte.proxy.api.rest.mottak;
 
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 
-import static java.time.LocalDateTime.now;
+import static java.time.Instant.now;
 
 class SoknadConverter {
 

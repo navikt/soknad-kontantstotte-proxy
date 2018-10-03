@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.jwt.SignedJWT;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
+import no.nav.sbl.rest.ClientLogFilter;
 import no.nav.security.oidc.OIDCConstants;
 import no.nav.security.oidc.test.support.JwtTokenGenerator;
 import no.nav.security.oidc.test.support.spring.TokenGeneratorConfiguration;
@@ -22,8 +23,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ContextResolver;
+import java.util.HashMap;
+import java.util.Map;
 
-import static java.time.LocalDateTime.now;
+import static java.time.Instant.now;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ActiveProfiles("dev")
@@ -38,24 +41,40 @@ public class SoknadMottakResourceTest {
 
     @Test
     public void at_motta_soknad_returnerer_ok() {
-        Response response = send_soknad("MASKERT_FNR");
+        Response response = send_soknad(soknadDto("MASKERT_FNR"));
         assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void at_motta_soknad_returnerer_forbidden() {
-        Response response = send_soknad("MASKERT_FNR2");
+        Response response = send_soknad(soknadDto("MASKERT_FNR2"));
         assertThat(response.getStatus()).isEqualTo(Response.Status.FORBIDDEN.getStatusCode());
     }
 
-    private Response send_soknad(String soknadFnr) {
+    @Test
+    public void at_motta_soknad_fungerer_med_forventet_dato_format() {
+        Map<String, Object> json = new HashMap<>();
+        json.put("fnr", "MASKERT_FNR");
+        json.put("pdf", "".getBytes());
+        json.put("innsendingTimestamp", "2018-10-01T14:14:09.584+02:00");
+
+        Response response = send_soknad(json);
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+    }
+
+    private SoknadDto soknadDto(String soknadFnr) {
+        return new SoknadDto(soknadFnr, "".getBytes(), now());
+    }
+
+    private Response send_soknad(Object entity) {
+
         WebTarget target = ClientBuilder.newClient()
                 .register(new ContextResolver<ObjectMapper>() {
                     @Override
                     public ObjectMapper getContext(Class<?> type) {
                         return new ObjectMapper()
                                 .registerModule(new JavaTimeModule())
-                                .enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
                     }
                 })
                 .register(new LoggingFeature())
@@ -64,7 +83,7 @@ public class SoknadMottakResourceTest {
         return target.path("/soknad")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header(OIDCConstants.AUTHORIZATION_HEADER, "Bearer " + signedJWT.serialize())
-                .buildPost(Entity.json(new SoknadDto(soknadFnr, "".getBytes(), now())))
+                .buildPost(Entity.json(entity))
                 .invoke();
     }
 }

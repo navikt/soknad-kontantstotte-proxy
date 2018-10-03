@@ -3,7 +3,8 @@ package no.nav.kontantstotte.proxy.api.rest.mottak;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.Period;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -23,7 +24,7 @@ public class SoknadConverterTest {
     @Test
     public void at_soknad_med_innsendt_dato_beholdes() {
 
-        LocalDateTime someDate = LocalDateTime.now().minusDays(10);
+        Instant someDate = Instant.now().minus(Period.ofDays(10));
 
         Soknad soknadMedTimestamp = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(),
                 someDate));
