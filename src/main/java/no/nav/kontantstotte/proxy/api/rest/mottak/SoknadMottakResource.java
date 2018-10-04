@@ -20,6 +20,7 @@ public class SoknadMottakResource {
     public static final String BRUK_DOKMOT_INTEGRASJON = "kontantstotte.integrasjon.dokmot";
     private static final Logger logger = LoggerFactory.getLogger(SoknadMottakResource.class);
     private static final String SELVBETJENING = "selvbetjening";
+    public static final int MINIMUM_PDF_STORRELSE = 10000;
 
     private final SoknadSender soknadSender;
 
@@ -41,6 +42,11 @@ public class SoknadMottakResource {
         if (!hentFnrFraToken().equals(soknadDto.getFnr())) {
             logger.warn("Fødselsnummer på innsendt søknad tilsvarer ikke innlogget bruker");
             throw new WebApplicationException(Response.Status.FORBIDDEN);
+        }
+
+        if (soknadDto.getPdf().length < MINIMUM_PDF_STORRELSE) {
+            logger.error("Størrelse på pdf er under minimumkravet og noe er sannsynligvis feil.");
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
 
         if(unleash.isEnabled(BRUK_DOKMOT_INTEGRASJON)) {
