@@ -4,9 +4,7 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
-import java.time.LocalDateTime;
-
-import static java.time.LocalDateTime.now;
+import static java.time.Instant.now;
 import static org.mockito.Mockito.*;
 
 public class DokmotJmsSoknadSenderTest {

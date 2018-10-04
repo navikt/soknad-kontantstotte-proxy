@@ -8,6 +8,7 @@ import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBContext;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 
 class DokmotKontantstotteXMLKonvoluttGenerator {
@@ -26,14 +27,16 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
         String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
+        LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
+
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
                         .withKanalreferanseId(ref)
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(soknad.getInnsendingTimestamp())
-                        .withForsendelseMottatt(soknad.getInnsendingTimestamp())
+                        .withForsendelseInnsendt(innsendingsTidspunkt)
+                        .withForsendelseMottatt(innsendingsTidspunkt)
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad)));

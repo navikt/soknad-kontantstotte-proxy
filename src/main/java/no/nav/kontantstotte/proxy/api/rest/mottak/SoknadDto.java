@@ -1,13 +1,10 @@
 package no.nav.kontantstotte.proxy.api.rest.mottak;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.Instant;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.time.Instant;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SoknadDto {
@@ -18,16 +15,17 @@ public class SoknadDto {
     @JsonProperty
     private final String fnr;
 
-    @JsonIgnore
-    private final LocalDateTime innsendingTimestamp;
+    @JsonProperty
+    private final Instant innsendingsTidspunkt;
 
     @JsonCreator
     public SoknadDto(
             @JsonProperty("fnr") String fnr,
-            @JsonProperty("pdf") byte[] pdf) {
+            @JsonProperty("pdf") byte[] pdf,
+            @JsonProperty("innsendingsTidspunkt") Instant innsendingsTidspunkt) {
         this.pdf = pdf;
         this.fnr = fnr;
-        this.innsendingTimestamp = null;
+        this.innsendingsTidspunkt = innsendingsTidspunkt;
     }
 
     byte[] getPdf() {
@@ -38,7 +36,7 @@ public class SoknadDto {
         return fnr;
     }
 
-    LocalDateTime getInnsendingTimestamp() {
-        return innsendingTimestamp;
+    Instant getInnsendingsTidspunkt() {
+        return innsendingsTidspunkt;
     }
 }
