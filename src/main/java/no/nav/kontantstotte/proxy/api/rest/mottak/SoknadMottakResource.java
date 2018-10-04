@@ -20,7 +20,7 @@ public class SoknadMottakResource {
     public static final String BRUK_DOKMOT_INTEGRASJON = "kontantstotte.integrasjon.dokmot";
     private static final Logger logger = LoggerFactory.getLogger(SoknadMottakResource.class);
     private static final String SELVBETJENING = "selvbetjening";
-    private static final int MINIMUM_PDF_STORRELSE = 10000;
+    public static final int MINIMUM_PDF_STORRELSE = 10000;
 
     private final SoknadSender soknadSender;
 
@@ -44,7 +44,7 @@ public class SoknadMottakResource {
             throw new WebApplicationException(Response.Status.FORBIDDEN);
         }
 
-        if (soknadDto.getPdf() != null && soknadDto.getPdf().length < MINIMUM_PDF_STORRELSE) {
+        if (soknadDto.getPdf().length < MINIMUM_PDF_STORRELSE) {
             logger.error("Størrelse på pdf er under minimumkravet og noe er sannsynligvis feil.");
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
