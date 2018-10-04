@@ -45,7 +45,7 @@ public class SoknadMottakResource {
         }
 
         if (soknadDto.getPdf().length < MINIMUM_PDF_STORRELSE) {
-            logger.warn("Størrelse på pdf er under minimumkravet og noe er sannsynligvis feil.");
+            logger.error("Størrelse på pdf er under minimumkravet og noe er sannsynligvis feil.");
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
 
