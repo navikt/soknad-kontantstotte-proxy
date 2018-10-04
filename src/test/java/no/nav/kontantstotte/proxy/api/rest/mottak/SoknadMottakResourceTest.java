@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.jwt.SignedJWT;
 import no.nav.kontantstotte.proxy.config.ApplicationConfig;
-import no.nav.sbl.rest.ClientLogFilter;
 import no.nav.security.oidc.OIDCConstants;
 import no.nav.security.oidc.test.support.JwtTokenGenerator;
 import no.nav.security.oidc.test.support.spring.TokenGeneratorConfiguration;
@@ -23,8 +22,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ContextResolver;
-import java.util.HashMap;
-import java.util.Map;
 
 import static java.time.Instant.now;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -51,8 +48,15 @@ public class SoknadMottakResourceTest {
         assertThat(response.getStatus()).isEqualTo(Response.Status.FORBIDDEN.getStatusCode());
     }
 
+    @Test
+    public void at_motta_soknad_returnerer_bad_request_pga_liten_pdf() {
+        SoknadDto soknadDto = new SoknadDto("MASKERT_FNR", "".getBytes(), now());
+        Response response = send_soknad(soknadDto);
+        assertThat(response.getStatus()).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
     private SoknadDto soknadDto(String soknadFnr) {
-        return new SoknadDto(soknadFnr, "".getBytes(), now());
+        return new SoknadDto(soknadFnr, null, now());
     }
 
     private Response send_soknad(Object entity) {
