@@ -22,6 +22,7 @@
         <xsd.location>${project.build.directory}/classes</xsd.location>
         <jaxb.location>${project.build.directory}/classes/</jaxb.location>
         <unleash.version>3.1.0</unleash.version>
+        <jackson.version>2.9.7</jackson.version>
     </properties>
 
     <build>
@@ -252,6 +253,12 @@
             <groupId>no.finn.unleash</groupId>
             <artifactId>unleash-client-java</artifactId>
             <version>${unleash.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
         <!-- Swagger annotations in generated code by swagger code-gen -->
