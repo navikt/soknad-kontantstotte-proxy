@@ -23,10 +23,6 @@ management:
     path-mapping:
       info: "status/isAlive"
   metrics.export.prometheus.enabled: true
-  endpoints:
-    web:
-      exposure:
-        exclude: "*"
 
 http.proxy: http://webproxy-nais.nav.no:8088
 
