@@ -2,7 +2,6 @@ package no.nav.kontantstotte.proxy.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import no.nav.kontantstotte.proxy.api.rest.StatusResource;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.ExceptionLogger;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.ServiceExceptionMapper;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SikkerhetsbegrensningExceptionMapper;
@@ -29,7 +28,6 @@ public class RestConfiguration extends ResourceConfig {
         register(SoknadInnsendingExceptionMapper.class);
         register(SikkerhetsbegrensningExceptionMapper.class);
         // Resources
-        register(StatusResource.class);
         register(SoknadMottakResource.class);
         register(PersonResource.class);
     }
