@@ -23,8 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ContextResolver;
 
-import java.util.List;
-
 import static java.time.Instant.now;
 import static no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource.MINIMUM_PDF_STORRELSE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
