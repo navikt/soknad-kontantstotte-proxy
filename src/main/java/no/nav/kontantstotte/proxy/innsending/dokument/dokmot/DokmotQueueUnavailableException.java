@@ -1,8 +1,6 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadInnsendingException;
-
-public class DokmotQueueUnavailableException extends SoknadInnsendingException {
+public class DokmotQueueUnavailableException extends RuntimeException {
 
     private final QueueConfiguration config;
 
