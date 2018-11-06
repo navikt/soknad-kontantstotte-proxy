@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
 import static no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource.BRUK_DOKMOT_INTEGRASJON;
-import static no.nav.kontantstotte.proxy.api.rest.oppslag.PersonResource.BRUK_MOCK_TPS_INTEGRASJON;
 
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
@@ -40,7 +39,6 @@ public class TestLauncher {
     @Bean
     Unleash fakeUnleash() {
         FakeUnleash unleash = new FakeUnleash();
-        unleash.enable( BRUK_MOCK_TPS_INTEGRASJON );
         unleash.enable( BRUK_DOKMOT_INTEGRASJON );
         return unleash;
     }

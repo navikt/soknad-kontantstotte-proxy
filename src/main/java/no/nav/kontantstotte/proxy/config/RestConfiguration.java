@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.*;
 import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource;
-import no.nav.kontantstotte.proxy.api.rest.oppslag.PersonResource;
 import no.nav.security.oidc.jaxrs.OidcContainerRequestFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -22,12 +21,8 @@ public class RestConfiguration extends ResourceConfig {
         // Exception handlers
         register(DokmotQueueUnavailableExceptionMapper.class);
         register(ExceptionLogger.class);
-        register(ServiceExceptionMapper.class);
-        register(SoknadInnsendingExceptionMapper.class);
-        register(SikkerhetsbegrensningExceptionMapper.class);
         // Resources
         register(SoknadMottakResource.class);
-        register(PersonResource.class);
     }
 
     private ContextResolver<ObjectMapper> objectMapperContextResolver() {
