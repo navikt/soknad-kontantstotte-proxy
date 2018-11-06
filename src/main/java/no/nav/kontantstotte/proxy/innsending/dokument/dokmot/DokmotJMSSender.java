@@ -32,6 +32,7 @@ public class DokmotJMSSender implements SoknadSender {
 
     @Override
     public void send(Soknad soknad) {
+        /*
         if (!queueConfig.isEnabled()) {
             LOG.info("Leveranse til DOKMOT er deaktivert, ingenting å sende");
             return;
@@ -47,9 +48,11 @@ public class DokmotJMSSender implements SoknadSender {
             });
             dokmotSuccess.increment();
         } catch (JmsException e) {
-            dokmotFailure.increment();
-            throw new DokmotQueueUnavailableException(e, queueConfig);
-        }
+        */
+        Exception testException = new RuntimeException("test");
+        dokmotFailure.increment();
+        throw new DokmotQueueUnavailableException(testException, queueConfig);
+        //}
     }
 
     @Override
