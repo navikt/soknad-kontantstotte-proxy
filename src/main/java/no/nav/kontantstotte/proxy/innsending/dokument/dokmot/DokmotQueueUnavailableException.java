@@ -1,15 +1,11 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-public class DokmotQueueUnavailableException extends RuntimeException {
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadInnsendingException;
 
-    private final QueueConfiguration config;
+class DokmotQueueUnavailableException extends SoknadInnsendingException {
 
-    public DokmotQueueUnavailableException(Exception e, QueueConfiguration config) {
-        super(e);
-        this.config = config;
+    DokmotQueueUnavailableException(Exception e, QueueConfiguration config) {
+        super(config.toString(), e);
     }
 
-    public QueueConfiguration getConfig() {
-        return config;
-    }
 }

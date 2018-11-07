@@ -19,7 +19,7 @@ public class RestConfiguration extends ResourceConfig {
         //Filter
         register(OidcContainerRequestFilter.class);
         // Exception handlers
-        register(DokmotQueueUnavailableExceptionMapper.class);
+        register(SoknadInnsendingExceptionMapper.class);
         register(ExceptionLogger.class);
         // Resources
         register(SoknadMottakResource.class);
