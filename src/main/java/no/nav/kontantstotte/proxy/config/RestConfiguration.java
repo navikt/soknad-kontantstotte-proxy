@@ -20,7 +20,6 @@ public class RestConfiguration extends ResourceConfig {
         register(OidcContainerRequestFilter.class);
         // Exception handlers
         register(SoknadInnsendingExceptionMapper.class);
-        register(ExceptionLogger.class);
         // Resources
         register(SoknadMottakResource.class);
     }
