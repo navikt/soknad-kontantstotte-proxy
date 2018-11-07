@@ -5,7 +5,7 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadInnsendingExc
 class DokmotQueueUnavailableException extends SoknadInnsendingException {
 
     DokmotQueueUnavailableException(Exception e, QueueConfiguration config) {
-        super(config.toString(), e);
+        super(e, config.toString());
     }
 
 }

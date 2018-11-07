@@ -4,7 +4,7 @@ public class SoknadInnsendingException extends RuntimeException {
 
     private final String config;
 
-    public SoknadInnsendingException(String config, Exception e) {
+    public SoknadInnsendingException(Exception e, String config) {
 
         super(e);
         this.config = config;
