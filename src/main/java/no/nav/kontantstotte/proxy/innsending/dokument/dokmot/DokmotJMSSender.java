@@ -49,9 +49,10 @@ public class DokmotJMSSender implements SoknadSender {
             dokmotSuccess.increment();
         } catch (JmsException e) {
         */
-        Exception testException = new RuntimeException("test");
+        //Exception testException = new RuntimeException("test");
         dokmotFailure.increment();
-        throw new DokmotQueueUnavailableException(testException, queueConfig);
+        //throw new DokmotQueueUnavailableException(testException, queueConfig);
+        throw new RuntimeException("test");
         //}
     }
 
