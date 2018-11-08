@@ -24,6 +24,3 @@ logging:
     org.glassfish.jersey.logging.LoggingFeature: DEBUG
     com.fasterxml: WARN
   config: classpath:logback-spring-test.xml
-
-PERSONINFO_V1_URL: http://localhost
-

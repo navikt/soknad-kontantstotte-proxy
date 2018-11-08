@@ -34,7 +34,3 @@ logging:
 
 dokmot:
   enabled: true
-
-# Denne propertyen er til frem til fasitressurssen er lagt til i relevante miljøer
-# Da kan denne fjernes og legges til igjen i app-config.yaml
-PERSONINFO_V1_URL: http://urlsomikkeeribruk
