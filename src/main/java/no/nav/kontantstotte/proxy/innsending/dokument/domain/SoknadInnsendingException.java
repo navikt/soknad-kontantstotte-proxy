@@ -2,8 +2,15 @@ package no.nav.kontantstotte.proxy.innsending.dokument.domain;
 
 public class SoknadInnsendingException extends RuntimeException {
 
-    public SoknadInnsendingException(Exception e) {
+    private final String config;
+
+    public SoknadInnsendingException(Exception e, String config) {
+
         super(e);
+        this.config = config;
     }
 
+    public String getConfig() {
+        return config;
+    }
 }

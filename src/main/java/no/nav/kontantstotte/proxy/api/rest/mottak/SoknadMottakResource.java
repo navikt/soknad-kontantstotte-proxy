@@ -41,12 +41,12 @@ public class SoknadMottakResource {
     public Response mottaSoknad(SoknadDto soknadDto) {
         if (!hentFnrFraToken().equals(soknadDto.getFnr())) {
             logger.warn("Fødselsnummer på innsendt søknad tilsvarer ikke innlogget bruker");
-            throw new WebApplicationException(Response.Status.FORBIDDEN);
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         if (soknadDto.getPdf().length < MINIMUM_PDF_STORRELSE) {
             logger.error("Størrelse på pdf er under minimumkravet og noe er sannsynligvis feil.");
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         if(unleash.isEnabled(BRUK_DOKMOT_INTEGRASJON)) {
@@ -54,7 +54,7 @@ public class SoknadMottakResource {
             return Response.ok().build();
         } else {
             logger.warn("Feature toggle {} er skrudd av. Sjekk unleash.", BRUK_DOKMOT_INTEGRASJON);
-            throw new WebApplicationException(Response.Status.NOT_IMPLEMENTED);
+            return Response.status(Response.Status.NOT_IMPLEMENTED).build();
         }
     }
 
