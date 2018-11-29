@@ -8,7 +8,8 @@ mvn package && java -jar target/soknad-kontantstotte-proxy.jar
 ```
 
 ## Fra IntelliJ
-Kjør [main-metoden](src/test/java/no/nav/kontantstotte/proxy/api/TestLauncher.java)
+- Edit Configurations -> VM Options: -Dspring.profiles.active=dev evt lage springboot run-config med profile dev
+- Kjør [main-metoden](src/test/java/no/nav/kontantstotte/proxy/api/TestLauncher.java)
 
 ## Via dockerimaget
 
