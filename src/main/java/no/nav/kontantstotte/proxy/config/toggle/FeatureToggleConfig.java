@@ -9,14 +9,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 @Configuration
-@Profile({"!dev"})
 public class FeatureToggleConfig {
 
     private static final String APP_NAME_PROPERTY_NAME = "${APP_NAME}";
     private static final String UNLEASH_API_URL_PROPERTY_NAME = "${UNLEASH_API_URL}";
     public static final String FASIT_ENVIRONMENT_NAME = "${FASIT_ENVIRONMENT_NAME}";
 
+    @Inject
+    private Unleash unleash;
+
+    @Profile("!dev")
     @Bean
     public Unleash unleash(
             @Value(APP_NAME_PROPERTY_NAME) String appName,
@@ -31,10 +37,20 @@ public class FeatureToggleConfig {
         return new DefaultUnleash(config, strategies);
     }
 
+    @Profile("!dev")
     @Bean
     public Strategy isNotProd(@Value(FASIT_ENVIRONMENT_NAME) String env){
         return new IsNotProdStrategy(env);
     }
 
+    @Profile("!dev")
+    @Bean
+    public Strategy byEnvironment(@Value(FASIT_ENVIRONMENT_NAME) String env){
+        return new ByEnvironmentStrategy(env);
+    }
 
+    @PostConstruct
+    public void initUnleashProvider() {
+        UnleashProvider.initialize(unleash);
+    }
 }
