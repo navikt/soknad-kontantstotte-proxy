@@ -2,6 +2,7 @@ package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.conversion.Jaxb;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
+import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadVedlegg;
 import no.nav.log.MDCConstants;
 import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
 import org.slf4j.MDC;
@@ -10,6 +11,11 @@ import javax.xml.bind.JAXBContext;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig.KONTANTSTOTTE_BRUK_VEDLEGG;
+import static no.nav.kontantstotte.proxy.config.toggle.UnleashProvider.toggle;
 
 class DokmotKontantstotteXMLKonvoluttGenerator {
 
@@ -39,7 +45,32 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withForsendelseMottatt(innsendingsTidspunkt)
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
-                .withHoveddokument(hoveddokument(soknad)));
+                .withHoveddokument(hoveddokument(soknad))
+                .withVedleggListe(vedleggListe(soknad))
+        );
+    }
+
+    private List<Vedlegg> vedleggListe(Soknad soknad) {
+
+        if(toggle(KONTANTSTOTTE_BRUK_VEDLEGG).isDisabled()) {
+            return null;
+        }
+
+        return soknad.getVedlegg().stream().map(this::vedlegg).collect(Collectors.toList());
+
+    }
+
+    private Vedlegg vedlegg(SoknadVedlegg soknadVedlegg) {
+
+        Dokumentinnhold innhold = new Dokumentinnhold()
+                .withDokument(soknadVedlegg.getData())
+                .withArkivfiltype(new Arkivfiltyper().withValue("PDF"))
+                .withVariantformat(new Variantformater().withValue("ARKIV"));
+
+        return new Vedlegg()
+                .withBrukeroppgittTittel(soknadVedlegg.getTittel())
+                .withDokumenttypeId(soknadVedlegg.getDokumenttype())
+                .withDokumentinnholdListe(innhold);
     }
 
     private Hoveddokument hoveddokument(Soknad soknad) {

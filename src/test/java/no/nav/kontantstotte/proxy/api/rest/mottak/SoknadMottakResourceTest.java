@@ -23,9 +23,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ContextResolver;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.time.Instant.now;
+import static java.util.Collections.emptyList;
 import static no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource.MINIMUM_PDF_STORRELSE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -53,13 +55,13 @@ public class SoknadMottakResourceTest {
 
     @Test
     public void at_motta_soknad_returnerer_bad_request_pga_liten_pdf() {
-        SoknadDto soknadDto = new SoknadDto("MASKERT_FNR", "".getBytes(), now());
+        SoknadDto soknadDto = new SoknadDto("MASKERT_FNR", "".getBytes(), now(), emptyList());
         Response response = send_soknad(soknadDto);
         assertThat(response.getStatus()).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     private SoknadDto soknadDto(String soknadFnr) {
-        return new SoknadDto(soknadFnr, new byte[MINIMUM_PDF_STORRELSE], now());
+        return new SoknadDto(soknadFnr, new byte[MINIMUM_PDF_STORRELSE], now(), emptyList());
     }
 
     private Response send_soknad(Object entity) {
