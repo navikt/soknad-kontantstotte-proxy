@@ -38,6 +38,8 @@ public class DokmotJMSSender implements SoknadSender {
         }
 
         try {
+            throw new IllegalStateException("Test-exception");
+            /*
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
                 TextMessage msg = session.createTextMessage(generator.toXML(soknad));
@@ -46,6 +48,7 @@ public class DokmotJMSSender implements SoknadSender {
                 return msg;
             });
             dokmotSuccess.increment();
+            */
         } catch (JmsException e) {
             dokmotFailure.increment();
             throw new DokmotQueueUnavailableException(e, queueConfig);
