@@ -18,10 +18,10 @@ public class DelayedShutdownHook extends Thread {
     @Override
     public void run() {
         try {
-            log.info("shutdown initialized, allowing incoming requests for 5 seconds before continuing");
+            log.info("shutdown initialized, allowing incoming requests for 10 seconds before continuing");
             // https://github.com/kubernetes/kubernetes/issues/64510
             // https://nav-it.slack.com/archives/C5KUST8N6/p1543497847341300
-            Thread.sleep(5000L);
+            Thread.sleep(10000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
