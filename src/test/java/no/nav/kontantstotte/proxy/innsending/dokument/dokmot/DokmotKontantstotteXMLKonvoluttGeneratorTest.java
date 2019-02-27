@@ -53,7 +53,6 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
         assertThat(xml, containsString("<dokument>dGVzdA==</dokument>"));
 
         assertThat(xml, containsString("<vedleggListe>"));
-        assertThat(xml, containsString("<dokumenttypeId>VedleggDoktype</dokumenttypeId>"));
         assertThat(xml, containsString("<brukeroppgittTittel>Vedlegg 1</brukeroppgittTittel>"));
         assertThat(xml, containsString("<arkivfiltype>PDF</arkivfiltype>"));
         assertThat(xml, containsString("<variantformat>ARKIV</variantformat>"));
