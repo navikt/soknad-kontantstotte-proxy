@@ -38,7 +38,7 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
                 "MASKERT_FNR",
                 "test".getBytes(),
                 LocalDateTime.of(2018, 5, 11, 13, 45, 11, 994000000).atZone(ZoneId.of("Europe/Paris")).toInstant(),
-                Collections.singletonList(new SoknadVedlegg("Vedlegg".getBytes(), "Vedlegg 1", "VedleggDoktype"))));
+                Collections.singletonList(new SoknadVedlegg("Vedlegg".getBytes(), "Vedlegg 1"))));
 
         // only verifies the most interesting parts of the xml. Timestamps and callIds varies, so cannot verify against a reference xml
         assertThat(xml, containsString("hoveddokument"));

@@ -12,16 +12,11 @@ public class VedleggDto {
     @JsonProperty
     private final String tittel;
 
-    @JsonProperty
-    private final String dokumenttype;
-
     public VedleggDto(
             @JsonProperty("data") byte[] data,
-            @JsonProperty("tittel") String tittel,
-            @JsonProperty("dokumenttype") String dokumenttype) {
+            @JsonProperty("tittel") String tittel) {
         this.data = data;
         this.tittel = tittel;
-        this.dokumenttype = dokumenttype;
     }
 
     public byte[] getData() {
@@ -30,10 +25,6 @@ public class VedleggDto {
 
     public String getTittel() {
         return tittel;
-    }
-
-    public String getDokumenttype() {
-        return dokumenttype;
     }
 
 }
