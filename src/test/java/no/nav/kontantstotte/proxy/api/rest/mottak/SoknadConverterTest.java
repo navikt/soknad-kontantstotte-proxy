@@ -49,8 +49,8 @@ public class SoknadConverterTest {
 
         Soknad soknad = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(), someDate,
                 Arrays.asList(
-                        new VedleggDto("Vedlegg".getBytes(), "tittel", "doktype"),
-                        new VedleggDto("Vedlegg2".getBytes(), "tittel2", "doktype2"))));
+                        new VedleggDto("Vedlegg".getBytes(), "tittel"),
+                        new VedleggDto("Vedlegg2".getBytes(), "tittel2"))));
 
         assertThat(soknad.getVedlegg().size()).isEqualTo(2);
 
@@ -61,13 +61,12 @@ public class SoknadConverterTest {
 
         Soknad soknad = converter.toSoknad(new SoknadDto("MASKERT_FNR", "pdf".getBytes(), someDate,
                 Collections.singletonList(
-                        new VedleggDto("Vedlegg".getBytes(), "tittel", "doktype"))));
+                        new VedleggDto("Vedlegg".getBytes(), "tittel"))));
 
         assertThat(soknad.getVedlegg().size()).isEqualTo(1);
 
         assertThat(soknad.getVedlegg().get(0).getData()).isEqualTo("Vedlegg".getBytes());
         assertThat(soknad.getVedlegg().get(0).getTittel()).isEqualTo("tittel");
-        assertThat(soknad.getVedlegg().get(0).getDokumenttype()).isEqualTo("doktype");
 
     }
 

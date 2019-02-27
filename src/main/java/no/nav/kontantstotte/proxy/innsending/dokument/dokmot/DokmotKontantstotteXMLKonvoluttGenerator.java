@@ -69,7 +69,6 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
         return new Vedlegg()
                 .withBrukeroppgittTittel(soknadVedlegg.getTittel())
-                .withDokumenttypeId(soknadVedlegg.getDokumenttype())
                 .withDokumentinnholdListe(innhold);
     }
 

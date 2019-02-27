@@ -24,7 +24,7 @@ class SoknadConverter {
             return Collections.emptyList();
 
         return vedlegg.stream()
-                .map(v -> new SoknadVedlegg(v.getData(), v.getTittel(), v.getDokumenttype()))
+                .map(v -> new SoknadVedlegg(v.getData(), v.getTittel()))
                 .collect(Collectors.toList());
     }
 
