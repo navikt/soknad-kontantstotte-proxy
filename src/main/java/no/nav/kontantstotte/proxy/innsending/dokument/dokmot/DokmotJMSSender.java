@@ -1,9 +1,10 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.Gauge;
+import io.prometheus.client.CollectorRegistry;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
+import no.nav.kontantstotte.proxy.metrics.MetricService;
 import no.nav.log.MDCConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +18,18 @@ public class DokmotJMSSender implements SoknadSender {
 
     private static final Logger LOG = LoggerFactory.getLogger(DokmotJMSSender.class);
 
-    private final Counter dokmotSuccess = Metrics.counter("dokmot.send", "soknad", "success");
-    private final Counter dokmotFailure = Metrics.counter("dokmot.send", "soknad", "failure");
     private final DokmotKontantstotteXMLKonvoluttGenerator generator = new DokmotKontantstotteXMLKonvoluttGenerator();
 
     private final QueueConfiguration queueConfig;
 
     private final JmsTemplate template;
 
-    DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig) {
+    private final MetricService metricService;
+
+    DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig, MetricService metricService) {
         this.queueConfig = queueConfig;
         this.template = template;
+        this.metricService = metricService;
     }
 
     @Override
@@ -45,9 +47,9 @@ public class DokmotJMSSender implements SoknadSender {
 
                 return msg;
             });
-            dokmotSuccess.increment();
+            metricService.getDokmotStatus().labels("success", "-").inc();
         } catch (JmsException e) {
-            dokmotFailure.increment();
+            metricService.getDokmotStatus().labels("failure", soknad.getFnr()).inc();
             throw new DokmotQueueUnavailableException(e, queueConfig);
         }
     }

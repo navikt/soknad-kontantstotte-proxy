@@ -2,6 +2,7 @@ package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
+import no.nav.kontantstotte.proxy.metrics.MetricService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,8 +62,13 @@ public class DokmotConfiguration {
     }
 
     @Bean
-    public SoknadSender soknadSender(JmsTemplate template, QueueConfiguration queueConfig) {
-        return new DokmotJMSSender(template, queueConfig);
+    public MetricService metricService() {
+        return new MetricService();
+    }
+
+    @Bean
+    public SoknadSender soknadSender(JmsTemplate template, QueueConfiguration queueConfig, MetricService metricService) {
+        return new DokmotJMSSender(template, queueConfig, metricService);
     }
 
     @Bean
