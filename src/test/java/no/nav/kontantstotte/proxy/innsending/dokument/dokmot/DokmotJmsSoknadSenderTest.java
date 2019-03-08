@@ -3,7 +3,6 @@ package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
-import no.nav.kontantstotte.proxy.metrics.MetricService;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -16,9 +15,7 @@ public class DokmotJmsSoknadSenderTest {
 
     private JmsTemplate template = mock(JmsTemplate.class);
 
-    private MetricService metricService = mock(MetricService.class);
-
-    private DokmotJMSSender soknadSender = new DokmotJMSSender(template, queueConfig, metricService);
+    private DokmotJMSSender soknadSender = new DokmotJMSSender(template, queueConfig);
 
     @Test
     public void that_disabled_queues_do_not_get_called() {
@@ -39,7 +36,6 @@ public class DokmotJmsSoknadSenderTest {
                 .register(new CollectorRegistry());
 
         when(queueConfig.isEnabled()).thenReturn(true);
-        when(metricService.getDokmotStatus()).thenReturn(testMetrikk);
 
         soknadSender.send(new Soknad("MASKERT_FNR", "test".getBytes(), now(),null));
 

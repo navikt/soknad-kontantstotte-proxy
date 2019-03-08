@@ -1,10 +1,10 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import io.micrometer.core.instrument.Gauge;
-import io.prometheus.client.CollectorRegistry;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.Metrics;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
-import no.nav.kontantstotte.proxy.metrics.MetricService;
 import no.nav.log.MDCConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,14 @@ public class DokmotJMSSender implements SoknadSender {
 
     private final JmsTemplate template;
 
-    private final MetricService metricService;
+    private final Counter dokmotSuccess = Metrics.counter("dokmot.send", "soknad", "success");
+    private final Counter dokmotFailure = Metrics.counter("dokmot.send", "soknad", "failure");
+    private final DistributionSummary dokmotMeldingStorrelse = Metrics.summary("dokmot.melding.storrelse");
 
-    DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig, MetricService metricService) {
+    DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig) {
+        System.out.println("DokmotJMSSender initialisert");
         this.queueConfig = queueConfig;
         this.template = template;
-        this.metricService = metricService;
     }
 
     @Override
@@ -42,14 +44,16 @@ public class DokmotJMSSender implements SoknadSender {
         try {
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
-                TextMessage msg = session.createTextMessage(generator.toXML(soknad));
+                String soknadXML = generator.toXML(soknad);
+                TextMessage msg = session.createTextMessage(soknadXML);
                 msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CORRELATION_ID));
-
+                dokmotMeldingStorrelse.record(soknadXML.length());
                 return msg;
             });
-            metricService.getDokmotStatus().labels("success", "-").inc();
+            dokmotSuccess.increment();
         } catch (JmsException e) {
-            metricService.getDokmotStatus().labels("failure", soknad.getFnr()).inc();
+            // TODO: Endre dette - få brukerid bedre frem i loggoppsettet i stedet. Dette kommer til å drepe minne/cpu
+            dokmotFailure.increment();
             throw new DokmotQueueUnavailableException(e, queueConfig);
         }
     }
