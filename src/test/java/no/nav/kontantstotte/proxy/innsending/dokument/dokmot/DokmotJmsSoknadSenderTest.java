@@ -1,7 +1,5 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import io.prometheus.client.CollectorRegistry;
-import io.prometheus.client.Counter;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
@@ -29,12 +27,6 @@ public class DokmotJmsSoknadSenderTest {
 
     @Test
     public void successful_send() {
-        Counter testMetrikk = Counter.build()
-                .name("testmetrikk")
-                .help("Test")
-                .labelNames("status", "user")
-                .register(new CollectorRegistry());
-
         when(queueConfig.isEnabled()).thenReturn(true);
 
         soknadSender.send(new Soknad("MASKERT_FNR", "test".getBytes(), now(),null));

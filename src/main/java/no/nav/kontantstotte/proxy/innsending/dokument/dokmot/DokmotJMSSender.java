@@ -29,7 +29,6 @@ public class DokmotJMSSender implements SoknadSender {
     private final DistributionSummary dokmotMeldingStorrelse = Metrics.summary("dokmot.melding.storrelse");
 
     DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig) {
-        System.out.println("DokmotJMSSender initialisert");
         this.queueConfig = queueConfig;
         this.template = template;
     }
@@ -52,7 +51,6 @@ public class DokmotJMSSender implements SoknadSender {
             });
             dokmotSuccess.increment();
         } catch (JmsException e) {
-            // TODO: Endre dette - få brukerid bedre frem i loggoppsettet i stedet. Dette kommer til å drepe minne/cpu
             dokmotFailure.increment();
             throw new DokmotQueueUnavailableException(e, queueConfig);
         }
