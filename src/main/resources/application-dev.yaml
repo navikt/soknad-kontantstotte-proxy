@@ -19,7 +19,7 @@ dokmot :
   name : name
   username : user
   channelname : channel
-  enabled: true
+  enabled: false
 
 logging:
   level:
