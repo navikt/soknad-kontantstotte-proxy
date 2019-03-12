@@ -1,6 +1,7 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.Metrics;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
@@ -17,13 +18,15 @@ public class DokmotJMSSender implements SoknadSender {
 
     private static final Logger LOG = LoggerFactory.getLogger(DokmotJMSSender.class);
 
-    private final Counter dokmotSuccess = Metrics.counter("dokmot.send", "soknad", "success");
-    private final Counter dokmotFailure = Metrics.counter("dokmot.send", "soknad", "failure");
     private final DokmotKontantstotteXMLKonvoluttGenerator generator = new DokmotKontantstotteXMLKonvoluttGenerator();
 
     private final QueueConfiguration queueConfig;
 
     private final JmsTemplate template;
+
+    private final Counter dokmotSuccess = Metrics.counter("dokmot.send", "soknad", "success");
+    private final Counter dokmotFailure = Metrics.counter("dokmot.send", "soknad", "failure");
+    private final DistributionSummary dokmotMeldingStorrelse = Metrics.summary("dokmot.melding.storrelse");
 
     DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig) {
         this.queueConfig = queueConfig;
@@ -40,9 +43,10 @@ public class DokmotJMSSender implements SoknadSender {
         try {
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
-                TextMessage msg = session.createTextMessage(generator.toXML(soknad));
+                String soknadXML = generator.toXML(soknad);
+                TextMessage msg = session.createTextMessage(soknadXML);
                 msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CORRELATION_ID));
-
+                dokmotMeldingStorrelse.record(soknadXML.length());
                 return msg;
             });
             dokmotSuccess.increment();
