@@ -41,12 +41,12 @@ public class DokmotJMSSender implements SoknadSender {
         }
 
         try {
+            String soknadXML = generator.toXML(soknad);
+            dokmotMeldingStorrelse.record(soknadXML.length());
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
-                String soknadXML = generator.toXML(soknad);
                 TextMessage msg = session.createTextMessage(soknadXML);
                 msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CORRELATION_ID));
-                dokmotMeldingStorrelse.record(soknadXML.length());
                 return msg;
             });
             dokmotSuccess.increment();
