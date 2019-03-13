@@ -13,6 +13,7 @@ import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.TextMessage;
+import java.util.Base64;
 
 public class DokmotJMSSender implements SoknadSender {
 
@@ -42,7 +43,7 @@ public class DokmotJMSSender implements SoknadSender {
 
         try {
             String soknadXML = generator.toXML(soknad);
-            dokmotMeldingStorrelse.record(soknadXML.length());
+            dokmotMeldingStorrelse.record(Base64.getEncoder().encode(soknadXML.getBytes()).length);
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
                 TextMessage msg = session.createTextMessage(soknadXML);
