@@ -3,6 +3,7 @@ package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.Timer;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.log.MDCConstants;
@@ -13,6 +14,8 @@ import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.TextMessage;
+import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 public class DokmotJMSSender implements SoknadSender {
 
@@ -27,6 +30,7 @@ public class DokmotJMSSender implements SoknadSender {
     private final Counter dokmotSuccess = Metrics.counter("dokmot.send", "soknad", "success");
     private final Counter dokmotFailure = Metrics.counter("dokmot.send", "soknad", "failure");
     private final DistributionSummary dokmotMeldingStorrelse = Metrics.summary("dokmot.melding.storrelse");
+    private final Timer dokmotResponstid = Metrics.timer("dokmot.respons.tid");
 
     DokmotJMSSender(JmsTemplate template, QueueConfiguration queueConfig) {
         this.queueConfig = queueConfig;
@@ -41,14 +45,16 @@ public class DokmotJMSSender implements SoknadSender {
         }
 
         try {
+            String soknadXML = generator.toXML(soknad);
+            dokmotMeldingStorrelse.record(Base64.getEncoder().encode(soknadXML.getBytes()).length);
+            long startTime = System.nanoTime();
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
-                String soknadXML = generator.toXML(soknad);
                 TextMessage msg = session.createTextMessage(soknadXML);
                 msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CORRELATION_ID));
-                dokmotMeldingStorrelse.record(soknadXML.length());
                 return msg;
             });
+            dokmotResponstid.record(System.nanoTime() - startTime, TimeUnit.NANOSECONDS);
             dokmotSuccess.increment();
         } catch (JmsException e) {
             dokmotFailure.increment();
