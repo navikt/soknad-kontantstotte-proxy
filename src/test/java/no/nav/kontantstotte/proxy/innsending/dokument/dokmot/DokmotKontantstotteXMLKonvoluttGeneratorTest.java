@@ -1,10 +1,7 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import no.finn.unleash.FakeUnleash;
-import no.nav.kontantstotte.proxy.config.toggle.UnleashProvider;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadVedlegg;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -17,16 +14,6 @@ import static org.junit.Assert.assertThat;
 public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
 
     private DokmotKontantstotteXMLKonvoluttGenerator generator = new DokmotKontantstotteXMLKonvoluttGenerator();
-
-
-
-    @Before
-    public void setUp() {
-
-        FakeUnleash fakeUnleash = new FakeUnleash();
-        UnleashProvider.initialize(fakeUnleash);
-
-    }
 
     @Test
     public void that_xml_konverteres_korrekt() {
