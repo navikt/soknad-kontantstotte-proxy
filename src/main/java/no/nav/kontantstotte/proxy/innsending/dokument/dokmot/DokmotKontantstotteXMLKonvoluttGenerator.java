@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig.KONTANTSTOTTE_BRUK_VEDLEGG;
 import static no.nav.kontantstotte.proxy.config.toggle.UnleashProvider.toggle;
 
 class DokmotKontantstotteXMLKonvoluttGenerator {
@@ -51,11 +50,6 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
     }
 
     private List<Vedlegg> vedleggListe(Soknad soknad) {
-
-        if(toggle(KONTANTSTOTTE_BRUK_VEDLEGG).isDisabled()) {
-            return null;
-        }
-
         return soknad.getVedlegg().stream().map(this::vedlegg).collect(Collectors.toList());
 
     }

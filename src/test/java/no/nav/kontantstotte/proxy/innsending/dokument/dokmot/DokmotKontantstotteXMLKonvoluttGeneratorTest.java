@@ -1,35 +1,19 @@
 package no.nav.kontantstotte.proxy.innsending.dokument.dokmot;
 
-import no.finn.unleash.FakeUnleash;
-import no.nav.kontantstotte.proxy.config.toggle.UnleashProvider;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadVedlegg;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.time.*;
-import java.util.Arrays;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 
-import static java.time.LocalDateTime.now;
-import static no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig.KONTANTSTOTTE_BRUK_VEDLEGG;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 
 public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
 
     private DokmotKontantstotteXMLKonvoluttGenerator generator = new DokmotKontantstotteXMLKonvoluttGenerator();
-
-
-
-    @Before
-    public void setUp() {
-
-        FakeUnleash fakeUnleash = new FakeUnleash();
-        fakeUnleash.enable(KONTANTSTOTTE_BRUK_VEDLEGG);
-        UnleashProvider.initialize(fakeUnleash);
-
-    }
 
     @Test
     public void that_xml_konverteres_korrekt() {
