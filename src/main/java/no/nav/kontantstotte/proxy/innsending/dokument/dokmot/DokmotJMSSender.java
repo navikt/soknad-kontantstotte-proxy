@@ -14,6 +14,8 @@ import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.TextMessage;
+import javax.ws.rs.WebApplicationException;
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
@@ -59,6 +61,9 @@ public class DokmotJMSSender implements SoknadSender {
         } catch (JmsException e) {
             dokmotFailure.increment();
             throw new DokmotQueueUnavailableException(e, queueConfig);
+        } catch (DatatypeConfigurationException e) {
+            dokmotFailure.increment();
+            throw new WebApplicationException(e);
         }
     }
 

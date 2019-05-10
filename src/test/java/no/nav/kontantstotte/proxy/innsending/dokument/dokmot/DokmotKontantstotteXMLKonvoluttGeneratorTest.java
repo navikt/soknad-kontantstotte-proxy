@@ -4,6 +4,7 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadVedlegg;
 import org.junit.Test;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -16,7 +17,7 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
     private DokmotKontantstotteXMLKonvoluttGenerator generator = new DokmotKontantstotteXMLKonvoluttGenerator();
 
     @Test
-    public void that_xml_konverteres_korrekt() {
+    public void that_xml_konverteres_korrekt() throws DatatypeConfigurationException {
 
         String xml = generator.toXML(new Soknad(
                 "MASKERT_FNR",

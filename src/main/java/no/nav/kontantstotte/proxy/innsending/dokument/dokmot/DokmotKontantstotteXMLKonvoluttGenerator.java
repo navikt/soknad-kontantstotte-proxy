@@ -30,17 +30,12 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
     private static final JAXBContext CONTEXT = Jaxb.context(Dokumentforsendelse.class);
 
-    String toXML(Soknad soknad) {
+    String toXML(Soknad soknad) throws DatatypeConfigurationException {
 
         String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
         LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
-        XMLGregorianCalendar innsendingsTidspunkt2 = null;
-        try {
-            innsendingsTidspunkt2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(innsendingsTidspunkt.toString());
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        XMLGregorianCalendar innsendingsTidspunktXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(innsendingsTidspunkt.toString());
 
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
@@ -48,8 +43,8 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(innsendingsTidspunkt2)
-                        .withForsendelseMottatt(innsendingsTidspunkt2)
+                        .withForsendelseInnsendt(innsendingsTidspunktXML)
+                        .withForsendelseMottatt(innsendingsTidspunktXML)
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad))
