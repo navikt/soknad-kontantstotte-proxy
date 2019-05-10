@@ -8,13 +8,15 @@ import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
 import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static no.nav.kontantstotte.proxy.config.toggle.UnleashProvider.toggle;
 
 class DokmotKontantstotteXMLKonvoluttGenerator {
 
@@ -33,6 +35,12 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
         String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
         LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
+        XMLGregorianCalendar innsendingsTidspunkt2 = null;
+        try {
+            innsendingsTidspunkt2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(innsendingsTidspunkt.toString());
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
 
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
@@ -40,8 +48,8 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(innsendingsTidspunkt)
-                        .withForsendelseMottatt(innsendingsTidspunkt)
+                        .withForsendelseInnsendt(innsendingsTidspunkt2)
+                        .withForsendelseMottatt(innsendingsTidspunkt2)
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad))
