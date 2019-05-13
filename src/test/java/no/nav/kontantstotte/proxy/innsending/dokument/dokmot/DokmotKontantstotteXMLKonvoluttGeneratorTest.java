@@ -28,8 +28,8 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
         assertThat(xml, containsString("hoveddokument"));
         assertThat(xml, containsString("<ident>MASKERT_FNR</ident>"));
 
-        assertThat(xml, containsString("<forsendelseMottatt>2018-05-11T13:45:11.994+02:00</forsendelseMottatt>"));
-        assertThat(xml, containsString("<forsendelseInnsendt>2018-05-11T13:45:11.994+02:00</forsendelseInnsendt>"));
+        assertThat(xml, containsString("<forsendelseMottatt>2018-05-11T13:45:11.994</forsendelseMottatt>"));
+        assertThat(xml, containsString("<forsendelseInnsendt>2018-05-11T13:45:11.994</forsendelseInnsendt>"));
         assertThat(xml, containsString("<dokumenttypeId>I000072</dokumenttypeId>"));
         assertThat(xml, containsString("<arkivfiltype>PDFA</arkivfiltype>"));
         assertThat(xml, containsString("<variantformat>ARKIV</variantformat>"));

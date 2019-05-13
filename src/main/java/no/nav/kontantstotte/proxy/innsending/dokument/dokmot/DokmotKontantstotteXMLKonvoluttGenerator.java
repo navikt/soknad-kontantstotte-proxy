@@ -13,10 +13,8 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -94,8 +92,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
             throw new IllegalStateException(e);
         }
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar();
-        gregorianCalendar.setTime(Date.from(localDateTime.atZone(ZoneId.of("Europe/Paris")).toInstant()));
-        return datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        return datatypeFactory.newXMLGregorianCalendar(localDateTime.format(formatter));
     }
 }
