@@ -95,7 +95,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
         }
 
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
-        gregorianCalendar.setTime(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
+        gregorianCalendar.setTime(Date.from(localDateTime.atZone(ZoneId.of("Europe/Paris")).toInstant()));
         return datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
     }
 }
