@@ -14,6 +14,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +32,12 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
     private static final JAXBContext CONTEXT = Jaxb.context(Dokumentforsendelse.class);
 
-    String toXML(Soknad soknad) throws DatatypeConfigurationException {
+    String toXML(Soknad soknad) {
 
         String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
         LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
-        XMLGregorianCalendar innsendingsTidspunktXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(innsendingsTidspunkt.toString());
+        XMLGregorianCalendar innsendingsTidspunktXML = konverterTilGregorianCalendar(innsendingsTidspunkt);
 
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
@@ -80,4 +82,20 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                 .withDokumentinnholdListe(Collections.singletonList(hovedskjemaInnhold));
     }
 
+    private static XMLGregorianCalendar konverterTilGregorianCalendar(LocalDateTime localDateTime) {
+        if (localDateTime == null) {
+            return null;
+        }
+
+        DatatypeFactory datatypeFactory;
+        try {
+            datatypeFactory = DatatypeFactory.newInstance();
+        } catch (DatatypeConfigurationException e) {
+            throw new IllegalStateException(e);
+        }
+
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
+        return datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+    }
 }

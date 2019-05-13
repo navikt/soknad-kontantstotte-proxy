@@ -4,7 +4,6 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadVedlegg;
 import org.junit.Test;
 
-import javax.xml.datatype.DatatypeConfigurationException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -17,7 +16,7 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
     private DokmotKontantstotteXMLKonvoluttGenerator generator = new DokmotKontantstotteXMLKonvoluttGenerator();
 
     @Test
-    public void that_xml_konverteres_korrekt() throws DatatypeConfigurationException {
+    public void that_xml_konverteres_korrekt() {
 
         String xml = generator.toXML(new Soknad(
                 "MASKERT_FNR",
@@ -29,8 +28,8 @@ public class DokmotKontantstotteXMLKonvoluttGeneratorTest {
         assertThat(xml, containsString("hoveddokument"));
         assertThat(xml, containsString("<ident>MASKERT_FNR</ident>"));
 
-        assertThat(xml, containsString("<forsendelseMottatt>2018-05-11T13:45:11.994</forsendelseMottatt>"));
-        assertThat(xml, containsString("<forsendelseInnsendt>2018-05-11T13:45:11.994</forsendelseInnsendt>"));
+        assertThat(xml, containsString("<forsendelseMottatt>2018-05-11T13:45:11.994+02:00</forsendelseMottatt>"));
+        assertThat(xml, containsString("<forsendelseInnsendt>2018-05-11T13:45:11.994+02:00</forsendelseInnsendt>"));
         assertThat(xml, containsString("<dokumenttypeId>I000072</dokumenttypeId>"));
         assertThat(xml, containsString("<arkivfiltype>PDFA</arkivfiltype>"));
         assertThat(xml, containsString("<variantformat>ARKIV</variantformat>"));
