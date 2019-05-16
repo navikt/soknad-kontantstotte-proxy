@@ -1,4 +1,6 @@
-server.servlet.path: /
+server:
+  servlet:
+    context-path: /
 
 spring:
   autoconfigure.exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
@@ -11,8 +13,8 @@ spring:
 no.nav.security.oidc:
   issuers: selvbetjening
   issuer.selvbetjening:
-    discoveryurl: <Hentes fra fasit>
-    acceptedaudience: <Hentes fra fasit>
+    discoveryurl: https://login.microsoftonline.com/navnob2c.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_idporten
+    acceptedaudience: ${ACCEPTEDAUDIENCE} #Ligger i vault
     cookie_name: selvbetjening_idtoken
 
 management:
@@ -33,4 +35,26 @@ logging:
     no.nav: INFO
 
 dokmot:
+  queuename: QA.P_DOKMOT.MOTTA_FORSENDELSE_DITT_NAV
+  hostname: a01apvl061.adeo.no
+  port: 1414
+  name: MPLSC01
+  username: ${DOKMOT_USERNAME} #Ligger i vault
+  channelname: P_DOKMOT
   enabled: true
+
+# NAV truststore
+NAV_TRUSTSTORE_KEYSTOREALIAS: na
+NAV_TRUSTSTORE_PATH: /var/run/secrets/naisd.io/nav_truststore_path
+
+# Appdynamics
+APPDYNAMICS_CONTROLLER_HOST_NAME: appdynamics.adeo.no
+APPDYNAMICS_CONTROLLER_PORT: 443
+APPDYNAMICS_CONTROLLER_SSL_ENABLED: true
+APPDYNAMICS_AGENT_ACCOUNT_NAME: PROD
+
+# Unleash
+UNLEASH_API_URL: https://unleash.nais.adeo.no/api/
+
+# Annet
+ENVIRONMENT_NAME: p

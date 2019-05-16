@@ -8,17 +8,14 @@ no.nav.security.oidc:
 spring:
   main:
     allow-bean-definition-overriding: true
-    
-UNLEASH_API_URL: http://localhost
-APP_NAME: soknad-kontantstotte-proxy
 
-dokmot :
-  queuename : ueue
-  hostname : hostname
-  port : 2412
-  name : name
-  username : user
-  channelname : channel
+dokmot:
+  queuename: ueue
+  hostname: hostname
+  port: 2412
+  name: name
+  username: user
+  channelname: channel
   enabled: false
 
 logging:
@@ -28,3 +25,6 @@ logging:
     org.glassfish.jersey.logging.LoggingFeature: DEBUG
     com.fasterxml: WARN
   config: classpath:logback-spring-test.xml
+
+UNLEASH_API_URL: http://localhost
+NAIS_APP_NAME: soknad-kontantstotte-proxy
