@@ -2,14 +2,16 @@ package no.nav.kontantstotte.proxy.api.rest.mottak;
 
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.security.oidc.api.ProtectedWithClaims;
-import no.nav.security.oidc.api.Unprotected;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.oidc.jaxrs.OidcRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -54,12 +56,6 @@ public class SoknadMottakResource {
             log.warn("Feature toggle {} er skrudd av. Sjekk unleash.", BRUK_DOKMOT_INTEGRASJON);
             return Response.status(Response.Status.NOT_IMPLEMENTED).build();
         }
-    }
-
-    @GET
-    @Unprotected
-    public String testPath() {
-        return "OK! :)";
     }
 
     private static String hentFnrFraToken() {
