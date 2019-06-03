@@ -1,0 +1,38 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: soknad-kontantstotte-proxy
+  namespace: default
+  labels:
+    team: teamfamilie
+
+spec:
+  image: repo.adeo.no:5443/soknad-kontantstotte-proxy:RELEASE_VERSION
+  port: 8081
+  liveness:
+    path: /internal/status/isAlive
+    initialDelay: 60
+  readiness:
+    path: /internal/status/isAlive
+    initialDelay: 60
+  prometheus:
+    enabled: true
+    path: /internal/prometheus
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  vault:
+    enabled: true
+  resources:
+    limits:
+      memory: 2Gi
+      cpu: 1500m
+    requests:
+      memory: 1Gi
+      cpu: 1000m
+  ingresses: # Optional. List of ingress URLs that will route HTTP traffic to the application.
+  - https://soknad-kontantstotte-proxy.nais.adeo.no
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: default

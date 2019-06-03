@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static no.nav.kontantstotte.proxy.config.toggle.UnleashProvider.toggle;
-
 class DokmotKontantstotteXMLKonvoluttGenerator {
 
     private static final String TEMA = "KON";
