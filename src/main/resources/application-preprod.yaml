@@ -1,0 +1,21 @@
+no.nav.security.oidc:
+  issuers: selvbetjening
+  issuer.selvbetjening:
+    discoveryurl: https://login.microsoftonline.com/NAVtestB2C.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_idporten_ver1
+    acceptedaudience: ${ACCEPTEDAUDIENCE} #Ligger i vault
+    cookie_name: selvbetjening-idtoken
+
+ks.dokmot:
+  queuename: QA.Q0_DOKMOT.MOTTA_FORSENDELSE_DITT_NAV
+  hostname: b27apvl174.preprod.local
+  port: 1413
+  name: MQ0LSC01
+  username: ${DOKMOT_USERNAME} #Ligger i vault
+  channelname: Q0_DOKMOT
+  enabled: true
+
+# Appdynamics
+APPDYNAMICS_AGENT_ACCOUNT_NAME: NON-PROD
+
+# Annet
+ENVIRONMENT_NAME: q0

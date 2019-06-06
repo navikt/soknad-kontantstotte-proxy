@@ -15,9 +15,9 @@ import javax.inject.Inject;
 @Configuration
 public class FeatureToggleConfig {
 
-    private static final String APP_NAME_PROPERTY_NAME = "${APP_NAME}";
+    private static final String APP_NAME_PROPERTY_NAME = "${NAIS_APP_NAME}";
     private static final String UNLEASH_API_URL_PROPERTY_NAME = "${UNLEASH_API_URL}";
-    public static final String FASIT_ENVIRONMENT_NAME = "${FASIT_ENVIRONMENT_NAME}";
+    public static final String FASIT_ENVIRONMENT_NAME = "${ENVIRONMENT_NAME}";
 
     @Inject
     private Unleash unleash;
