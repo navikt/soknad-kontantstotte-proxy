@@ -5,7 +5,7 @@ no.nav.security.oidc:
     acceptedaudience: ${ACCEPTEDAUDIENCE} #Ligger i vault
     cookie_name: selvbetjening-idtoken
 
-dokmot:
+ks.dokmot:
   queuename: QA.Q0_DOKMOT.MOTTA_FORSENDELSE_DITT_NAV
   hostname: b27apvl174.preprod.local
   port: 1413

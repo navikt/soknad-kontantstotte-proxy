@@ -1,4 +1,4 @@
-dokmot:
+ks.dokmot:
   queuename: QA.P_DOKMOT.MOTTA_FORSENDELSE_DITT_NAV
   hostname: a01apvl061.adeo.no
   port: 1414

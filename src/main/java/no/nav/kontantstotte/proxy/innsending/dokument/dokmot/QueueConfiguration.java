@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "dokmot")
+@ConfigurationProperties(prefix = "ks.dokmot")
 @Configuration
 public class QueueConfiguration {
 
