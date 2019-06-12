@@ -36,7 +36,6 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
         String ref = MDC.get(MDCConstants.MDC_CORRELATION_ID);
 
         LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
-        XMLGregorianCalendar innsendingsTidspunktXML = konverterTilGregorianCalendar(innsendingsTidspunkt);
 
         return Jaxb.marshall(CONTEXT, new Dokumentforsendelse()
                 .withForsendelsesinformasjon(new Forsendelsesinformasjon()
@@ -44,12 +43,12 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
                         .withTema(new Tema().withValue(TEMA))
                         .withMottakskanal(new Mottakskanaler().withValue(KANAL))
                         .withBehandlingstema(new Behandlingstema().withValue(BEHANDLINGSTEMA))
-                        .withForsendelseInnsendt(innsendingsTidspunktXML)
-                        .withForsendelseMottatt(innsendingsTidspunktXML)
+                        .withForsendelseInnsendt(innsendingsTidspunkt)
+                        .withForsendelseMottatt(innsendingsTidspunkt)
                         .withAvsender(new Person(soknad.getFnr()))
                         .withBruker(new Person(soknad.getFnr())))
                 .withHoveddokument(hoveddokument(soknad))
-                .withVedleggListe(vedleggListe(soknad))
+                .withVedleggListes(vedleggListe(soknad))
         );
     }
 
@@ -67,7 +66,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
         return new Vedlegg()
                 .withBrukeroppgittTittel(soknadVedlegg.getTittel())
-                .withDokumentinnholdListe(innhold);
+                .withDokumentinnholdListes(innhold);
     }
 
     private Hoveddokument hoveddokument(Soknad soknad) {
@@ -78,22 +77,6 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
         return new Hoveddokument()
                 .withDokumenttypeId(KONTANTSTOTTE_DOKUMENT_TYPE_ID)
-                .withDokumentinnholdListe(Collections.singletonList(hovedskjemaInnhold));
-    }
-
-    private static XMLGregorianCalendar konverterTilGregorianCalendar(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            return null;
-        }
-
-        DatatypeFactory datatypeFactory;
-        try {
-            datatypeFactory = DatatypeFactory.newInstance();
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalStateException(e);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        return datatypeFactory.newXMLGregorianCalendar(localDateTime.format(formatter));
+                .withDokumentinnholdListes(Collections.singletonList(hovedskjemaInnhold));
     }
 }

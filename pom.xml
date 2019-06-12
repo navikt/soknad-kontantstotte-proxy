@@ -20,6 +20,7 @@
         <java.version>11</java.version>
         <oidc-support.version>0.2.6</oidc-support.version>
         <common-java-modules.version>2018.10.02.19.54</common-java-modules.version>
+        <dokumentforsendelse-v1-tjenestespesifikasjon.version>1.2019.06.04-12.36-7ca179183512</dokumentforsendelse-v1-tjenestespesifikasjon.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <xsd.location>${project.build.directory}/classes</xsd.location>
         <jaxb.location>${project.build.directory}/classes/</jaxb.location>
@@ -29,52 +30,6 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>xjc</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <extension>true</extension>
-                    <arguments>-Xvalue-constructor -Xfluent-api -Xannotate</arguments>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.sun.codemodel</groupId>
-                        <artifactId>codemodel</artifactId>
-                        <version>2.6</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics-annotate</artifactId>
-                        <version>0.6.4</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-value-constructor</artifactId>
-                        <version>3.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.java.dev.jaxb2-commons</groupId>
-                        <artifactId>jaxb-fluent-api</artifactId>
-                        <version>2.1.8</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
     </build>
 
     <dependencyManagement>
@@ -107,6 +62,15 @@
                     <artifactId>android-json</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- NAV grensesnitt -->
+
+        <!-- https://mvnrepository.com/artifact/no.nav.tjenestespesifikasjoner/dokumentforsendelse-v1-meldingsdefinisjon -->
+        <dependency>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
+            <artifactId>dokumentforsendelse-v1-meldingsdefinisjon</artifactId>
+            <version>${dokumentforsendelse-v1-tjenestespesifikasjon.version}</version>
         </dependency>
 
 
