@@ -48,6 +48,7 @@ public class DokmotJMSSender implements SoknadSender {
             String soknadXML = generator.toXML(soknad);
             dokmotMeldingStorrelse.record(Base64.getEncoder().encode(soknadXML.getBytes()).length);
             long startTime = System.nanoTime();
+            LOG.info(soknadXML);
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
                 TextMessage msg = session.createTextMessage(soknadXML);
