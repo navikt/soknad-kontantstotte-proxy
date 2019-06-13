@@ -8,12 +8,8 @@ import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
 import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
