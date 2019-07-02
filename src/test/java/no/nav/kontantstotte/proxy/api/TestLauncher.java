@@ -41,6 +41,12 @@ public class TestLauncher {
     }
 
     @Bean
+    @Primary
+    public ResourceConfig proxyConfig() {
+        return new TestRestConfiguration();
+    }
+
+    @Bean
     Unleash fakeUnleash() {
         FakeUnleash unleash = new FakeUnleash();
         unleash.enable( BRUK_DOKMOT_INTEGRASJON );

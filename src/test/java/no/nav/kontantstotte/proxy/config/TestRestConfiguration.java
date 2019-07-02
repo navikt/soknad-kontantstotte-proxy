@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.ApplicationPath;
 
-@Primary
-@Component
-@ApplicationPath("/")
+
 public class TestRestConfiguration extends RestConfiguration {
 
     public TestRestConfiguration() {
