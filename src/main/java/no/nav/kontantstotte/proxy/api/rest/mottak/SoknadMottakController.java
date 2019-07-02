@@ -6,22 +6,21 @@ import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.oidc.jaxrs.OidcRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static no.nav.kontantstotte.proxy.config.toggle.UnleashProvider.toggle;
 
-@Path("soknad")
-public class SoknadMottakResource {
+@Path("/")
+@Component
+public class SoknadMottakController {
 
     public static final String BRUK_DOKMOT_INTEGRASJON = "kontantstotte.integrasjon.dokmot";
-    private static final Logger log = LoggerFactory.getLogger(SoknadMottakResource.class);
+    private static final Logger log = LoggerFactory.getLogger(SoknadMottakController.class);
     private static final String SELVBETJENING = "selvbetjening";
     public static final int MINIMUM_PDF_STORRELSE = 10000;
 
@@ -29,14 +28,13 @@ public class SoknadMottakResource {
 
     private final SoknadConverter converter = new SoknadConverter();
 
-    @Inject
-    public SoknadMottakResource(SoknadSender soknadSender) {
+    @Autowired
+    public SoknadMottakController(SoknadSender soknadSender) {
         this.soknadSender = soknadSender;
     }
 
     @POST
-    @Consumes(APPLICATION_JSON)
-    @Produces(APPLICATION_JSON)
+    @Path("soknad")
     @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
     public Response mottaSoknad(SoknadDto soknadDto) {
         if (!hentFnrFraToken().equals(soknadDto.getFnr())) {

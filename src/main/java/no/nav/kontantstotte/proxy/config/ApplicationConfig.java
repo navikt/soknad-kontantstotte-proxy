@@ -52,11 +52,6 @@ public class ApplicationConfig implements EnvironmentAware {
     }
 
     @Bean
-    public ResourceConfig proxyConfig() {
-        return new RestConfiguration();
-    }
-
-    @Bean
     public MultiIssuerConfiguraton multiIssuerConfiguration(MultiIssuerProperties issuerProperties, OIDCResourceRetriever resourceRetriever) {
         return new MultiIssuerConfiguraton(issuerProperties.getIssuer(), resourceRetriever);
     }

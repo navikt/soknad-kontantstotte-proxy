@@ -8,14 +8,15 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadSender;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.test.support.FileResourceRetriever;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
-import static no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource.BRUK_DOKMOT_INTEGRASJON;
+import static no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakController.BRUK_DOKMOT_INTEGRASJON;
 
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
@@ -23,7 +24,10 @@ import static no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource.BR
 public class TestLauncher {
 
     public static void main(String... args) {
-        SpringApplication.run(ApplicationConfig.class, args);
+        new SpringApplicationBuilder(ApplicationConfig.class)
+                .web(WebApplicationType.SERVLET)
+                .build()
+                .run(args);
     }
 
     /**
@@ -41,12 +45,6 @@ public class TestLauncher {
         FakeUnleash unleash = new FakeUnleash();
         unleash.enable( BRUK_DOKMOT_INTEGRASJON );
         return unleash;
-    }
-
-    @Bean
-    @Primary
-    public ResourceConfig proxyConfig() {
-        return new TestRestConfiguration();
     }
 
     @Bean

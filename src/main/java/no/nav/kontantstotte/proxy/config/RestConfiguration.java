@@ -3,14 +3,17 @@ package no.nav.kontantstotte.proxy.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import no.nav.kontantstotte.proxy.api.rest.exceptionmapper.SoknadInnsendingExceptionMapper;
-import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakResource;
+import no.nav.kontantstotte.proxy.api.rest.mottak.SoknadMottakController;
 import no.nav.security.oidc.jaxrs.OidcContainerRequestFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.springframework.stereotype.Component;
 
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.ext.ContextResolver;
 
-
+@Component
+@ApplicationPath("/")
 public class RestConfiguration extends ResourceConfig {
 
     public RestConfiguration() {
@@ -20,11 +23,12 @@ public class RestConfiguration extends ResourceConfig {
         register(OidcContainerRequestFilter.class);
         // Exception handlers
         register(SoknadInnsendingExceptionMapper.class);
-        // Resources
-        register(SoknadMottakResource.class);
+
+        // Controllers
+        register(SoknadMottakController.class);
     }
 
-    private ContextResolver<ObjectMapper> objectMapperContextResolver() {
+    public static ContextResolver<ObjectMapper> objectMapperContextResolver() {
         return new ContextResolver<ObjectMapper>() {
             @Override
             public ObjectMapper getContext(Class<?> type) {
