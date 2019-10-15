@@ -64,18 +64,6 @@
             <version>${felles.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>no.nav.sbl</groupId>
-            <artifactId>rest</artifactId>
-            <version>${common-java-modules.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vaadin.external.google</groupId>
-                    <artifactId>android-json</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- NAV grensesnitt -->
 
         <!-- https://mvnrepository.com/artifact/no.nav.tjenestespesifikasjoner/dokumentforsendelse-v1-meldingsdefinisjon -->
@@ -170,7 +158,7 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>5.2</version>
+            <version>6.2</version>
         </dependency>
 
         <dependency>
