@@ -33,7 +33,7 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
 
     String toXML(Soknad soknad) {
 
-        String ref = MDC.get("Nav-Call-Id");
+        String ref = MDC.get(MDCConstants.MDC_CALL_ID);
         LOG.info("Call-Id til DOKMOT: {}", ref);
 
         LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
