@@ -5,8 +5,6 @@ import no.nav.kontantstotte.proxy.innsending.dokument.domain.Soknad;
 import no.nav.kontantstotte.proxy.innsending.dokument.domain.SoknadVedlegg;
 import no.nav.log.MDCConstants;
 import no.nav.melding.virksomhet.dokumentforsendelse.v1.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBContext;
@@ -18,8 +16,6 @@ import java.util.stream.Collectors;
 
 
 class DokmotKontantstotteXMLKonvoluttGenerator {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DokmotKontantstotteXMLKonvoluttGenerator.class);
 
     private static final String TEMA = "KON";
 
@@ -34,7 +30,6 @@ class DokmotKontantstotteXMLKonvoluttGenerator {
     String toXML(Soknad soknad) {
 
         String ref = MDC.get(MDCConstants.MDC_CALL_ID);
-        LOG.info("Call-Id til DOKMOT: {}", ref);
 
         LocalDateTime innsendingsTidspunkt = LocalDateTime.ofInstant(soknad.getInnsendingsTidspunkt(), ZoneId.of("Europe/Paris"));
 
