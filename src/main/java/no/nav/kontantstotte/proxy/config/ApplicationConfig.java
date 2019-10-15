@@ -1,8 +1,8 @@
 package no.nav.kontantstotte.proxy.config;
 
+import no.nav.familie.log.filter.LogFilter;
 import no.nav.kontantstotte.proxy.config.toggle.FeatureToggleConfig;
 import no.nav.kontantstotte.proxy.innsending.dokument.dokmot.DokmotConfiguration;
-import no.nav.log.LogFilter;
 import no.nav.security.oidc.configuration.MultiIssuerConfiguraton;
 import no.nav.security.oidc.configuration.OIDCResourceRetriever;
 import no.nav.security.oidc.jaxrs.servlet.JaxrsOIDCTokenValidationFilter;
@@ -74,7 +74,6 @@ public class ApplicationConfig implements EnvironmentAware {
         filterRegistration.setOrder(1);
         return filterRegistration;
     }
-
     @Bean
     public FilterRegistrationBean<JaxrsOIDCTokenValidationFilter> oidcTokenValidationFilterBean(JaxrsOIDCTokenValidationFilter validationFilter) {
         log.info("Registering JaxrsOIDCTokenValidationFilter filter");
