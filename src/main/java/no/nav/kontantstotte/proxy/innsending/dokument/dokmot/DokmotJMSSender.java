@@ -51,7 +51,7 @@ public class DokmotJMSSender implements SoknadSender {
             template.send(session -> {
                 LOG.info("Sender SoknadsXML til DOKMOT");
                 TextMessage msg = session.createTextMessage(soknadXML);
-                msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CORRELATION_ID));
+                msg.setStringProperty("callId", MDC.get(MDCConstants.MDC_CALL_ID));
                 return msg;
             });
             dokmotResponstid.record(System.nanoTime() - startTime, TimeUnit.NANOSECONDS);
