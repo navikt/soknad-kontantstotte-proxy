@@ -20,7 +20,7 @@
         <java.version>11</java.version>
         <oidc-support.version>0.2.6</oidc-support.version>
         <common-java-modules.version>2018.10.02.19.54</common-java-modules.version>
-        <dokumentforsendelse-v1-tjenestespesifikasjon.version>1.2019.06.04-12.36-7ca179183512</dokumentforsendelse-v1-tjenestespesifikasjon.version>
+        <dokumentforsendelse-v1-tjenestespesifikasjon.version>1.2019.08.16-13.46-35cbdfd492d4</dokumentforsendelse-v1-tjenestespesifikasjon.version>
         <felles.version>1.0_20191007152733_dff2e9b</felles.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <xsd.location>${project.build.directory}/classes</xsd.location>
